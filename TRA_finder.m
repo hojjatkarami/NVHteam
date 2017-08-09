@@ -1,5 +1,5 @@
 function [q_TRA,R_TRA] = TRA_finder(I,v)
-
+% Reza
 %%% "I" is the Inertia Matrix and "v" is the direction of the crankshaft
 %%% "q_TRA" is the direction of the TRA and "R_TRA" is the rotation matrix
 %%% from the reference coordinate to TRA coordinate system.
