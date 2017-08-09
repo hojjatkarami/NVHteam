@@ -1,4 +1,5 @@
 function comparison(x_opt,lb,ub,name)
+% reza
 figure('Name',name)
 hold on
 % h=gcf;
