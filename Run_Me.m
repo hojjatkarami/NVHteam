@@ -27,7 +27,7 @@ f_nat_init = NF_Calculator(x_init,M);
 %% TRA Optimization %%
 
 delta_s = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
-FitnessFcn1 = @(x) TRA1(x, M, 0.9, 0.1, Pen_Wt);
+FitnessFcn1 = @(x) TRA(x, M, 0.9, 0.1, Pen_Wt);
 fminconOptions = optimoptions(@fmincon,'Display','iter','MaxFunctionEvaluations',50000);
 PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',1000,'FunctionTolerance',1e-5,'MaxIterations',10000);
 %     options = optimoptions(options,'HybridFcn',{@fmincon, fminconOptions});
