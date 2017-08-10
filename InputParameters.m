@@ -3,8 +3,8 @@
 %% Engine Properties %%
 eng.m = 122.922;
 eng.I = [5.163   0.301    -0.3680
-    0.301    3.458     0.222
-    -0.3680    0.222     4.431];
+        0.301    3.458     0.222
+        -0.3680    0.222     4.431];
 eng.idle_speed = 1000;
 eng.max_torque = 70;
 
@@ -74,3 +74,4 @@ sus.Ys4 = 720e-3;
 
 % engine center of mass in vehicle coordinates %
 sus.E_cm = [-807.342 -153.998 312.416]'*1e-3;
+res
