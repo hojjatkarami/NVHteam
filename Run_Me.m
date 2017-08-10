@@ -1,19 +1,21 @@
 % this is a new comment
-clc
-clear
-close all
+clc; clear; close all
 
 %% Parameters %%
-InputParameters
+BodyProperties
+EngineProperties
+MountProperties
 ParameterBounds
+
 Pen_Wt = 1e8;
+
 
 %% Initial Response %%
 x_init = [r_1;r_2;r_3;o_1;o_2;o_3;k_l_1;k_l_2;k_l_3];
 t_step = 0.005;
 t_final = 5;
 z0 = zeros(12,1);
-M = [eng.m*eye(3)  zeros(3,3); zeros(3,3) eng.I];
+
 [K, C] = stiff_cal(x_init,eta);
 
 [t, z_init] = ode45(@eng_mount, 0:t_step:t_final, z0, [], eng, M, C, K);
@@ -25,23 +27,22 @@ f_nat_init = NF_Calculator(x_init,M);
 [M_v,C_v,K_v] = BodyParameters(sus,M,x_init,eta);
 
 %% TRA Optimization %%
+TRA_options.delta_s = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
+TRA_options.TRAweight = 0.9;
+TRA_options.KEDweight = 0.1;
+TRA_options.PenFuncweight = 1e8;
+TRA_options.lb = lb;
+TRA_options.ub = ub;
+TRA_options.swarmsize = 1000;
+TRA_options.MaxFuncEval = 50000;
+TRA_options.FuncTol = 1e-5;
+TRA_options.MaxIter = 10000;
+TRA_options.f_nat_lb = f_nat_lb;
+TRA_options.f_nat_ub = f_nat_ub;
+TRA_options.M = M;
 
-delta_s = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
-FitnessFcn1 = @(x) TRA(x, M, 0.9, 0.1, Pen_Wt);
-fminconOptions = optimoptions(@fmincon,'Display','iter','MaxFunctionEvaluations',50000);
-PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',1000,'FunctionTolerance',1e-5,'MaxIterations',10000);
-%     options = optimoptions(options,'HybridFcn',{@fmincon, fminconOptions});
-[x_opt1,fval] = particleswarm(FitnessFcn1,28,lb,ub,PSOoptions);
-x_opt1 = x_opt1';
-FitnessFcn11 = @(x) TRA_pure(x, M);
-x_opt1_f = fmincon(FitnessFcn11,x_opt1,[],[],[],[],lb-1e-5,ub+1e-5,@(x) nlcn(x, M, f_nat_lb, f_nat_ub, delta_s),fminconOptions);
-
-[K_opt1, C_opt1] = stiff_cal(x_opt1_f,eta);
-[~, z_opt1] = ode45(@eng_mount, 0:t_step:t_final, z0, [], eng, M, C_opt1, K_opt1);
-[F_1_opt1, F_2_opt1, F_3_opt1] = force_cal(x_opt1_f, z_opt1, eta);
-KEF_opt1 = KEF_cal(K_opt1,M);
-f_nat_opt1 = NF_Calculator(x_opt1_f,M);
-TRA_Value = TRA(x_opt1_f, M, 1, 0, 0)
+[x_opt_TRA, fval] = TRA_Optimizer(TRA_options);
+Res_TRA = Result_Calc(x_opt_TRA, eta, t_step, t_final, z0, eng, M);
 
 %% Transmitted Force Optimization %%
 TFmatrix=diag([1 1 1 0,...
@@ -52,18 +53,14 @@ TFoption = 'max'; %This variable could be 'max' or 'sum' , default value is 'max
 % e_TF = e;
 % lb_2 = x_opt1_f(1:27) - e_TF.*abs(x_opt1_f(1:27));
 % ub_2 = x_opt1_f(1:27) + e_TF.*abs(x_opt1_f(1:27));
-% lb_2(19:27) = lb(19:27);
-% ub_2(19:27) = ub(19:27);
 lb_2 = lb(1:27) ;
 ub_2 = ub(1:27) ;
 
-Fhat = [0;0;0;0;eng.max_torque;0];
-omega = (eng.idle_speed)*pi/15;
 FitnessFcn2 = @(x) TF(x, TFmatrix, TFoption, eta, omega, Fhat, M, 0.9, 0.1, Pen_Wt);
 PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',5000,'FunctionTolerance',1e-5,'MaxIterations',10000);
 [x_opt2,~] = particleswarm(FitnessFcn2,27,lb_2,ub_2,PSOoptions);
 x_opt2 = x_opt2';
-FitnessFcn22 = @(x) TF_pure(x, eta, omega, Fhat, M);
+FitnessFcn22 = @(x) TF(x, TFmatrix, TFoption, eta, omega, Fhat, M, 1, 0, 0);
 fminconOptions = optimoptions(@fmincon,'Display','iter','MaxFunctionEvaluations',50000);
 x_opt2_f = fmincon(FitnessFcn22,x_opt2,[],[],[],[],lb_2-1e-5,ub_2+1e-5,@(x) nlcn(x, M, f_nat_lb, f_nat_ub, delta_s),fminconOptions);
 
@@ -82,7 +79,7 @@ ub_3 = x_opt2_f(1:27) + e_Ar.*abs(x_opt2_f(1:27));
 FitnessFcn3 = @(x) Ar(x, eta, omega, Fhat, M, sus, 100, 1, Pen_Wt);
 [x_opt3,~] = particleswarm(FitnessFcn3,27,lb_3,ub_3,options);
 x_opt3 = x_opt3';
-FitnessFcn33 = @(x) Ar_pure(x, eta, omega, Fhat, M, sus);
+FitnessFcn33 = @(x) Ar(x, eta, omega, Fhat, M, sus, 1, 0, 0);
 x_opt3_f = fmincon(FitnessFcn33,x_opt3,[],[],[],[],lb_3-1e-5,ub_3+1e-5,@(x) nlcn(x, M, f_nat_lb, f_nat_ub, delta_s),fminconOptions);
 
 [K_opt3, C_opt3] = stiff_cal(x_opt3_f,eta);
