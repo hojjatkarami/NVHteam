@@ -35,9 +35,11 @@ lb_w_TRA = 2*pi*11;
 
 %% Upper Bound for TRA frequency %%
 ub_w_TRA = Inf;
+
 %% Mode frequency bounds
 f_nat_lb = [7;7;9;11;11;0];
 f_nat_ub = [100;100;11;14;14;18];
+
 %% Totally %%
 lb = [lb_r_1; lb_r_2; lb_r_3; lb_o_1; lb_o_2; lb_o_3; lb_k_1; lb_k_2; lb_k_3; lb_w_TRA];
 ub = [ub_r_1; ub_r_2; ub_r_3; ub_o_1; ub_o_2; ub_o_3; ub_k_1; ub_k_2; ub_k_3; ub_w_TRA];
