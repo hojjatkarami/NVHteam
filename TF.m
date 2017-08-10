@@ -1,4 +1,4 @@
-function F = TF1(x, TFmatrix, TFoption, eta, w, f, M, a, b, d)
+function F = TF(x, TFmatrix, TFoption, eta, w, f, M, a, b, d)
 
 r_1 = x(1:3);
 r_2 = x(4:6);
