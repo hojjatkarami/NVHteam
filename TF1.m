@@ -1,4 +1,4 @@
-function F = TF1(x, eta, w, f, M, a, b, d)
+function F = TF1(x, TFmatrix, TFoption, eta, w, f, M, a, b, d)
 
 r_1 = x(1:3);
 r_2 = x(4:6);
@@ -44,6 +44,7 @@ c_2 = A_2*c_l_2*A_2';
 c_3 = A_3*c_l_3*A_3';
 C = [c_1 c_1*B_1' ; (c_1*B_1')' B_1*c_1*B_1'] + [c_2 c_2*B_2' ; (c_2*B_2')' B_2*c_2*B_2'] + [c_3 c_3*B_3' ; (c_3*B_3')' B_3*c_3*B_3'];
 
+
 F_hat_1 = (1i*w*c_1+k_1)*[eye(3) B_1']*(-w^2*M+1i*w*C+K)^(-1)*f;
 F_hat_2 = (1i*w*c_2+k_2)*[eye(3) B_2']*(-w^2*M+1i*w*C+K)^(-1)*f;
 F_hat_3 = (1i*w*c_3+k_3)*[eye(3) B_3']*(-w^2*M+1i*w*C+K)^(-1)*f;
@@ -56,7 +57,16 @@ for j = 1:6
     [~,best_index(j)] = max(KEF(:,j));
 end
 
-A = max([abs(F_hat_1(1)), abs(F_hat_1(2)), abs(F_hat_1(3)) , abs(F_hat_2(1)), abs(F_hat_2(2)), abs(F_hat_2(3)) , abs(F_hat_3(1)), abs(F_hat_3(2)), abs(F_hat_3(3))]);
+A = max(TFmatrix*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); norm(abs(F_hat_1));...
+                  abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); norm(abs(F_hat_1));...
+                  abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ])
+if TFoption == 'sum'
+    A = sum(TFmatrix*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); norm(abs(F_hat_1));...
+                      abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); norm(abs(F_hat_1));...
+                      abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ])
+  
+end
+              
 B = ((100-KEF(best_index(1),1))^2 + (100-KEF(best_index(2),2))^2 + (100-KEF(best_index(3),3))^2 + (100-KEF(best_index(4),4))^2 + (100-KEF(best_index(5),5))^2 + (100-KEF(best_index(6),6))^2);
 
 f_nat_lb = 1.05*[7;7;9;11;11;0];
