@@ -74,7 +74,8 @@ KEF_opt2 = KEF_cal(K_opt2,M);
 f_nat_opt2 = NF_Calculator(x_opt2_f,M);
 
 %% Acceleration ratio (Ar) Optimization %%
-e_Ar = e/2;
+e_Ar = 0.2*ones(27,1);
+e_Ar = e_Ar/2;
 lb_3 = x_opt2_f(1:27) - e_Ar.*abs(x_opt2_f(1:27));
 ub_3 = x_opt2_f(1:27) + e_Ar.*abs(x_opt2_f(1:27));
 

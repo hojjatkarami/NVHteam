@@ -59,11 +59,11 @@ end
 
 A = max(TFmatrix*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); norm(abs(F_hat_1));...
                   abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); norm(abs(F_hat_1));...
-                  abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ])
+                  abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ]);
 if TFoption == 'sum'
     A = sum(TFmatrix*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); norm(abs(F_hat_1));...
                       abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); norm(abs(F_hat_1));...
-                      abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ])
+                      abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ]);
   
 end
               
