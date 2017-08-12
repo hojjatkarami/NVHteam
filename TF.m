@@ -1,4 +1,4 @@
-function F = TF(x, TFmatrix, TFoption, eta, w, f, M, a, b, d)
+function F = TF(x, ComponentSelector, OptTypeSelector, eta, w, f, M, a, b, d)
 
 r_1 = x(1:3);
 r_2 = x(4:6);
@@ -57,15 +57,11 @@ for j = 1:6
     [~,best_index(j)] = max(KEF(:,j));
 end
 
-A = max(TFmatrix*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); norm(abs(F_hat_1));...
-                  abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); norm(abs(F_hat_1));...
-                  abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ]);
-if TFoption == 'sum'
-    A = sum(TFmatrix*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); norm(abs(F_hat_1));...
-                      abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); norm(abs(F_hat_1));...
-                      abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3)); norm(abs(F_hat_1))   ]);
-  
-end
+A = ComponentSelector.*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); ...
+                        abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); ...
+                        abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3))];
+
+A = OptTypeSelector'*[max(A); sum(A); norm(A)];
               
 B = ((100-KEF(best_index(1),1))^2 + (100-KEF(best_index(2),2))^2 + (100-KEF(best_index(3),3))^2 + (100-KEF(best_index(4),4))^2 + (100-KEF(best_index(5),5))^2 + (100-KEF(best_index(6),6))^2);
 

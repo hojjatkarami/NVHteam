@@ -1,90 +1,121 @@
-% this is a new comment
+%% In the name of Allah the beneficent the merciful
+% This Code is the core of NVE Application
+% The code is written by NVE Team on 1396/05/21
+
+%% Clearing
 clc; clear; close all
 
 %% Parameters %%
 BodyProperties
 EngineProperties
 MountProperties
-ParameterBounds
 
-Pen_Wt = 1e8;
-
+%% Result Options
+Result_Parameters.Eta = eta;
+Result_Parameters.TimeStep = 0.005;
+Result_Parameters.FinalTime = 5;
+Result_Parameters.InitialState = zeros(12,1);
+Result_Parameters.Eng = eng;
+Result_Parameters.Mass = M;
 
 %% Initial Response %%
-x_init = [r_1;r_2;r_3;o_1;o_2;o_3;k_l_1;k_l_2;k_l_3];
-t_step = 0.005;
-t_final = 5;
-z0 = zeros(12,1);
-
-[K, C] = stiff_cal(x_init,eta);
-
-[t, z_init] = ode45(@eng_mount, 0:t_step:t_final, z0, [], eng, M, C, K);
-[F_1_init, F_2_init, F_3_init] = force_cal(x_init, z_init, eta);
-KEF_init = KEF_cal(K,M);
-f_nat_init = NF_Calculator(x_init,M);
-
-%% Body Parameters %%
-[M_v,C_v,K_v] = BodyParameters(sus,M,x_init,eta);
+Res_Initial = Result_Calc(x_init, Result_Parameters);
 
 %% TRA Optimization %%
-TRA_options.delta_s = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
-TRA_options.TRAweight = 0.9;
-TRA_options.KEDweight = 0.1;
-TRA_options.PenFuncweight = 1e8;
-TRA_options.lb = lb;
-TRA_options.ub = ub;
-TRA_options.swarmsize = 1000;
-TRA_options.MaxFuncEval = 50000;
-TRA_options.FuncTol = 1e-5;
-TRA_options.MaxIter = 10000;
-TRA_options.f_nat_lb = f_nat_lb;
-TRA_options.f_nat_ub = f_nat_ub;
-TRA_options.M = M;
+TRA_Options.DeltaStatic = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
+TRA_Options.TRAWeight = 0.9;
+TRA_Options.KEDWeight = 0.1;
+TRA_Options.PenFuncWeight = 1e8;
+TRA_Options.Lb = lb;
+TRA_Options.Ub = ub;
+TRA_Options.SwarmSize = 1000;
+TRA_Options.MaxFuncEval = 50000;
+TRA_Options.FuncTol = 1e-5;
+TRA_Options.MaxIter = 10000;
+TRA_Options.FreqLowerBound = f_nat_lb;
+TRA_Options.FreqUpperBound = f_nat_ub;
+TRA_Options.Mass = M;
 
-[x_opt_TRA, fval] = TRA_Optimizer(TRA_options);
-Res_TRA = Result_Calc(x_opt_TRA, eta, t_step, t_final, z0, eng, M);
+[x_opt_TRA, Fval_TRA] = TRA_Optimizer(TRA_Options);
+Res_TRA = Result_Calc(x_opt_TRA, Result_Parameters);
+TRA(x_opt_TRA, Result_Parameters.Mass, 1, 0, 0)
 
 %% Transmitted Force Optimization %%
-TFmatrix=diag([1 1 1 0,...
-                1 1 1 0,...
-                1 1 1 0]);    % dim(1*12):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]
-TFoption = 'max'; %This variable could be 'max' or 'sum' , default value is 'max'!
+TF_Options.DeltaStatic = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
+TF_Options.TFWeight = 0.9;
+TF_Options.KEDWeight = 0.1;
+TF_Options.PenFuncWeight = 1e8;
+TF_Options.Lb = lb(1:27);
+TF_Options.Ub = ub(1:27);
+TF_Options.SwarmSize = 1000;
+TF_Options.MaxFuncEval = 50000;
+TF_Options.FuncTol = 1e-5;
+TF_Options.MaxIter = 10000;
+TF_Options.FreqLowerBound = f_nat_lb;
+TF_Options.FreqUpperBound = f_nat_ub;
+TF_Options.Mass = M;
+TF_Options.Eta = eta;
+TF_Options.Omega = omega;
+TF_Options.Fhat = Fhat;
+TF_Options.CompSelector=[1; 1; 1;...
+                         1; 1; 1;...
+                         1; 1; 1];    % dim(3*3):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]
+TF_Options.OptTypeSelector = [1; 0; 0]; %This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
+
 % e = 0.2*ones(27,1);
 % e_TF = e;
 % lb_2 = x_opt1_f(1:27) - e_TF.*abs(x_opt1_f(1:27));
 % ub_2 = x_opt1_f(1:27) + e_TF.*abs(x_opt1_f(1:27));
-lb_2 = lb(1:27) ;
-ub_2 = ub(1:27) ;
 
-FitnessFcn2 = @(x) TF(x, TFmatrix, TFoption, eta, omega, Fhat, M, 0.9, 0.1, Pen_Wt);
-PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',5000,'FunctionTolerance',1e-5,'MaxIterations',10000);
-[x_opt2,~] = particleswarm(FitnessFcn2,27,lb_2,ub_2,PSOoptions);
-x_opt2 = x_opt2';
-FitnessFcn22 = @(x) TF(x, TFmatrix, TFoption, eta, omega, Fhat, M, 1, 0, 0);
-fminconOptions = optimoptions(@fmincon,'Display','iter','MaxFunctionEvaluations',50000);
-x_opt2_f = fmincon(FitnessFcn22,x_opt2,[],[],[],[],lb_2-1e-5,ub_2+1e-5,@(x) nlcn(x, M, f_nat_lb, f_nat_ub, delta_s),fminconOptions);
+[x_opt_TF, Fval_TF] = TF_Optimizer(TF_Options);
+Res_TF = Result_Calc(x_opt_TF, Result_Parameters);
 
-[K_opt2, C_opt2] = stiff_cal(x_opt2_f,eta);
-[~, z_opt2] = ode45(@eng_mount, 0:t_step:t_final, z0, [], eng, M, C_opt2, K_opt2);
-[F_1_opt2, F_2_opt2, F_3_opt2] = force_cal(x_opt2_f, z_opt2, eta);
-KEF_opt2 = KEF_cal(K_opt2,M);
-f_nat_opt2 = NF_Calculator(x_opt2_f,M);
+%% Transmitted Acceleration Optimization %%
+TA_Options.DeltaStatic = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
+TA_Options.TAWeight = 0.9;
+TA_Options.KEDWeight = 0.1;
+TA_Options.PenFuncWeight = 1e8;
+TA_Options.Lb = lb(1:27);
+TA_Options.Ub = ub(1:27);
+TA_Options.SwarmSize = 1000;
+TA_Options.MaxFuncEval = 50000;
+TA_Options.FuncTol = 1e-5;
+TA_Options.MaxIter = 10000;
+TA_Options.FreqLowerBound = f_nat_lb;
+TA_Options.FreqUpperBound = f_nat_ub;
+TA_Options.Mass = M;
+TA_Options.SuspensionStruct = sus;
+TA_Options.Eta = eta;
+TA_Options.Omega = omega;
+TA_Options.Fhat = Fhat;
+TA_Options.MountSelector=[1; 1; 1];    % dim(3*1):used to choose which directions are going to be accounted [mount1, mount2, mount3]
+TA_Options.OptTypeSelector = [1; 0; 0]; %This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
+
+[x_opt_TA, Fval_TA] = TA_Optimizer(TA_Options);
+Res_TA = Result_Calc(x_opt_TA, Result_Parameters);
 
 %% Acceleration ratio (Ar) Optimization %%
-e_Ar = 0.2*ones(27,1);
-e_Ar = e_Ar/2;
-lb_3 = x_opt2_f(1:27) - e_Ar.*abs(x_opt2_f(1:27));
-ub_3 = x_opt2_f(1:27) + e_Ar.*abs(x_opt2_f(1:27));
+Ar_Options.DeltaStatic = [25e-3;10e-3;15e-3;1.5*pi/180;4*pi/180;1.5*pi/180];
+Ar_Options.TVWeight = 0.9;
+Ar_Options.KEDWeight = 0.1;
+Ar_Options.PenFuncWeight = 1e8;
+Ar_Options.Lb = lb(1:27);
+Ar_Options.Ub = ub(1:27);
+Ar_Options.SwarmSize = 1000;
+Ar_Options.MaxFuncEval = 50000;
+Ar_Options.FuncTol = 1e-5;
+Ar_Options.MaxIter = 10000;
+Ar_Options.FreqLowerBound = f_nat_lb;
+Ar_Options.FreqUpperBound = f_nat_ub;
+Ar_Options.Mass = M;
+Ar_Options.SuspensionStruct = sus;
+Ar_Options.Eta = eta;
+Ar_Options.Omega = omega;
+Ar_Options.Fhat = Fhat;
+Ar_Options.MountSelector = [1; 1; 1];   % dim(3*1):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]
+Ar_Options.OptTypeSelector = [1; 0; 0]; % This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
 
-FitnessFcn3 = @(x) Ar(x, eta, omega, Fhat, M, sus, 100, 1, Pen_Wt);
-[x_opt3,~] = particleswarm(FitnessFcn3,27,lb_3,ub_3,options);
-x_opt3 = x_opt3';
-FitnessFcn33 = @(x) Ar(x, eta, omega, Fhat, M, sus, 1, 0, 0);
-x_opt3_f = fmincon(FitnessFcn33,x_opt3,[],[],[],[],lb_3-1e-5,ub_3+1e-5,@(x) nlcn(x, M, f_nat_lb, f_nat_ub, delta_s),fminconOptions);
+[x_opt_Ar, Fval_Ar] = Ar_Optimizer(Ar_Options);
+Res_Ar = Result_Calc(x_opt_Ar, Result_Parameters);
 
-[K_opt3, C_opt3] = stiff_cal(x_opt3_f,eta);
-[~, z_opt3] = ode45(@eng_mount, 0:t_step:t_final, z0, [], eng, M, C_opt3, K_opt3);
-[F_1_opt3, F_2_opt3, F_3_opt3] = force_cal(x_opt3_f, z_opt3, eta);
-KEF_opt3 = KEF_cal(K_opt3,M);
-f_nat_opt3 = NF_Calculator(x_opt3_f,M);
-
+% End of Code
