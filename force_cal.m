@@ -1,4 +1,4 @@
-function [F_1_n, F_2_n, F_3_n] = force_cal(x, z, eta)
+function [F_1, F_2, F_3] = force_cal(x, z, eta)
 
 F_1 = zeros(length(z(:,1)),3);
 F_2 = F_1;
@@ -51,9 +51,9 @@ c_3 = A_3*c_l_3*A_3';
 
 for i = 1:length(z(:,1))  
     F_1(i,:) = (k_1*[eye(3) B_1']*z(i,1:6)' + c_1*[eye(3) B_1']*z(i,7:12)')';
-    F_1_n(i) = norm(F_1(i,:));
+%     F_1_n(i) = norm(F_1(i,:));
     F_2(i,:) = (k_2*[eye(3) B_2']*z(i,1:6)' + c_2*[eye(3) B_2']*z(i,7:12)')';
-    F_2_n(i) = norm(F_2(i,:));
+%     F_2_n(i) = norm(F_2(i,:));
     F_3(i,:) = (k_3*[eye(3) B_3']*z(i,1:6)' + c_3*[eye(3) B_3']*z(i,7:12)')';
-    F_3_n(i) = norm(F_3(i,:));
+%     F_3_n(i) = norm(F_3(i,:));
 end
