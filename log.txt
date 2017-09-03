@@ -1,0 +1,4 @@
+log.txt
+{Undefined variable "log" or class "log.txt".
+} 
+diary('log');
