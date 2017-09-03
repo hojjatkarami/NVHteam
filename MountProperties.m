@@ -1,64 +1,60 @@
 %% Initial mounts properties %%
-
 %% Mounts Positions %%
-r_1 = [900 476.267 440.66]'*1e-3 - [807.342 153.998 312.416]'*1e-3;
-r_2 = [1133 -182.685 57]'*1e-3 - [807.342 153.998 312.416]'*1e-3;
-r_3 = [619.09 -122 116.167]'*1e-3 - [807.342 153.998 312.416]'*1e-3;
+r_1 = h.mount.r_1' *1e-3;
+r_2 = h.mount.r_2' *1e-3;
+r_3 = h.mount.r_3' *1e-3;
 
 %% Mounts Orientations %%
-o_1 = [0 0 90]'*pi/180;
-o_2 = [0 0 0]'*pi/180;
-o_3 = [0 -10 0]'*pi/180;
+o_1 = h.mount.o_1'*pi/180;
+o_2 = h.mount.o_2'*pi/180;
+o_3 = h.mount.o_3'*pi/180;
 
 %% Mounts Stiffness %%
-k_l_1 = ([18.2 40 31])'*1e3*5;
-k_l_2 = ([29.4 12.2 28])'*1e3*5;
-k_l_3 = ([16 31.2 30])'*1e3*5;
+k_l_1 = h.mount.k_l_1' .*1000;
+k_l_2 = h.mount.k_l_1' .*1000;
+k_l_3 = h.mount.k_l_1' .*1000;
 
 %% Mounts Damping %%
-eta = 0.01;
-c_l_1 = eta*k_l_1;
-c_l_2 = eta*k_l_2;
-c_l_3 = eta*k_l_3;
-% c_l_1 = diag([30 30 30]);
-% c_l_2 = diag([30 30 30]);
-% c_l_3 = diag([30 30 30]);
+etha = 0.01;%h.mount.etha;
+c_l_1 = h.mount.c_l_1';
+c_l_2 = h.mount.c_l_2';
+c_l_3 = h.mount.c_l_3';
 
 %% Lower and upper bounds for design variables %%
 
 %% Lower Bounds for Positions %%
-lb_r_1 = [-200 -380 -50]'*1e-3;    
-lb_r_2 = [415 -390 -180]'*1e-3;
-lb_r_3 = [-190 -460 -70]'*1e-3;
+lb_r_1 = h.mount.lb_r_1'*1e-3;    
+lb_r_2 = h.mount.lb_r_2'*1e-3;
+lb_r_3 = h.mount.lb_r_3'*1e-3;
 
 %% Upper Bounds for Positions %%
-ub_r_1 = [250 400 215]'*1e-3;
-ub_r_2 = [430 210 -170]'*1e-3;
-ub_r_3 = [250 450 210]'*1e-3;
+ub_r_1 = h.mount.ub_r_1'*1e-3;
+ub_r_2 = h.mount.ub_r_2'*1e-3;
+ub_r_3 = h.mount.ub_r_3'*1e-3;
 
 %% Lower Bounds for Orientation %%
-lb_o_1 = o_1;%+[-0.1 -0.1 -0.1]'*pi/4;
-lb_o_2 = o_2;%+[-0.1 -0.1 -0.1]'*pi/4;
-lb_o_3 = o_3;%+[-0.1 -0.1 -0.1]'*pi/4;
+lb_o_1 = h.mount.lb_o_1'*pi/180;
+lb_o_2 = h.mount.lb_o_2'*pi/180;
+lb_o_3 = h.mount.lb_o_3'*pi/180;
 
 %% Upper Bounds for Orientation %%
-ub_o_1 = o_1;%+[0.1 0.1 0.1]'*pi/4;
-ub_o_2 = o_2;%+[0.1 0.1 0.1]'*pi/4;
-ub_o_3 = o_3;%+[0.1 0.1 0.1]'*pi/4;
+ub_o_1 = h.mount.ub_o_1'*pi/180;
+ub_o_2 = h.mount.ub_o_2'*pi/180;
+ub_o_3 = h.mount.ub_o_3'*pi/180;
 
 %% Lower Bounds for Stiffness %%
-lb_k_1 = [1e4 3e4 2e4]'*5;
-lb_k_2 = [2e4 1e4 1.5e4]'*5;
-lb_k_3 = [1e4 2e4 2e4]'*5;
+lb_k_1 = h.mount.lb_k_1' .*1000;
+lb_k_2 = h.mount.lb_k_2' .*1000;
+lb_k_3 = h.mount.lb_k_3' .*1000;
 
 %% Upper Bounds for Stiffness %%
-ub_k_1 = [3e4 5e4 4e4]'*5;
-ub_k_2 = [4e4 2e4 4e4]'*5;
-ub_k_3 = [3e4 4e4 4e4]'*5;
+ub_k_1 = h.mount.ub_k_1' .*1000;
+ub_k_2 = h.mount.ub_k_2' .*1000;
+ub_k_3 = h.mount.ub_k_3' .*1000;
 
 %% Mode frequency bounds
-f_nat_lb = [7;7;9;11;11;0];
-f_nat_ub = [100;100;11;14;14;18];
+f_nat_lb = g.lb_freq';
+f_nat_ub = g.ub_freq';
 
 %% Lower Bound for TRA frequency %%
 lb_w_TRA = 2*pi*f_nat_lb(5);

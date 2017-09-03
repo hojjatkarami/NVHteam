@@ -1,4 +1,4 @@
-function F = TF(x, ComponentSelector, OptTypeSelector, eta, w, f, M, a, b, d)
+function F = obj_TF(x, ComponentSelector, OptTypeSelector, eta, w, f, M, a, b, d)
 
 r_1 = x(1:3);
 r_2 = x(4:6);

@@ -1,4 +1,4 @@
-function F = Ar(x, MountSelector, OptTypeSelector, eta, w, f, M, sus, a, b, d)
+function F = obj_Ar(x, MountSelector, OptTypeSelector, eta, w, f, M, sus, a, b, d)
 r_1 = x(1:3);
 r_2 = x(4:6);
 r_3 = x(7:9);

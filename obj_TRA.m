@@ -1,4 +1,4 @@
-function F = TRA(x, M, a, b, d)
+function F = obj_TRA(x, M, a, b, d)
 
 [K,~] = stiff_cal(x,0);
 w_TRA = x(28);

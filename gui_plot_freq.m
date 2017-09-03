@@ -1,7 +1,7 @@
-function freqPlotter(f_nat_init,f_nat_opt,f_nat_lb,f_nat_ub)
+function gui_plot_freq(f_nat_init,f_nat_opt,f_nat_lb,f_nat_ub)
     
-    line([1 2 3 4 5 6],f_nat_ub','color','g','marker','*')
-    line([1 2 3 4 5 6],f_nat_lb','color','g','marker','*')
+    line([1 2 3 4 5 6],f_nat_ub,'color','g','marker','*')
+    line([1 2 3 4 5 6],f_nat_lb,'color','g','marker','*')
     line([1 2 3 4 5 6],f_nat_init,'color','r','marker','+')
     line([1 2 3 4 5 6],f_nat_opt,'color','b','marker','+')
 
