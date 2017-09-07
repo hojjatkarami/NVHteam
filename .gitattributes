@@ -17,3 +17,8 @@
 *.jpg -crlf -diff -merge
 *.png -crlf -diff -merge
 *.stl -crlf -diff -merge
+
+*.zip -crlf -diff -merge
+*.ico -crlf -diff -merge
+*.rar -crlf -diff -merge
+*.stl -crlf -diff -merge

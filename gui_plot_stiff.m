@@ -1,36 +1,50 @@
-function gui_plot_stiff(h)
-init = h.mount;
-ub = h.ub(19:27);
-lb = h.lb(19:27);
-k_x_1=init.k_l_1(1);     k_y_1=init.k_l_1(2);    k_z_1=init.k_l_1(3);
-k_x_2=init.k_l_2(1);     k_y_2=init.k_l_2(2);    k_z_2=init.k_l_2(3);
-k_x_3=init.k_l_3(1);     k_y_3=init.k_l_3(2);    k_z_3=init.k_l_3(3);
-    title('stiffness')
-    subplot(1,3,1)
-    line([1 2 3],ub(1:3),'color','b','marker','*')
-    line([1 2 3],lb(1:3),'color','b','marker','*')
-    line([1 2 3],[k_x_1 , k_y_1 , k_z_1],'color','r','marker','+')
+function gui_plot_stiff(h,name)
+    ax=figure;    hold on; %stiffness figure
+    ax.Name = [name,' >> Stiffness'];
     
-    title('mount 1')
-    xticklabels({'k_x' , 'k_y' , 'k_z'})
-    
-    subplot(1,3,2)
-    line([1 2 3],ub(4:6),'color','b','marker','*')
-    line([1 2 3],lb(4:6),'color','b','marker','*')
-    line([1 2 3],[k_x_2 , k_y_2 , k_z_2],'color','r','marker','+')
-    title('mount 2')
-    xticklabels({'k_x' , 'k_y' , 'k_z'})
-    
-    subplot(1,3,3)
-    line([1 2 3],ub(7:9),'color','b','marker','*')
-    line([1 2 3],lb(7:9),'color','b','marker','*')
-    line([1 2 3],[k_x_3 , k_y_3 , k_z_3],'color','r','marker','+')
-    title('mount 3')
-    xticklabels({'k_x' , 'k_y' , 'k_z'})
-    
-    
-    
+    x=1:9;
+    y=h.stage0.init.x(19:27)'/1000;
+    y_ub = h.stage0.ub(19:27)'/1000-y;
+    y_lb = y-h.stage0.lb(19:27)'/1000;
+    errorbar(x,y,y_lb,y_ub,'o');
+    leg = [string([name,' : initial'])];
+    if strcmp(h.stage1.type,'None')==0
+        x=[1:9]+0.1;
 
+        y=h.stage1.opt.x(19:27)'/1000;
+        y_ub = h.stage1.ub(19:27)'/1000-y;
+        y_lb = y-h.stage1.lb(19:27)'/1000;
+        errorbar(x,y,y_lb,y_ub,'o');
+        leg = [leg;string([name,' : Stage1 >> ',h.stage1.type])]
+    end
+    
+    if strcmp(h.stage2.type,'None')==0
+        x=[1:9]+0.2;
+
+        y=h.stage2.opt.x(19:27)'/1000;
+        y_ub = h.stage2.ub(19:27)'/1000-y;
+        y_lb = y-h.stage2.lb(19:27)'/1000;
+        errorbar(x,y,y_lb,y_ub,'o');
+        leg = [leg;string([name,' : Stage2 >> ',h.stage2.type])];
+    end
+    
+    if strcmp(h.stage3.type,'None')==0
+        x=[1:9]+0.3;
+        y=h.stage3.opt.x(19:27)'/1000;
+        y_ub = h.stage3.ub(19:27)'/1000-y;
+        y_lb = y-h.stage3.lb(19:27)'/1000;
+        errorbar(x,y,y_lb,y_ub,'o');
+        leg = [leg;string([name,' : Stage3 >> ',h.stage3.type])];
+    end
+    ylabel('Stiffness (N/mm)')
+    xlim([0 10]);
+    ylim([0 450]);
+    xticks(1:9);
+    xticklabels({'Mount1:k_x' , 'Mount1:k_y' , 'Mount1:k_z',...
+                 'Mount2:k_x' , 'Mount2:k_y' , 'Mount2:k_z',...
+                 'Mount3:k_x' , 'Mount3:k_y' , 'Mount3:k_z'});
+    xtickangle(45);
+    legend(leg);
 
 
 end

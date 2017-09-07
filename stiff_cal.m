@@ -1,4 +1,4 @@
-function [K,C] = stiff_cal(x,eta)
+function [K,C,k_1,k_2,c_1,c_2,c_3] = stiff_cal(x)
 
 r_1 = x(1:3);
 r_2 = x(4:6);
@@ -12,10 +12,19 @@ k_l_1 = diag(x(19:21));
 k_l_2 = diag(x(22:24));
 k_l_3 = diag(x(25:27));
 
-c_l_1 = eta*k_l_1;
-c_l_2 = eta*k_l_1;
-c_l_3 = eta*k_l_1;
+c_l_1 = diag(x(28:30));
+c_l_2 = diag(x(31:33));
+c_l_3 = diag(x(34:36));
 
+if x(37)~=0
+    c_l_1 = x(37)*k_l_1;
+end
+if x(38)~=0
+    c_l_2 = x(38)*k_l_2;
+end
+if x(39)~=0
+    c_l_3 = x(39)*k_l_3;
+end
 % Position of the mounts
 B_1 = [0 -r_1(3) r_1(2) ; r_1(3) 0 -r_1(1) ; -r_1(2) r_1(1) 0];
 B_2 = [0 -r_2(3) r_2(2) ; r_2(3) 0 -r_2(1) ; -r_2(2) r_2(1) 0];

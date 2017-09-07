@@ -1,20 +1,35 @@
-function gui_plot_KED(KEF_init,KEF_opt,per)
+function gui_plot_KED(h,name)
 
-xlim([0 7]); ylim([0 100])
+ax=figure;    hold on; %stiffness figure
+ax.Name = [name,' >> KED (Kinetic Energy Decoupling)'];
+
+
+xlim([0 7]); ylim([0 110])
 xticks([1 2 3 4 5 6])
 xticklabels({'Longitudinal','Lateral','Bounce','Roll','Pitch','Yaw'})
 xtickangle(45)
 
-max_init=max(KEF_init');
-max_opt=max(KEF_opt');
-line([0 7],[per per],'color','black')
-y=[]
-for i=1:6
-   y = [y;max_init(i) max_opt(i)] ;
-       
-end
 
+
+y=max(h.stage0.init.result.KED)';
+leg="initial";
+
+if strcmp(h.stage1.type,'None')==0
+    
+   y=[y,max(h.stage1.opt.result.KED)'];
+   leg=[leg;string(['Stage 1 >> ',h.stage1.type])];
+end
+if strcmp(h.stage2.type,'None')==0
+    
+   y=[y,max(h.stage2.opt.result.KED)']; 
+   leg=[leg;string(['Stage 2 >> ',h.stage2.type])];
+end
+if strcmp(h.stage3.type,'None')==0
+    
+   y=[y,max(h.stage3.opt.result.KED)']; 
+   leg=[leg;string(['Stage 3 >> ',h.stage3.type])];
+end
 bar(y)
-legend([num2str(per),' criteria'],'Initial','Optimized')
-
-end
+line([0 7],[h.KED.per  h.KED.per],'color','red');
+leg=[leg;string([num2str(h.KED.per),' % Criteria'])];
+legend(leg)

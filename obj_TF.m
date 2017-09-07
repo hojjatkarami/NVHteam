@@ -1,4 +1,6 @@
-function F = obj_TF(x, ComponentSelector, OptTypeSelector, eta, w, f, M, a, b, d)
+function F = obj_TF(x11,T,xp, ComponentSelector, OptTypeSelector, w, f, M, a, b, d)
+
+x = xp + T*x11';
 
 r_1 = x(1:3);
 r_2 = x(4:6);
@@ -12,9 +14,19 @@ k_l_1 = diag(x(19:21));
 k_l_2 = diag(x(22:24));
 k_l_3 = diag(x(25:27));
 
-c_l_1 = eta*k_l_1;
-c_l_2 = eta*k_l_1;
-c_l_3 = eta*k_l_1;
+c_l_1 = diag(x(28:30));
+c_l_2 = diag(x(31:33));
+c_l_3 = diag(x(34:36));
+
+if x(37)~=0
+    c_l_1 = x(37)*k_l_1;
+end
+if x(38)~=0
+    c_l_2 = x(38)*k_l_2;
+end
+if x(39)~=0
+    c_l_3 = x(39)*k_l_3;
+end
 
 % Position of the mounts
 B_1 = [0 -r_1(3) r_1(2) ; r_1(3) 0 -r_1(1) ; -r_1(2) r_1(1) 0];
@@ -56,12 +68,11 @@ best_index = zeros(6,1);
 for j = 1:6
     [~,best_index(j)] = max(KEF(:,j));
 end
+A = ComponentSelector.*[abs(F_hat_1(1)), abs(F_hat_1(2)), abs(F_hat_1(3)), norm(F_hat_1); ...
+                        abs(F_hat_2(1)), abs(F_hat_2(2)), abs(F_hat_2(3)), norm(F_hat_1);...
+                        abs(F_hat_3(1)), abs(F_hat_3(2)), abs(F_hat_3(3)), norm(F_hat_1)] ;
 
-A = ComponentSelector.*[abs(F_hat_1(1)); abs(F_hat_1(2)); abs(F_hat_1(3)); ...
-                        abs(F_hat_2(1)); abs(F_hat_2(2)); abs(F_hat_2(3)); ...
-                        abs(F_hat_3(1)); abs(F_hat_3(2)); abs(F_hat_3(3))];
-
-A = OptTypeSelector'*[max(A); sum(A); norm(A)];
+A = OptTypeSelector * [max(max(A)); sum(sum(A))];
               
 B = ((100-KEF(best_index(1),1))^2 + (100-KEF(best_index(2),2))^2 + (100-KEF(best_index(3),3))^2 + (100-KEF(best_index(4),4))^2 + (100-KEF(best_index(5),5))^2 + (100-KEF(best_index(6),6))^2);
 
