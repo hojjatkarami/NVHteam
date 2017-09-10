@@ -7,7 +7,7 @@ clc; clear; close all
 
 global tb
 
-fig_cmd = figure(10);
+fig_cmd = figure(10);   %this is status figure
 set(fig_cmd,'Name','cmd','Units','normalized','Position',[.75 .1 .25 .8]);
 
 tb = uicontrol('style','text');
@@ -25,7 +25,7 @@ cmd('optimization file loaded');
 h = eval(gui_curr.input_name(1:end-4)); %handle to input file
 f = eval(gui_curr.opt_name(1:end-4));   %handle to optimization file
 
-g = read_mat(f);
+g = read_mat(f,h);
 
 %% Result Options
 
@@ -37,7 +37,7 @@ Result_Parameters.Mass = g.eng.M;
 
 %% STAGE 0 (initial state)
 
-g.stage0.init.result = Result_Calc(g.stage0.init.x, Result_Parameters);
+g.stage0.init.result = Result_Calc(g.stage0.init.x,g.stage0.T, Result_Parameters);
 
 g.stage0.opt.x = g.stage0.init.x;
 g.stage0.opt.result = g.stage0.init.result;

@@ -1,7 +1,7 @@
-function f_nat = NF_Calculator(x,M)
+function f_nat = NF_Calculator(x,T, M)
 
 
-[K,~] = stiff_cal(x);
+[K,~] = stiff_cal(x,T);
 KEF = KEF_cal(K,M);
 
 [~,v] = eig(K,M);
