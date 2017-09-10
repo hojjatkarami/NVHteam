@@ -4,11 +4,7 @@ load(['SavedResults/',gui_curr.input_name]);
 % gui_curr.opt_name = app.OptimizationFileEditField.Value;
 h = eval(gui_curr.opt_name(1:end-4));
 
-g = eval(gui_curr.input_name(1:end-4));
-h.sus = g.sus;
-h.eng = g.eng;
-h.mount = g.mount;
-h.stage0 = g.stage0;
+
 
 h.stage1.type = app.Stage1DropDown.Value;
 h.stage2.type = app.Stage2DropDown.Value;
