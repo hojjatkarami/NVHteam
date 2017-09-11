@@ -1,7 +1,7 @@
 load(['SavedResults/','gui_curr.mat']);
 load(['SavedResults/',gui_curr.opt_name]);
 load(['SavedResults/',gui_curr.input_name]);
-% gui_curr.opt_name = app.OptimizationFileEditField.Value;
+gui_curr.opt_name = app.OptimizationFileEditField.Value;
 h = eval(gui_curr.opt_name(1:end-4));
 
 

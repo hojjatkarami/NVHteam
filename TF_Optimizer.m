@@ -1,4 +1,4 @@
-function [x_opt, Fval] = TF_Optimizer(TF_Opti,n,T,xp,lb,ub)
+function [x_opt, Fval] = TF_Optimizer(TF_Opti,n,T,F,x_init,T1,lb,ub)
 cmd('TF_Optimizer started ...');
 %% PSO
 % options
@@ -7,7 +7,7 @@ TF_PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize
 
 
 % start
-FitnessFcn2 = @(x) obj_TF(x,T,xp ,TF_Opti.CompSelector, TF_Opti.OptTypeSelector, TF_Opti.Omega,...
+FitnessFcn2 = @(x) obj_TF(x,T,F,x_init,T1 ,TF_Opti.CompSelector, TF_Opti.OptTypeSelector, TF_Opti.Omega,...
                             TF_Opti.Fhat, TF_Opti.Mass, TF_Opti.TFWeight, TF_Opti.KEDWeight,...
                             TF_Opti.PenFuncWeight);
 cmd('TF PSO started...')
@@ -20,5 +20,8 @@ fminconOptions = optimoptions(@fmincon,'PlotFcn',{@optimplotfval},'Display','ite
 
 % start
 cmd('fmincon hybrid started');
-FitnessFcn22 = @(x) obj_TF(x,T,xp, TF_Opti.CompSelector, TF_Opti.OptTypeSelector, TF_Opti.Omega, TF_Opti.Fhat, TF_Opti.Mass, 1, 0, 0);
-x_opt = fmincon(FitnessFcn22,x_opt2,[],[],[],[],lb,ub,@(x) nlcn(x,T,xp, TF_Opti.Mass, TF_Opti.FreqLowerBound, TF_Opti.FreqUpperBound, TF_Opti.DeltaStatic),fminconOptions);
+
+FitnessFcn22 = @(x) obj_TF(x,T,F,x_init,T1, TF_Opti.CompSelector, TF_Opti.OptTypeSelector, TF_Opti.Omega, TF_Opti.Fhat, TF_Opti.Mass, 1, 0, 0);
+x_opt = fmincon(FitnessFcn22,x_opt2,[],[],[],[],lb,ub,...
+        @(x) nlcn(x,T,F,x_init,T1,TF_Opti.Mass,TF_Opti.FreqLowerBound, TF_Opti.FreqUpperBound, TF_Opti.DeltaStatic),fminconOptions);
+TF_

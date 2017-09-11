@@ -211,9 +211,9 @@ T = eye(43); %transform matrix
 T(19:21,19:21)=g.stage0.t_k1;
 T(22:24,22:24)=g.stage0.t_k2;
 T(25:27,25:27)=g.stage0.t_k3;
-T(28:30,28:30)=g.stage0.t_c1;
-T(31:33,31:33)=g.stage0.t_c2;
-T(34:36,34:36)=g.stage0.t_c3;
+T(19:21,28:30)=g.stage0.t_c1;
+T(22:24,31:33)=g.stage0.t_c2;
+T(25:27,34:36)=g.stage0.t_c3;
                             % structural constraints has been set
 t2 = diag(T);   %vector : 1 for independent and 0 for dependent
 F = (t1 .* t2)==0; % vector : 0 for bounded and independent variables and 1 for others
@@ -252,16 +252,51 @@ for i=1:n
     
        T1(t3(i),i)=1; 
 end
-h.stage0.t0 = t0;
+h.stage1.t0 = t0;
 %t1 and t2 are same as STAGE 0
 h.stage1.n = n;
 h.stage1.T = T;
 h.stage1.T1 = T1;
 h.stage1.F = F;
 
-% lb = (F) .* h.stage0.lb;    % lower bounds corresponding to bounded-independent-purturbed variables
-% ub = (F) .* h.stage0.ub;    % upper bounds corresponding to bounded-independent-purturbed variables
-% h.stage1.lb=lb;  % zero elements are removed
-% h.stage1.ub=ub;  % zero elements are removed
+%% STAGE 2
+t0 = h.stage2.purt; %vector corresponding to purturbed values of each variable
+F = ((t0~=0).*t1 .* t2)==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
+t3 = find(F==0); % vector of optimization indices which are bounded-independent-purturbed varibles
+                            
+n=length(t3);       % number of optimization variables
 
+T1 = zeros(43,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
+% x_main = T (F x_init + T1 x_opt)
+
+for i=1:n
+    
+       T1(t3(i),i)=1; 
+end
+h.stage2.t0 = t0;
+%t1 and t2 are same as STAGE 0
+h.stage2.n = n;
+h.stage2.T = T;
+h.stage2.T1 = T1;
+h.stage2.F = F;
+%% STAGE 3
+t0 = h.stage3.purt; %vector corresponding to purturbed values of each variable
+F = ((t0~=0).*t1 .* t2)==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
+t3 = find(F==0); % vector of optimization indices which are bounded-independent-purturbed varibles
+                            
+n=length(t3);       % number of optimization variables
+
+T1 = zeros(43,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
+% x_main = T (F x_init + T1 x_opt)
+
+for i=1:n
+    
+       T1(t3(i),i)=1; 
+end
+h.stage3.t0 = t0;
+%t1 and t2 are same as STAGE 0
+h.stage3.n = n;
+h.stage3.T = T;
+h.stage3.T1 = T1;
+h.stage3.F = F;
 end
