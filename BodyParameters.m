@@ -1,5 +1,5 @@
 function [M_v,C_v,K_v] = BodyParameters(sus,M,x,eta)
-% reza
+
 %%
 r_1 = x(1:3);
 r_2 = x(4:6);
@@ -37,6 +37,8 @@ A_3 = [cos(o_3(3))*cos(o_3(2)) -sin(o_3(3))*cos(o_3(1))+cos(o_3(3))*sin(o_3(2))*
 k_1 = A_1*k_l_1*A_1';
 k_2 = A_2*k_l_2*A_2';
 k_3 = A_3*k_l_3*A_3';
+
+
 
 % Damping
 c_1 = A_1*c_l_1*A_1';

@@ -82,9 +82,9 @@ h.mount.k_l_2 = g.mount.k_l_1' .*1000;
 h.mount.k_l_3 = g.mount.k_l_1' .*1000;
 
 %% Mounts Damping %%
-h.mount.c_l_1 = diag(g.mount.c_l_1' .* 1000);
-h.mount.c_l_2 = diag(g.mount.c_l_2' .* 1000);
-h.mount.c_l_3 = diag(g.mount.c_l_3' .* 1000);
+h.mount.c_l_1 = g.mount.c_l_1' .* 1000;
+h.mount.c_l_2 = g.mount.c_l_2' .* 1000;
+h.mount.c_l_3 = g.mount.c_l_3' .* 1000;
 h.mount.etha1 = g.mount.etha1;
 h.mount.etha2 = g.mount.etha2;
 h.mount.etha3 = g.mount.etha3;
@@ -177,8 +177,9 @@ h.stage0.ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
                ub_w_TRA];
 %% Initial States %%
 
-
-h.stage0.init.x = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
+% a=[h.mount.c_l_1; h.mount.c_l_2; h.mount.c_l_3]
+% b= h.mount.etha1
+               h.stage0.init.x = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
                    h.mount.o_1; h.mount.o_2; h.mount.o_3;...
                    h.mount.k_l_1; h.mount.k_l_2; h.mount.k_l_3;...
                    h.mount.c_l_1; h.mount.c_l_2; h.mount.c_l_3;...
@@ -220,7 +221,8 @@ F = (t1 .* t2)==0; % vector : 0 for bounded and independent variables and 1 for 
 
 t1(43)=1;       %now w_TRA will is an optimization variable
 
-t3 = find(F~=0); % vector of optimization indices which are bounded-independent varibles
+t3 = find(F==0); % vector of optimization indices which are bounded-independent varibles
+
 n=length(t3);       % number of optimization variables
 
 T1 = zeros(43,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
