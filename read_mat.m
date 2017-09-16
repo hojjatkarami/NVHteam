@@ -221,7 +221,8 @@ F = (t1 .* t2)==0; % vector : 0 for bounded and independent variables and 1 for 
 
 t1(43)=1;       %now w_TRA will is an optimization variable
 
-t3 = find(F~=0); % vector of optimization indices which are bounded-independent varibles
+t3 = find(F==0); % vector of optimization indices which are bounded-independent varibles
+
 n=length(t3);       % number of optimization variables
 
 T1 = zeros(43,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
