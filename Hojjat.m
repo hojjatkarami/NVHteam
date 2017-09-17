@@ -42,54 +42,26 @@ g.stage0.init.result = Result_Calc(g.stage0.init.x,g.stage0.T, Result_Parameters
 g.stage0.opt.x = g.stage0.init.x;
 g.stage0.opt.result = g.stage0.init.result;
 
-%% STAGE 1
-cmd('stage 1 initiated ...');
+%% HIGHER ORDER STAGES
+for i = 1:3
+    str = num2str(i);
+    cmd(['stage ' str ' initiated ...']); 
+    switch eval(['g.stage',str,'.type'])
 
-switch g.stage1.type
-    
-    case 'TRA'
-        g.stage1 = TRA(g,g.stage0,g.stage1,Result_Parameters);
-    case 'TF'
-        g.stage1 = TF(g,g.stage0,g.stage1,Result_Parameters);
-    case 'TA'
-        g.stage1 = TA(g,g.stage0,g.stage1,Result_Parameters);
-    case 'Ar'
-        g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
-     
+        case 'TRA'
+            StageValue = TRA(g,g.stage0,g.stage1,Result_Parameters);
+        case 'TF'
+            StageValue = TF(g,g.stage0,g.stage1,Result_Parameters);
+        case 'TA'
+            StageValue = TA(g,g.stage0,g.stage1,Result_Parameters);
+        case 'Ar'
+            StageValue = Ar(g,g.stage0,g.stage1,Result_Parameters);
+    end
+    eval(['g.stage',str,'.type','=StageValue;']);
+    cmd(['stage ',str,' finished ...']);
 end
-cmd('stage 1 finished ...');
-%% STAGE 2
-cmd('stage 2 initiated ...');
-switch g.stage2.type
-    
-    case 'TRA'
-        g.stage2 = TRA(g,g.stage1,g.stage2,Result_Parameters);
-    case 'TF'
-        g.stage2 = TF(g,g.stage1,g.stage2,Result_Parameters);
-    case 'TA'
-        g.stage1 = TA(g,g.stage0,g.stage1,Result_Parameters);
-    case 'Ar'
-        g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
-     
-end
-cmd('stage 2 finished ...');
-%% STAGE 3
-cmd('stage 3 initiated ...');
-switch g.stage3.type
-    
-    case 'TRA'
-        g.stage3 = TRA(g,g.stage2,g.stage3,Result_Parameters);
-    case 'TF'
-        g.stage3 = TF(g,g.stage2,g.stage3,Result_Parameters);
-    case 'TA'
-        g.stage1 = TA(g,g.stage0,g.stage1,Result_Parameters);
-    case 'Ar'
-        g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
-     
-end
-cmd('stage 3 finished ...');
+
 %% Saving results ... %%
-
 q=save_mat(g);
 eval([gui_curr.res_name(1:end-4),'=q;']);
 save(['SavedResults/',gui_curr.res_name], gui_curr.res_name(1:end-4));
