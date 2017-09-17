@@ -98,5 +98,4 @@ cmd('results saved in .mat file');
 diary('log.txt');
 cmd('log file created');
 
-
 % End of Code
