@@ -53,8 +53,8 @@ h.sus.E_cm = g.sus.E_cm * 1e-3; % mm to m
 %% Engine Properties
 h.eng.mass = g.eng.mass; %kg
 h.eng.inertia = g.eng.inertia; %kg.m^2
-h.eng.idle_speed = g.eng.idle_speed; %rpm
-h.eng.max_torque = g.eng.max_torque; %N.m
+h.eng.idle_speed = g.eng.rpm; %rpm
+h.eng.max_torque = g.eng.torque; %N.m
  
 h.eng.Fhat = [0;0;0;0;h.eng.max_torque;0];
 h.eng.omega = (h.eng.idle_speed)*pi/15;
@@ -78,8 +78,8 @@ h.mount.o_3 = g.mount.o_3'*pi/180;
 
 %% Mounts Stiffness %%
 h.mount.k_l_1 = g.mount.k_l_1' .*1000;      %N/mm to N/m
-h.mount.k_l_2 = g.mount.k_l_1' .*1000;
-h.mount.k_l_3 = g.mount.k_l_1' .*1000;
+h.mount.k_l_2 = g.mount.k_l_2' .*1000;
+h.mount.k_l_3 = g.mount.k_l_3' .*1000;
 
 %% Mounts Damping %%
 h.mount.c_l_1 = g.mount.c_l_1' .* 1000;
@@ -175,10 +175,10 @@ h.stage0.ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
                h.mount.etha1; h.mount.etha2; h.mount.etha3;...
                h.mount.m_m; h.mount.k_m; h.mount.c_m;...
                ub_w_TRA];
+          
 %% Initial States %%
 
-% a=[h.mount.c_l_1; h.mount.c_l_2; h.mount.c_l_3]
-% b= h.mount.etha1
+
                h.stage0.init.x = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
                    h.mount.o_1; h.mount.o_2; h.mount.o_3;...
                    h.mount.k_l_1; h.mount.k_l_2; h.mount.k_l_3;...
@@ -186,7 +186,6 @@ h.stage0.ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
                    h.mount.etha1; h.mount.etha2; h.mount.etha3;...
                    h.mount.m_m; h.mount.k_m; h.mount.c_m;...
                    10];
-
 
 R = zeros(27,9);
 for i=1:9

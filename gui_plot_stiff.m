@@ -3,7 +3,7 @@ function gui_plot_stiff(h,name)
     ax.Name = [name,' >> Stiffness'];
     
     x=1:9;
-    y=h.stage0.init.x(19:27)'/1000;
+    y=h.stage0.init.x(19:27)'/1000
     y_ub = h.stage0.ub(19:27)'/1000-y;
     y_lb = y-h.stage0.lb(19:27)'/1000;
     errorbar(x,y,y_lb,y_ub,'o');

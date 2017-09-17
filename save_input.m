@@ -30,7 +30,7 @@ h.sus.E_cm = eval(app.COMofEnginexyzinmmEditField.Value);
 h.eng.name = app.EngineNameEditField.Value;
 h.eng.model = app.EngineModelEditField.Value;
 h.eng.tire = app.ModelEditField.Value;
-h.eng.mass = app.MasskgEditField.Value;
+h.eng.mass = app.EngineMasskgEditField.Value;
 
 value = app.SymmetricCheckBox.Value;
 if value == 1
@@ -44,8 +44,8 @@ h.eng.inertia = [app.I_xxEditField_2.Value app.I_xyEditField.Value app.I_xzEditF
                 app.I_zxEditField.Value app.I_zyEditField.Value app.I_zzEditField.Value];
 h.eng.M = [h.eng.mass * eye(3),zeros(3);zeros(3),h.eng.inertia];
 
-h.eng.idle_speed = app.IdlespeedEditField.Value;
-h.eng.max_torque = app.TorqueIdlespeedEditField_2.Value;
+h.eng.rpm = eval(app.rpmMatrixEditField.Value);
+h.eng.torque = eval(app.TorqueMatrixEditField.Value);
 h.mount.config = app.ConfigurationDropDown.Value;
 h.mount.k_l_1 = eval(app.edit_mount1stiff.Value);
 h.mount.k_l_2 = eval(app.edit_mount2stiff.Value);
