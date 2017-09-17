@@ -1,4 +1,4 @@
-function [K,C,k_1,k_2,c_1,c_2,c_3] = stiff_cal(x,T)
+function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,T)
 
 x = T * x; 
 
