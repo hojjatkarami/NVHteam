@@ -1,4 +1,4 @@
-function [x_opt, Fval] = TA_Optimizer(TA_Opti,n,T,F,x_init,T1,lb,ub);
+function [x_opt, Fval] = TA_Optimizer(TA_Opti,n,T,F,x_init,T1,lb,ub)
 cmd('TA_Optimizer started ...');
 %% PSO
 % options

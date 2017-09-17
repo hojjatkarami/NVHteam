@@ -1,6 +1,4 @@
-function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,T)
-
-x = T * x; 
+function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x)
 
 r_1 = x(1:3);
 r_2 = x(4:6);

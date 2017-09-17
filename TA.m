@@ -38,7 +38,7 @@ TA_Options.Fhat = g.eng.Fhat;
 TA_Options.ComponentSelector=stage1.TA.dir;    % dim(3*4):used to choose which directions are going to be accounted [a_1_x,a_1_y,a_1_z,a_1_mag,a_2_x,...]
 TA_Options.OptTypeSelector = stage1.TA.method; %This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
 
-[x_opt_TA, Fval_TA] = TA_Optimizer(TA_Options,n,T,F,x_init,T1,lb,ub);
+[x_opt_TA, ~] = TA_Optimizer(TA_Options,n,T,F,x_init,T1,lb,ub);
 
 cmd('calculating results ...');
 
