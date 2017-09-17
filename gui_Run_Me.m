@@ -5,7 +5,7 @@
 %% Clearing
 clc; clear; close all
 
-global tb
+global tb 
 
 fig_cmd = figure(10);   %this is status figure
 set(fig_cmd,'Name','cmd','Units','normalized','Position',[.75 .1 .25 .8]);
@@ -57,6 +57,7 @@ switch g.stage1.type
         g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
+g.opt = g.stage1.opt;
 cmd('stage 1 finished ...');
 %% STAGE 2
 cmd('stage 2 initiated ...');
@@ -72,6 +73,7 @@ switch g.stage2.type
         g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
+g.opt = g.stage2.opt;
 cmd('stage 2 finished ...');
 %% STAGE 3
 cmd('stage 3 initiated ...');
@@ -87,6 +89,7 @@ switch g.stage3.type
         g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
+g.opt = g.stage3.opt;
 cmd('stage 3 finished ...');
 %% Saving results ... %%
 

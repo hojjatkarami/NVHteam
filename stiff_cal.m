@@ -5,6 +5,10 @@ kLocBody_1 = StiffLocBody.k1;
 kLocBody_2 = StiffLocBody.k2;
 kLocBody_3 = StiffLocBody.k3;
 
+cLocBody_1 = .1 * kLocBody_1;
+cLocBody_2 = .1 * kLocBody_2;
+cLocBody_3 = .1 * kLocBody_3;
+
 r_1 = x(1:3);
 r_2 = x(4:6);
 r_3 = x(7:9);

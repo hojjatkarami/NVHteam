@@ -26,6 +26,10 @@ h.sus.kt1 = app.StiffnessEditField_3.Value;
 h.sus.kt2 = app.StiffnessEditField_3.Value;
 h.sus.kt3 = app.StiffnessEditField_3.Value;
 h.sus.kt4 = app.StiffnessEditField_3.Value;
+h.StiffLocBody.k1 = eval(app.Mount1EditField.Value);
+h.StiffLocBody.k2 = eval(app.Mount2EditField.Value);
+h.StiffLocBody.k3 = eval(app.Mount3EditField.Value);
+
 h.sus.E_cm = eval(app.COMofEnginexyzinmmEditField.Value);
 h.eng.name = app.EngineNameEditField.Value;
 h.eng.model = app.EngineModelEditField.Value;

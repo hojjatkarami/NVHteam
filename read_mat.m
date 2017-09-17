@@ -1,5 +1,5 @@
 function h = read_mat(g,f)
-
+global StiffLocBody
 % this function converts gui units to code units
 % g is handle to saved OPTIMIZATION .mat file
 % f is handle to saved INPUT .mat file
@@ -8,6 +8,7 @@ g.sus = f.sus;
 g.eng = f.eng;
 g.mount = f.mount;
 g.stage0 = f.stage0;
+StiffLocBody = f.StiffLocBody;
 %% SUSPENSION PARAMETERS %%
 % Ohadi's Data
 % Note: 1 & 4 belong to the front of the vehicle.
