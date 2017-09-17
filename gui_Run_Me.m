@@ -52,9 +52,9 @@ switch g.stage1.type
     case 'TF'
         g.stage1 = TF(g,g.stage0,g.stage1,Result_Parameters);
     case 'TA'
-        TA(g.stage1)
+        g.stage1 = T??A(g,g.stage0,g.stage1,Result_Parameters);
     case 'Ar'
-        Ar(g.stage1)
+        g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
 cmd('stage 1 finished ...');
@@ -67,9 +67,9 @@ switch g.stage2.type
     case 'TF'
         g.stage2 = TF(g,g.stage1,g.stage2,Result_Parameters);
     case 'TA'
-        TA(g.stage2)
+        g.stage1 = TA(g,g.stage0,g.stage1,Result_Parameters);
     case 'Ar'
-        Ar(g.stage2)
+        g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
 cmd('stage 2 finished ...');
@@ -82,9 +82,9 @@ switch g.stage3.type
     case 'TF'
         g.stage3 = TF(g,g.stage2,g.stage3,Result_Parameters);
     case 'TA'
-        TA(g.stage3)
+        g.stage1 = TA(g,g.stage0,g.stage1,Result_Parameters);
     case 'Ar'
-        Ar(g.stage3)
+        g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
 cmd('stage 3 finished ...');
