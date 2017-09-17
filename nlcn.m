@@ -1,6 +1,6 @@
 function [c, ceq] = nlcn(x,T,F,x_init,T1, M, f_nat_lb, f_nat_ub, delta_s)
 
-x_main = T * (F .* x_init + T1*x');
+x_main = (F .* x_init + T1*x');
 [K,~] = stiff_cal(x_main,T);
 
 KEF = KEF_cal(K,M);
