@@ -52,7 +52,7 @@ switch g.stage1.type
     case 'TF'
         g.stage1 = TF(g,g.stage0,g.stage1,Result_Parameters);
     case 'TA'
-        g.stage1 = T??A(g,g.stage0,g.stage1,Result_Parameters);
+        g.stage1 = TA(g,g.stage0,g.stage1,Result_Parameters);
     case 'Ar'
         g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      

@@ -1,9 +1,26 @@
-function [x_opt, Fval] = Ar_Optimizer(Ar_Options)
+function [x_opt, Fval] = Ar_Optimizer(Ar_Opti,n,T,F,x_init,T1,lb,ub);
+cmd('Ar_Optimizer started ...');
+%% PSO
+% options
+cmd('PSO options are being set...')
+Ar_PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',Ar_Opti.SwarmSize,'FunctionTolerance',Ar_Opti.FuncTol,'MaxIterations',Ar_Opti.MaxIter);
+% start
+FitnessFcn3 = @(x) obj_Ar(x,T,F,x_init,T1, Ar_Opti.ComponentSelector, Ar_Opti.OptTypeSelector, Ar_Opti.Omega, Ar_Opti.Fhat, Ar_Opti.Mass, Ar_Opti.SuspensionStruct, Ar_Opti.ArWeight, Ar_Opti.KEDWeight, Ar_Opti.PenFuncWeight);
+cmd('Ar PSO started...')
+[x_opt3,Fval] = particleswarm(FitnessFcn3,n,lb,ub,Ar_PSOoptions);
+%% Hybrid fmincon
 
-FitnessFcn4 = @(x) Ar(x, Ar_Options.MountSelector, Ar_Options.OptTypeSelector, Ar_Options.Eta, Ar_Options.Omega, Ar_Options.Fhat, Ar_Options.Mass, Ar_Options.SuspensionStruct, Ar_Options.TVWeight, Ar_Options.KEDWeight, Ar_Options.PenFuncWeight);
-Ar_PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',Ar_Options.SwarmSize,'FunctionTolerance',Ar_Options.FuncTol,'MaxIterations',Ar_Options.MaxIter);
-[x_opt4,Fval] = particleswarm(FitnessFcn4,27,Ar_Options.Lb,Ar_Options.Ub,Ar_PSOoptions);
-x_opt4 = x_opt4';
-Ar_fminconOptions = optimoptions(@fmincon,'Display','iter','MaxFunctionEvaluations',Ar_Options.MaxFuncEval);
-FitnessFcn44 = @(x) Ar(x, Ar_Options.MountSelector, Ar_Options.OptTypeSelector, Ar_Options.Eta, Ar_Options.Omega, Ar_Options.Fhat, Ar_Options.Mass, Ar_Options.SuspensionStruct, 1, 0, 0);
-x_opt = fmincon(FitnessFcn44,x_opt4,[],[],[],[],Ar_Options.Lb-1e-5,Ar_Options.Ub+1e-5,@(x) nlcn(x, Ar_Options.Mass, Ar_Options.FreqLowerBound, Ar_Options.FreqUpperBound, Ar_Options.DeltaStatic),Ar_fminconOptions);
+% options
+cmd('fmincon options are being set...')
+fminconOptions = optimoptions(@fmincon,'PlotFcn',{@optimplotfval},'Display','iter','MaxFunctionEvaluations',Ar_Opti.MaxFuncEval);
+
+% start
+cmd('fmincon hybrid started');
+
+FitnessFcn33 = @(x) obj_Ar(x,T,F,x_init,T1, Ar_Opti.ComponentSelector, Ar_Opti.OptTypeSelector, Ar_Opti.Omega, Ar_Opti.Fhat, Ar_Opti.Mass, Ar_Opti.SuspensionStruct, 1, 0, 0);
+x_opt = fmincon(FitnessFcn33,x_opt3,[],[],[],[],lb,ub,...
+    @(x) nlcn(x,T,F,x_init,T1, Ar_Opti.Mass, Ar_Opti.FreqLowerBound, Ar_Opti.FreqUpperBound, Ar_Opti.DeltaStatic),fminconOptions);
+
+
+
+end

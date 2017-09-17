@@ -241,6 +241,11 @@ h.stage0.F = F;
 
 
 %% STAGE 1
+if strcmp(h.stage1.type,'TRA')
+    t1(43)=1;       %now w_TRA will is an optimization variable
+else
+    t1(43)=0;
+end
 t0 = h.stage1.purt; %vector corresponding to purturbed values of each variable
 F = ((t0~=0).*t1 .* t2)==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
 t3 = find(F==0); % vector of optimization indices which are bounded-independent-purturbed varibles
@@ -262,6 +267,12 @@ h.stage1.T1 = T1;
 h.stage1.F = F;
 
 %% STAGE 2
+if strcmp(h.stage1.type,'TRA')
+    t1(43)=1;       %now w_TRA will is an optimization variable
+else 
+    t1(43)=0;
+end
+
 t0 = h.stage2.purt; %vector corresponding to purturbed values of each variable
 F = ((t0~=0).*t1 .* t2)==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
 t3 = find(F==0); % vector of optimization indices which are bounded-independent-purturbed varibles
@@ -282,6 +293,12 @@ h.stage2.T = T;
 h.stage2.T1 = T1;
 h.stage2.F = F;
 %% STAGE 3
+if strcmp(h.stage1.type,'TRA')
+    t1(43)=1;       %now w_TRA will is an optimization variable
+else
+    t1(43)=0;
+
+end
 t0 = h.stage3.purt; %vector corresponding to purturbed values of each variable
 F = ((t0~=0).*t1 .* t2)==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
 t3 = find(F==0); % vector of optimization indices which are bounded-independent-purturbed varibles

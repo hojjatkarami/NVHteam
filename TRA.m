@@ -9,8 +9,8 @@ F = stage1.F;
 
 stage1.init.x = stage0.opt.x;
 x_init = stage1.init.x;
-lb = (F==0).*(stage1.init.x - stage1.purt .* ( stage1.init.x - stage0.lb));
-ub = (F==0).*(stage1.init.x + stage1.purt .* ( stage0.ub - stage1.init.x));
+lb = (F==0).*(stage1.init.x - stage1.purt .* ( stage1.init.x - g.stage0.lb));
+ub = (F==0).*(stage1.init.x + stage1.purt .* ( g.stage0.ub - stage1.init.x));
 stage1.lb=lb;
 stage1.ub=ub;
 

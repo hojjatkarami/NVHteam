@@ -1,4 +1,4 @@
-function [M_v,C_v,K_v] = BodyParameters(sus,M,x,eta)
+function [M_v,C_v,K_v] = BodyParameters(sus,M,x)
 
 %%
 r_1 = x(1:3);
@@ -13,9 +13,9 @@ k_l_1 = diag(x(19:21));
 k_l_2 = diag(x(22:24));
 k_l_3 = diag(x(25:27));
 
-c_l_1 = eta*k_l_1;
-c_l_2 = eta*k_l_2;
-c_l_3 = eta*k_l_3;
+c_l_1 = diag(x(28:30));
+c_l_2 = diag(x(31:33));
+c_l_3 = diag(x(34:36));
 
 % Position of the mounts
 B_1 = [0 -r_1(3) r_1(2) ; r_1(3) 0 -r_1(1) ; -r_1(2) r_1(1) 0];
