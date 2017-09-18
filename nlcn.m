@@ -1,7 +1,7 @@
 function [c, ceq] = nlcn(x,T,F,x_init,T1, M, f_nat_lb, f_nat_ub, delta_s)
 
 x_main = T * (F .* x_init + T1*x');
-[K,~] = stiff_cal(x_main);
+[K,~] = stiff_cal(x_main,1);
 
 KEF = KEF_cal(K,M);
 

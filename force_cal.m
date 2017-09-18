@@ -1,7 +1,6 @@
 function [F_1, F_2, F_3] = force_cal(x, z)
 
-
-[~,~,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x);
+[~,~,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,1);
 
 F_1 = zeros(length(z(:,1)),3);
 F_2 = F_1;
