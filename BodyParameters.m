@@ -1,6 +1,6 @@
 function [M_v,C_v,K_v] = BodyParameters(x,sus,M)
 
-[~,~,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x);
+[~,~,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,1);
 
 %%
 R_1 = sus.E_cm + r_1;

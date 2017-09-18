@@ -1,9 +1,19 @@
-function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x)
+function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,index)
 
 global StiffLocBody
-kLocBody_1 = StiffLocBody.k1;
-kLocBody_2 = StiffLocBody.k2;
-kLocBody_3 = StiffLocBody.k3;
+StiffLocBody.k1 = 1e8*ones(3,1);
+StiffLocBody.k2 = 1e8*ones(3,1);
+StiffLocBody.k3 = 1e8*ones(3,1);
+StiffLocBody.c1 = 1e8*ones(3,1);
+StiffLocBody.c2 = 1e8*ones(3,1);
+StiffLocBody.c3 = 1e8*ones(3,1);
+
+kLocBody_1 = StiffLocBody.k1(index);
+kLocBody_2 = StiffLocBody.k2(index);
+kLocBody_3 = StiffLocBody.k3(index);
+cLocBody_1 = StiffLocBody.c1(index);
+cLocBody_2 = StiffLocBody.c2(index);
+cLocBody_3 = StiffLocBody.c3(index);
 
 cLocBody_1 = .1 * kLocBody_1;
 cLocBody_2 = .1 * kLocBody_2;
@@ -43,54 +53,54 @@ A_3 = [cos(o_3(3))*cos(o_3(2)) -sin(o_3(3))*cos(o_3(1))+cos(o_3(3))*sin(o_3(2))*
 
 % Stiffness
 k_1 = A_1*k_l_1*A_1';
-kDiag = diag(k_1);
-kDiag3D = diag(kDiag);
-k_1 = k_1 - kDiag3D;
-kDiag = (kDiag.*kLocBody_1)/(kDiag + kLocBody_1);
-kDiag3D = diag(kDiag);
-k_1 = k_1 + kDiag3D;
+% kDiag = diag(k_1);
+% kDiag3D = diag(kDiag);
+% k_1 = k_1 - kDiag3D;
+% kDiag = (kDiag.*kLocBody_1)./(kDiag + kLocBody_1);
+% kDiag3D = diag(kDiag);
+% k_1 = k_1 + kDiag3D;
 
 k_2 = A_2*k_l_2*A_2';
-kDiag = diag(k_2);
-kDiag3D = diag(kDiag);
-k_2 = k_2 - kDiag3D;
-kDiag = (kDiag.*kLocBody_2)/(kDiag + kLocBody_2);
-kDiag3D = diag(kDiag);
-k_2 = k_2 + kDiag3D;
+% kDiag = diag(k_2);
+% kDiag3D = diag(kDiag);
+% k_2 = k_2 - kDiag3D;
+% kDiag = (kDiag.*kLocBody_2)/(kDiag + kLocBody_2);
+% kDiag3D = diag(kDiag);
+% k_2 = k_2 + kDiag3D;
 
 k_3 = A_3*k_l_3*A_3';
-kDiag = diag(k_3);
-kDiag3D = diag(kDiag);
-k_3 = k_3 - kDiag3D;
-kDiag = (kDiag.*kLocBody_3)/(kDiag + kLocBody_3);
-kDiag3D = diag(kDiag);
-k_3 = k_3 + kDiag3D;
+% kDiag = diag(k_3);
+% kDiag3D = diag(kDiag);
+% k_3 = k_3 - kDiag3D;
+% kDiag = (kDiag.*kLocBody_3)/(kDiag + kLocBody_3);
+% kDiag3D = diag(kDiag);
+% k_3 = k_3 + kDiag3D;
 
 K = [k_1 k_1*B_1' ; (k_1*B_1')' B_1*k_1*B_1'] + [k_2 k_2*B_2' ; (k_2*B_2')' B_2*k_2*B_2'] + [k_3 k_3*B_3' ; (k_3*B_3')' B_3*k_3*B_3'];
 
 % Damping
 c_1 = A_1*c_l_1*A_1';
-cDiag = diag(c_1);
-cDiag3D = diag(cDiag);
-c_1 = c_1 - cDiag3D;
-cDiag = (cDiag.*cLocBody_1)/(cDiag + cLocBody_1);
-cDiag3D = diag(cDiag);
-c_1 = c_1 + cDiag3D;
+% cDiag = diag(c_1);
+% cDiag3D = diag(cDiag);
+% c_1 = c_1 - cDiag3D;
+% cDiag = (cDiag.*cLocBody_1)/(cDiag + cLocBody_1);
+% cDiag3D = diag(cDiag);
+% c_1 = c_1 + cDiag3D;
 
 c_2 = A_2*c_l_2*A_2';
-cDiag = diag(c_2);
-cDiag3D = diag(cDiag);
-c_2 = c_2 - cDiag3D;
-cDiag = (cDiag.*cLocBody_2)/(cDiag + cLocBody_2);
-cDiag3D = diag(cDiag);
-c_2 = c_2 + cDiag3D;
+% cDiag = diag(c_2);
+% cDiag3D = diag(cDiag);
+% c_2 = c_2 - cDiag3D;
+% cDiag = (cDiag.*cLocBody_2)/(cDiag + cLocBody_2);
+% cDiag3D = diag(cDiag);
+% c_2 = c_2 + cDiag3D;
 
 c_3 = A_3*c_l_3*A_3';
-cDiag = diag(c_3);
-cDiag3D = diag(cDiag);
-c_3 = c_3 - cDiag3D;
-cDiag = (cDiag.*cLocBody_3)/(cDiag + cLocBody_3);
-cDiag3D = diag(cDiag);
-c_3 = c_3 + cDiag3D;
+% cDiag = diag(c_3);
+% cDiag3D = diag(cDiag);
+% c_3 = c_3 - cDiag3D;
+% cDiag = (cDiag.*cLocBody_3)/(cDiag + cLocBody_3);
+% cDiag3D = diag(cDiag);
+% c_3 = c_3 + cDiag3D;
 
 C = [c_1 c_1*B_1' ; (c_1*B_1')' B_1*c_1*B_1'] + [c_2 c_2*B_2' ; (c_2*B_2')' B_2*c_2*B_2'] + [c_3 c_3*B_3' ; (c_3*B_3')' B_3*c_3*B_3'];

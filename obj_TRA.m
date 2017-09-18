@@ -2,7 +2,7 @@ function F = obj_TRA(x,T,F,x_init,T1,  M, a, b, d)
 
 
 x = T * (F .* x_init + T1*x');
-[K,~] = stiff_cal(x);
+[K,~] = stiff_cal(x,1);
 w_TRA = x(43);
 
 [q_TRA,~] = TRA_finder(M(4:6,4:6),[0;1;0]);
@@ -27,5 +27,9 @@ for i = 1:6
     P_High = heaviside(f_nat(i)-f_nat_ub(i))*(f_nat(i)-f_nat_ub(i))^3;
     D = D + P_low + P_High;
 end
+<<<<<<< HEAD
+D;
+=======
 
+>>>>>>> refs/remotes/origin/master
 F = a*norm(A-B) + b*C + d*D;

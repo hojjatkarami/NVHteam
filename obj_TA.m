@@ -8,7 +8,8 @@ R_1 = sus.E_cm + r_1;
 R_2 = sus.E_cm + r_2;
 R_3 = sus.E_cm + r_3;
 
-[M_v,C_v,K_v] = BodyParameters(x,sus,M);
+for i = 1:
+[M_v,C_v,K_v] = BodyParameters(x,sus,M,);
 
 q_hat = (-w^2*M_v+1i*w*C_v+K_v)^(-1)*[zeros(7,1);f];
 
