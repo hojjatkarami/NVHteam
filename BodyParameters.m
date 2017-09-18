@@ -2,6 +2,15 @@ function [M_v,C_v,K_v] = BodyParameters(x,sus,M)
 
 [~,~,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,1);
 
+r_1 = x(1:3);
+r_2 = x(4:6);
+r_3 = x(7:9);
+
+% Position of the mounts
+B_1 = [0 -r_1(3) r_1(2) ; r_1(3) 0 -r_1(1) ; -r_1(2) r_1(1) 0];
+B_2 = [0 -r_2(3) r_2(2) ; r_2(3) 0 -r_2(1) ; -r_2(2) r_2(1) 0];
+B_3 = [0 -r_3(3) r_3(2) ; r_3(3) 0 -r_3(1) ; -r_3(2) r_3(1) 0];
+
 %%
 R_1 = sus.E_cm + r_1;
 R_2 = sus.E_cm + r_2;

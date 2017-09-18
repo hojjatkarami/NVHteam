@@ -1,8 +1,8 @@
 %% Acceleration ratio (Ar) Optimization %%
-function [stage1]=TA(g,stage0,stage1,Result_Parameters)
+function [stage1]=Ar(g,stage0,stage1,Result_Parameters)
 
-cmd('********* TA *********');
-cmd('TA parameters are being set...');
+cmd('********* Ar *********');
+cmd('Ar parameters are being set...');
 n=stage1.n;
 T = stage1.T;
 T1 = stage1.T1;
@@ -15,8 +15,8 @@ ub = (F==0).*(stage1.init.x + stage1.purt .* ( g.stage0.ub - stage1.init.x));
 stage1.lb=lb;
 stage1.ub=ub;
 s=stage1.lb;
-s'
-term
+% s'
+% term
 
 lb = lb(lb~=0);
 ub = ub(ub~=0);

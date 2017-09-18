@@ -8,8 +8,7 @@ R_1 = sus.E_cm + r_1;
 R_2 = sus.E_cm + r_2;
 R_3 = sus.E_cm + r_3;
 
-for i = 1:
-[M_v,C_v,K_v] = BodyParameters(x,sus,M,);
+[M_v,C_v,K_v] = BodyParameters(x,sus,M);
 
 q_hat = (-w^2*M_v+1i*w*C_v+K_v)^(-1)*[zeros(7,1);f];
 
@@ -20,7 +19,7 @@ A = ComponentSelector.*[abs((-w^2*([zeros(1,4) 1 zeros(1,8)]-[zeros(1,6) R_1(1) 
 
 A = OptTypeSelector * [max(max(A)); sum(sum(A))];
 
-[K,~] = stiff_cal(x,T);
+[K,~] = stiff_cal(x,1);
 KEF = KEF_cal(K,M);
 
 best_index = zeros(6,1);
@@ -31,7 +30,7 @@ B = ((100-KEF(best_index(1),1))^2 + (100-KEF(best_index(2),2))^2 + (100-KEF(best
 
 f_nat_lb = 1.05*[7;7;9;11;11;0];
 f_nat_ub = 0.95*[100;100;11;14;14;18];
-f_nat = NF_Calculator(x,T,M);
+f_nat = NF_Calculator(x,M);
 D = 0;
 for i = 1:6
     P_low = heaviside(f_nat_lb(i)-f_nat(i))*(f_nat_lb(i)-f_nat(i))^3;
