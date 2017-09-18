@@ -27,9 +27,5 @@ for i = 1:6
     P_High = heaviside(f_nat(i)-f_nat_ub(i))*(f_nat(i)-f_nat_ub(i))^3;
     D = D + P_low + P_High;
 end
-<<<<<<< HEAD
-D;
-=======
 
->>>>>>> refs/remotes/origin/master
 F = a*norm(A-B) + b*C + d*D;

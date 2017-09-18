@@ -73,7 +73,7 @@ switch g.stage2.type
         g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
-g.opt = g.stage2.opt;
+% g.opt = g.stage2.opt;
 cmd('stage 2 finished ...');
 %% STAGE 3
 cmd('stage 3 initiated ...');
@@ -89,7 +89,7 @@ switch g.stage3.type
         g.stage1 = Ar(g,g.stage0,g.stage1,Result_Parameters);
      
 end
-g.opt = g.stage3.opt;
+% g.opt = g.stage3.opt;
 cmd('stage 3 finished ...');
 %% Saving results ... %%
 
