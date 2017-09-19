@@ -3,7 +3,7 @@ function F = obj_TRA(x,T,F,x_init,T1,  M, a, b, d)
 
 x = T * (F .* x_init + T1*x');
 [K,~] = stiff_cal(x,1);
-w_TRA = x(43);
+w_TRA = x(40);
 
 [q_TRA,~] = TRA_finder(M(4:6,4:6),[0;1;0]);
 q_TRA = [0;0;0;q_TRA];

@@ -1,4 +1,4 @@
-function [x_opt, Fval] = TF_Optimizer(TF_Opti,n,T,F,x_init,T1,lb,ub)
+function [x_opt, Fval, TF_pure] = TF_Optimizer(TF_Opti,n,T,F,x_init,T1,lb,ub)
 cmd('TF_Optimizer started ...');
 %% PSO
 % options
@@ -24,3 +24,4 @@ cmd('fmincon hybrid started');
 FitnessFcn22 = @(x) obj_TF(x,T,F,x_init,T1, TF_Opti.CompSelector, TF_Opti.OptTypeSelector, TF_Opti.Omega, TF_Opti.Fhat, TF_Opti.Mass, 1, 0, 0);
 x_opt = fmincon(FitnessFcn22,x_opt2,[],[],[],[],lb,ub,...
         @(x) nlcn(x,T,F,x_init,T1,TF_Opti.Mass,TF_Opti.FreqLowerBound, TF_Opti.FreqUpperBound, TF_Opti.DeltaStatic),fminconOptions);
+    TF_pure = obj_TF(x_opt,T,F,x_init,T1, TF_Opti.CompSelector, TF_Opti.OptTypeSelector, TF_Opti.Omega, TF_Opti.Fhat, TF_Opti.Mass, 1, 0, 0);;

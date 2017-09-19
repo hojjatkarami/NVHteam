@@ -5,9 +5,9 @@ function gui_plot_force(h,name)
     
     % STAGE 0
     x=[1:9]-.1;
-    y_rms=rms(h.stage0.init.result.F,1);
+    y_rms=rms(h.stage0.results.F,1);
     
-    y_max=max(h.stage0.init.result.F);
+    y_max=max(h.stage0.results.F);
     leg = "initial";
     subplot(2,1,1)
     hold on
@@ -15,45 +15,20 @@ function gui_plot_force(h,name)
     subplot(2,1,2)
     hold on
     scatter(x,y_max,'o')
-    %STAGE 1 
-    if strcmp(h.stage1.type,'None')==0
+     
+    for i=1:h.N
         
-        x=[1:9];
-        y_rms=rms(h.stage1.opt.result.F,1);
-        y_max=max(h.stage1.opt.result.F);
-        leg = [leg;string(['Stage 1 >> ',h.stage1.type])];
+        x=[1:9] + .1*(i-1);
+        y_rms=rms(h.stage(i).results.F,1);
+        y_max=max(h.stage(i).results.F);
+        leg = [leg;string(['Stage ',num2str(i),' >> ',h.stage(i).type])];
         subplot(2,1,1)
         scatter(x,y_rms,'*')
         subplot(2,1,2)
         scatter(x,y_max,'o')
     end
 
-%STAGE 2 
-    if strcmp(h.stage2.type,'None')==0
-        
-        x=[1:9]+.1;
-        y_rms=rms(h.stage2.opt.result.F,1);
-        y_max=max(h.stage2.opt.result.F);
-        leg = [leg;string(['Stage 2 >> ',h.stage2.type])];
-        subplot(2,1,1)
-        scatter(x,y_rms,'*')
-        subplot(2,1,2)
-        scatter(x,y_max,'o')
-    end
 
-%STAGE 3
-    if strcmp(h.stage3.type,'None')==0
-        
-        x=[1:9]+.2;
-        y_rms=rms(h.stage3.opt.result.F,1);
-        y_max=max(h.stage3.opt.result.F);
-        leg = [leg;string(['Stage 3 >> ',h.stage3.type])];
-        subplot(2,1,1)
-        scatter(x,y_rms,'*')
-        subplot(2,1,2)
-        scatter(x,y_max,'o')
-    
-    end
     
 
     subplot(2,1,1)

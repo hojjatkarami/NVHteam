@@ -7,6 +7,7 @@ function h = save_mat(g)
 % Note: 1 & 4 belong to the front of the vehicle.
 % Note: 1 & 2 belong to the driver side of the vehicle.
 % unsprung mass %
+h=g;
 h.sus.Mu1 = g.sus.Mu1; h.sus.Mu4 = h.sus.Mu1;  % Front
 h.sus.Mu2 = g.sus.Mu2; h.sus.Mu3 = h.sus.Mu2;  % Back
 
@@ -47,9 +48,9 @@ h.sus.E_cm = g.sus.E_cm * 1e3; % m to mm
 %% Engine Properties
 h.eng.mass = g.eng.mass; %kg
 h.eng.inertia = g.eng.inertia; %kg.m^2
-h.eng.idle_speed = g.eng.idle_speed; %rpm
-h.eng.max_torque = g.eng.max_torque; %N.m
-h.eng.DeltaStatic = g.DeltaStatic'; 
+h.eng.idle_speed = g.eng.rpm; %rpm
+h.eng.max_torque = g.eng.torque; %N.m
+% h.eng.DeltaStatic = g.DeltaStatic'; 
 h.eng.Fhat = [0;0;0;0;h.eng.max_torque;0];
 h.eng.omega = (h.eng.idle_speed)*pi/15;
 
@@ -75,19 +76,7 @@ h.mount.k_l_3 = g.mount.k_l_1' ./1000;
 h.mount.c_l_1 = diag(g.mount.c_l_1' ./ 1000);
 h.mount.c_l_2 = diag(g.mount.c_l_2' ./ 1000);
 h.mount.c_l_3 = diag(g.mount.c_l_3' ./ 1000);
-h.mount.etha1 = g.mount.etha1;
-h.mount.etha2 = g.mount.etha2;
-h.mount.etha3 = g.mount.etha3;
 
-if h.mount.etha1~=0
-    h.mount.c_l_1 = h.mount.etha1 *h.mount.k_l_1;
-end
-if h.mount.etha2~=0
-    h.mount.c_l_2 = h.mount.etha2 *h.mount.k_l_2;
-end
-if h.mount.etha3~=0
-    h.mount.c_l_3 = h.mount.etha3 *h.mount.k_l_3;
-end
 
 %% Hydraulic Properties
 h.mount.m_m = g.mount.m_m;
@@ -134,14 +123,10 @@ h.mount.ub_c_1 = g.mount.ub_c_1' ./1000;
 h.mount.ub_c_2 = g.mount.ub_c_2' ./1000;
 h.mount.ub_c_3 = g.mount.ub_c_3' ./1000;
 %% Mode frequency bounds
-h.lb_freq = g.lb_freq';
-h.ub_freq = g.ub_freq';
+% h.lb_freq = g.lb_freq';
+% h.ub_freq = g.ub_freq';
 
-%% Lower Bound for TRA frequency %%
-lb_w_TRA = 2*pi*h.lb_freq(5);
 
-%% Upper Bound for TRA frequency %%
-ub_w_TRA = 2*pi*h.ub_freq(5);
 %% Totally %%
 % h.stage0.lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
 %                h.mount.lb_o_1; h.mount.lb_o_2;h.mount.lb_o_3;...
@@ -182,13 +167,10 @@ ub_w_TRA = 2*pi*h.ub_freq(5);
 % h.stage1.purt = [R * cell2mat(g.stage1.purt)';ones(16,1)];
 % h.stage2.purt = [R * cell2mat(g.stage2.purt)';ones(16,1)];
 % h.stage3.purt = [R * cell2mat(g.stage3.purt)';ones(16,1)];
-h.KED = g.KED;
-h.ked = g.ked;
-a=g.DeltaStatic;
-h.DeltaStatic = [a(1)*1000 , a(2)*1000 , a(3)*1000 , a(4) * 180/pi , a(5) * 180/pi , a(6) * 180/pi]
-h.stage0 = g.stage0;
-h.stage1 = g.stage1;
-h.stage2 = g.stage2;
-h.stage3 = g.stage3;
+% h.KED = g.KED;
+% h.ked = g.ked;
+% a=g.DeltaStatic;
+% h.DeltaStatic = [a(1)*1000 , a(2)*1000 , a(3)*1000 , a(4) * 180/pi , a(5) * 180/pi , a(6) * 180/pi]
+
 
 end

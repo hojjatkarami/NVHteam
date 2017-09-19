@@ -1,4 +1,5 @@
-function [x_Opt, fval] = TRA_Optimizer(TRA_Opti,n,T,F,x_init,T1,lb,ub)
+function [x_Opt, fval, TRA_pure] = TRA_Optimizer(TRA_Opti,n,T,F,x_init,T1,lb,ub)
+global h
 cmd('TRA_Optimizer started ...');
 %% PSO
 % options
@@ -7,6 +8,7 @@ PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',T
                         %     options = optimoptions(options,'HybridFcn',{@fmincon, fminconOptions});
 
 % start
+
 FitnessFcn1 = @(x) obj_TRA(x,T,F,x_init,T1, TRA_Opti.Mass, TRA_Opti.TRAWeight, TRA_Opti.KEDWeight, TRA_Opti.PenFuncWeight);
 cmd('TRA PSO started...')
 [x_opt1,fval] = particleswarm(FitnessFcn1,n,lb,ub,PSOoptions);

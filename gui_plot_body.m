@@ -1,9 +1,9 @@
 
-figure(1);
+figure(11);
 
-load(['SavedResults/','gui_curr.mat']);
-load(['SavedResults/',gui_curr.input_name]);            
-h = eval(gui_curr.input_name(1:end-4));
+% load(['SavedResults/','gui_curr.mat']);
+% load(['SavedResults/',gui_curr.input_name]);            
+% h = eval(gui_curr.input_name(1:end-4));
 
 h_body = stlread('car_body2.stl');
 % h_mount = stlread();
@@ -37,7 +37,7 @@ fac = [1 2 3 4;
     6 7 1 4;
     2 3 5 8];
 X=400; Y=800; Z=400;
-cm_eng=h.sus.E_cm
+cm_eng=h.sus.E_cm;
 
 line([0 100], [0 0], [0 0 ],'color','blue');
 line([0 0], [0 100], [0 0 ],'color','blue');

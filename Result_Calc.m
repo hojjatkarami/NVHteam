@@ -1,6 +1,6 @@
-function Res = Result_Calc (x,T, Res_Param)
+function Res = Result_Calc (x, Res_Param)
 
-x = T * x;
+% x = T * x;
 
 [K,C] = stiff_cal(x,1);
 [~, z] = ode45(@eng_mount, 0:Res_Param.TimeStep:Res_Param.FinalTime, Res_Param.InitialState, [], Res_Param.Eng, Res_Param.Mass, C, K);

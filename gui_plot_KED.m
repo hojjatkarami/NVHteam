@@ -11,25 +11,15 @@ xtickangle(45)
 
 
 
-y=max(h.stage0.init.result.KED)';
+y=max(h.stage0.results.KED)';
 leg="initial";
+for i=1:h.N
+   
+   y=[y,max(h.stage(i).results.KED)'];
+   leg=[leg;string(['Stage ',num2str(i),' >> ',h.stage(i).type])];
+end
 
-if strcmp(h.stage1.type,'None')==0
-    
-   y=[y,max(h.stage1.opt.result.KED)'];
-   leg=[leg;string(['Stage 1 >> ',h.stage1.type])];
-end
-if strcmp(h.stage2.type,'None')==0
-    
-   y=[y,max(h.stage2.opt.result.KED)']; 
-   leg=[leg;string(['Stage 2 >> ',h.stage2.type])];
-end
-if strcmp(h.stage3.type,'None')==0
-    
-   y=[y,max(h.stage3.opt.result.KED)']; 
-   leg=[leg;string(['Stage 3 >> ',h.stage3.type])];
-end
 bar(y)
-line([0 7],[h.KED.per  h.KED.per],'color','red');
-leg=[leg;string([num2str(h.KED.per),' % Criteria'])];
+line([0 7],[h.stage(1).KED  h.stage(1).KED],'color','red');
+leg=[leg;string([num2str(h.stage(1).KED),' % Criteria'])];
 legend(leg)

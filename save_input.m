@@ -71,9 +71,6 @@ h.mount.lb_c_1 = eval(app.edit_mount1damp_lb.Value);
 h.mount.lb_c_2 = eval(app.edit_mount2damp_lb.Value);
 h.mount.lb_c_3 = eval(app.edit_mount3damp_lb.Value);
 
-h.mount.etha1 = app.ProportionalCheckBox.Value * app.ethaEditField.Value;
-h.mount.etha2 = app.ProportionalCheckBox_2.Value * app.ethaEditField_2.Value;
-h.mount.etha3 = app.ProportionalCheckBox_3.Value * app.ethaEditField_3.Value;
 
 
 h.mount.k_m = eval(app.edit_mount1_km.Value);
