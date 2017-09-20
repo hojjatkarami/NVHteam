@@ -18,9 +18,9 @@ switch h.stage(j).type
     case 'TF'
         TF2;
     case 'TA'
-        a = TA(h,stage0,stage1);
+        TA2;
     case 'Ar'
-        a = Ar(h,stage0,stage1);
+        Ar2;
      
 end
 h.stage(j).x_opt = stage1.x_opt;

@@ -6,15 +6,16 @@
 clc
 
 %% run
-data = app.data;
+data = app.data
 for i=1:4
-stage_name = char(data(i,i));
-if strcmp(stage_name,'none')==1
+stage_name = char(data(i,2));
+if isvarname(stage_name)==0
     continue;
     
 end
-
 global tb h
+h.name = char(data(i,1));
+
 
 fig_cmd = figure(10);   %this is status figure
 set(fig_cmd,'Name','cmd','Units','normalized','Position',[.75 .1 .25 .8]);
@@ -38,10 +39,10 @@ Result_Parameters.FinalTime = .1;
 Result_Parameters.InitialState = zeros(12,1);
 Result_Parameters.Eng = g.eng;
 Result_Parameters.Mass = g.eng.M;
-for j=1:4
+for j=2:4
     
-    stage_name = char(data(j,i))
-    if strcmp(stage_name,'none')==1
+    stage_name = char(data(i,j))
+    if isvarname(stage_name)==0
         break;
     end
         
@@ -56,9 +57,9 @@ end
 h.stage0.results = Result_Calc(h.stage0.x_init,Result_Parameters);
 h.N = N;
 q=save_mat(h);
-eval([gui_curr.res_name(1:end-4),'=q;']);
-save(['SavedResults/',gui_curr.res_name], gui_curr.res_name(1:end-4));
-cmd('results saved in .mat file');
+eval([h.name,'=q;']);
+save(['SavedResults/',[h.name,'_res']], h.name);
+cmd(['results saved in ',h.name,'_res.mat file']);
 
 
 %% STAGE 0 (initial state)

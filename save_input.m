@@ -30,6 +30,10 @@ h.StiffLocBody.k1 = eval(app.Mount1EditField.Value);
 h.StiffLocBody.k2 = eval(app.Mount2EditField.Value);
 h.StiffLocBody.k3 = eval(app.Mount3EditField.Value);
 
+h.StiffLocBody.c1 = eval(app.Mount1EditField_2.Value);
+h.StiffLocBody.c2 = eval(app.Mount2EditField_2.Value);
+h.StiffLocBody.c3 = eval(app.Mount3EditField_2.Value);
+a=h.StiffLocBody.c1
 h.sus.E_cm = eval(app.COMofEnginexyzinmmEditField.Value);
 h.eng.name = app.EngineNameEditField.Value;
 h.eng.model = app.EngineModelEditField.Value;

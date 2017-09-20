@@ -61,7 +61,7 @@ h.eng.rpm = g.eng.rpm; %rpm
 h.eng.torque = g.eng.torque; %N.m
  
 h.eng.Fhat = [0;0;0;0;h.eng.torque;0];
-h.eng.omega = (h.eng.rpm)*pi/15;
+h.eng.omega = (h.eng.rpm);
 
 h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
 
