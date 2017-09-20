@@ -1,6 +1,21 @@
 function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,index)
 
 global StiffLocBody
+<<<<<<< HEAD
+StiffLocBody.k1 = 1e6*ones(3,3);
+StiffLocBody.k2 = 1e6*ones(3,3);
+StiffLocBody.k3 = 1e6*ones(3,3);
+StiffLocBody.c1 = 0.1*StiffLocBody.k1;
+StiffLocBody.c2 = 0.1*StiffLocBody.k2;
+StiffLocBody.c3 = 0.1*StiffLocBody.k3;
+
+kLocBody_1 = StiffLocBody.k1(index,:);
+kLocBody_2 = StiffLocBody.k2(index,:);
+kLocBody_3 = StiffLocBody.k3(index,:);
+cLocBody_1 = StiffLocBody.c1(index,:);
+cLocBody_2 = StiffLocBody.c2(index,:);
+cLocBody_3 = StiffLocBody.c3(index,:);
+=======
 StiffLocBody.k1 = 1e6*ones(3,1);
 StiffLocBody.k2 = 1e6*ones(3,1);
 StiffLocBody.k3 = 1e6*ones(3,1);
@@ -14,6 +29,7 @@ kLocBody_3 = StiffLocBody.k3(:,index);
 cLocBody_1 = StiffLocBody.c1(:,index);
 cLocBody_2 = StiffLocBody.c2(:,index);
 cLocBody_3 = StiffLocBody.c3(:,index);
+>>>>>>> refs/remotes/origin/master
 
 r_1 = x(1:3);
 r_2 = x(4:6);

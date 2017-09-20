@@ -57,7 +57,7 @@ h.eng.inertia = g.eng.inertia; %kg.m^2
 h.eng.idle_speed = g.eng.rpm; %rpm
 h.eng.max_torque = g.eng.torque; %N.m
  
-h.eng.Fhat = [0;0;0;0;h.eng.max_torque;0];
+h.eng.Fhat = h.eng.max_torque;
 h.eng.omega = (h.eng.idle_speed)*pi/15;
 
 h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
