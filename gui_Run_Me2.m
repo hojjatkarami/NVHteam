@@ -39,9 +39,9 @@ Result_Parameters.FinalTime = .1;
 Result_Parameters.InitialState = zeros(12,1);
 Result_Parameters.Eng = g.eng;
 Result_Parameters.Mass = g.eng.M;
-for j=2:4
+for j=1:4
     
-    stage_name = char(data(i,j))
+    stage_name = char(data(i,j+1))
     if isvarname(stage_name)==0
         break;
     end
