@@ -57,8 +57,8 @@ end
 h.stage0.results = Result_Calc(h.stage0.x_init,Result_Parameters);
 h.N = N;
 q=save_mat(h);
-eval([h.name,'=q;']);
-save(['SavedResults/',[h.name,'_res']], h.name);
+eval([h.name,'_res=q;']);
+save(['SavedResults/',[h.name,'_res.mat']], [h.name,'_res']);
 cmd(['results saved in ',h.name,'_res.mat file']);
 
 
