@@ -6,7 +6,7 @@
 
 
 %% run
-for i=1:4
+for i=1:app.num_run
 clc; close all;
 data = app.data;
 
