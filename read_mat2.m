@@ -61,8 +61,8 @@ h.eng.inertia = g.eng.inertia; %kg.m^2
 h.eng.rpm = g.eng.rpm; %rpm
 h.eng.torque = g.eng.torque; %N.m
  
-h.eng.Fhat = [0;0;0;0;h.eng.torque;0];
-h.eng.omega = (h.eng.rpm);
+% h.eng.Fhat = [0;0;0;0;h.eng.torque;0];
+% h.eng.omega = (h.eng.rpm);
 
 h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
 
@@ -232,8 +232,8 @@ h.stage(j).option.TAWeight = 0.9;
 h.stage(j).option.ArWeight = 0.9;
 h.stage(j).option.KEDWeight = 0.1;
 
-h.stage(j).option.Omega = h.eng.omega;
-h.stage(j).option.Fhat = h.eng.Fhat;
+h.stage(j).option.rpm = h.eng.rpm;
+h.stage(j).option.torque = h.eng.torque;
 h.stage(j).option.TF_CompSelector= f.TF.dir;    % dim(3*4):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]
 h.stage(j).option.TF_OptTypeSelector = f.TF.method; %This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
 h.stage(j).option.TA_CompSelector= f.TA.dir;    % dim(3*4):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]

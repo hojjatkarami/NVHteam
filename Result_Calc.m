@@ -20,5 +20,5 @@ F = stage.F;
 x_init = stage.x_init;
 option = stage.option;
 Res.val_TRA = obj_TRA(x_opt_partial',T,F,x_init,T1, option.Mass, 1, 0, 0);
-Res.val_TF = obj_TF(x_opt_partial',T,F,x_init,T1 ,option.TF_CompSelector, option.TF_OptTypeSelector, option.Omega,...
-                            option.Fhat, option.Mass, 1, 0,0);
+Res.val_TF = obj_TF(x_opt_partial',T,F,x_init,T1 ,option.TF_CompSelector, option.TF_OptTypeSelector, option.rpm,...
+                            option.torque, option.Mass, 1, 0,0);
