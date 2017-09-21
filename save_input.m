@@ -117,4 +117,4 @@ load(['SavedResults/',gui_curr.input_name]);
 % delete(['SavedResults/',gui_curr.input_name]);
 gui_curr.input_name = [app.InputNameEditField.Value,'_inp'];
 eval([gui_curr.input_name,'=h;']);
-save(['SavedResults/',[gui_curr.input_name,'_inp']],gui_curr.input_name);
+save(['SavedResults/',gui_curr.input_name,'.mat'],gui_curr.input_name);
