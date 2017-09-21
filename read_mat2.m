@@ -1,4 +1,4 @@
-
+function h_new=read_mat2(h,g,f,j)
 global StiffLocBody
 % this function converts gui units to code units
 
@@ -17,6 +17,7 @@ StiffLocBody = g.StiffLocBody;
 % Note: 1 & 4 belong to the front of the vehicle.
 % Note: 1 & 2 belong to the driver side of the vehicle.
 % unsprung mass %
+
 h.sus.Mu1 = g.sus.Mu1; h.sus.Mu4 = h.sus.Mu1;  % Front
 h.sus.Mu2 = g.sus.Mu2; h.sus.Mu3 = h.sus.Mu2;  % Back
 
@@ -202,8 +203,7 @@ h.stage0.t2 = t2;
 h.stage0.T = T;
 h.stage0.T1 = T1;
 h.stage0.F = F;
-
-
+h.stage0.x_opt_partial = h.stage0.x_opt(find(F==0));
 %%  %%
 a=f.DeltaStatic;
 h.stage(j).DeltaStatic = [a(1)/1000 , a(2)/1000 , a(3)/1000 , a(4) / 180/pi , a(5) / 180/pi , a(6) / 180/pi]';
@@ -213,12 +213,36 @@ h.stage(j).TA = f.TA;
 h.stage(j).Ar = f.Ar;
 
 h.stage(j).type=f.type;
-h.stage(j).name=f.name;
-h.stage(j).swarmsize=f.swarmsize;
-h.stage(j).MaxFuncEval=f.MaxFuncEval;
-h.stage(j).FuncTol=f.FuncTol;
-h.stage(j).MaxIter=f.MaxIter;
-h.stage(j).PenFuncWeight=f.PenFuncWeight;
+
+h.stage(j).option.name=f.name;
+h.stage(j).option.swarmsize=f.swarmsize;
+h.stage(j).option.MaxFuncEval=f.MaxFuncEval;
+h.stage(j).option.FuncTol=f.FuncTol;
+h.stage(j).option.MaxIter=f.MaxIter;
+h.stage(j).option.PenFuncWeight=f.PenFuncWeight;
+h.stage(j).option.FreqLowerBound = h.stage(j).lb_freq;
+h.stage(j).option.FreqUpperBound = h.stage(j).ub_freq;
+h.stage(j).option.Mass = h.eng.M;
+
+h.stage(j).option.DeltaStatic = h.stage(j).DeltaStatic;
+
+h.stage(j).option.TRAWeight = 0.9;
+h.stage(j).option.TFWeight = 0.9;
+h.stage(j).option.TAWeight = 0.9;
+h.stage(j).option.ArWeight = 0.9;
+h.stage(j).option.KEDWeight = 0.1;
+
+h.stage(j).option.Omega = h.eng.omega;
+h.stage(j).option.Fhat = h.eng.Fhat;
+h.stage(j).option.TF_CompSelector= f.TF.dir;    % dim(3*4):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]
+h.stage(j).option.TF_OptTypeSelector = f.TF.method; %This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
+h.stage(j).option.TA_CompSelector= f.TA.dir;    % dim(3*4):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]
+h.stage(j).option.TA_OptTypeSelector = f.TA.method; %This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
+h.stage(j).option.Ar_CompSelector= f.Ar.dir;    % dim(3*4):used to choose which directions are going to be accounted [F_1_x,F_1_y,F_1_z,F_1_mag,F_2_x,...]
+h.stage(j).option.Ar_OptTypeSelector = f.Ar.method; %This variable could be [1; 0; 0], [0; 1; 0] or [0; 0; 1] for 'max', 'sum' or 'norm', default value is 'max'!
+h.stage(j).option.SuspensionStruct = h.sus;
+
+h.stage0.option = h.stage(1).option;
 
 a = f.ub_purt;
 h.stage(j).ub_purt = [a.loc1, a.loc2, a.loc3,...
@@ -281,3 +305,5 @@ h.stage(j).ub = ub;
 % lb = lb(find(F==0));
 % ub = ub(find(F==0));
 
+%%
+h_new=h;

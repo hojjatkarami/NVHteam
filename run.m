@@ -1,4 +1,4 @@
-
+function h_new = run(h,j)
 stage1 = h.stage(j);
 n=stage1.n;
 T = stage1.T;
@@ -13,17 +13,20 @@ switch h.stage(j).type
     
     case 'TRA'
         
-        TRA2;
+        [x_opt, ~] = TRA_Optimizer(h.stage(j).option,n,T,F,x_init,T1,lb,ub);
+
         
     case 'TF'
-        TF2;
+        [x_opt, ~] = TF_Optimizer(h.stage(j).option,n,T,F,x_init,T1,lb,ub);
     case 'TA'
-        TA2;
+        [x_opt, ~] = TA_Optimizer(h.stage(j).option,n,T,F,x_init,T1,lb,ub);
     case 'Ar'
-        Ar2;
+        [x_opt, ~] = Ar_Optimizer(h.stage(j).option,n,T,F,x_init,T1,lb,ub);
      
 end
-h.stage(j).x_opt = stage1.x_opt;
-h.stage(j).results = Result_Calc(h.stage(j).x_opt, Result_Parameters)
-%         h.stage(j).lb = lb;
-%         h.stage(j).ub = ub;
+h.stage(j).x_opt_partial = x_opt';
+h.stage(j).x_opt =  T * (F .* x_init + T1*x_opt');
+
+h_new=h;
+
+

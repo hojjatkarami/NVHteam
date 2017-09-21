@@ -1,5 +1,6 @@
 function F = obj_TF(x11,T,F,x_init,T1, ComponentSelector, OptTypeSelector, w, f, M, a, b, d)
 
+
 x = T * (F .* x_init + T1*x11');
 
 r_1 = x(1:3);
@@ -17,10 +18,12 @@ for j=1:lng
     
     Torque = [0;0;0;0;f(j);0];
     [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,j);
+    
     F_h_1(:,j) = imag((1i*w(j)*c_1+k_1)*[eye(3) B_1']*(-w(j)^2*M+1i*w(j)*C+K)^(-1)*Torque);
     F_h_2(:,j) = imag((1i*w(j)*c_2+k_2)*[eye(3) B_2']*(-w(j)^2*M+1i*w(j)*C+K)^(-1)*Torque);
     F_h_3(:,j) = imag((1i*w(j)*c_3+k_3)*[eye(3) B_3']*(-w(j)^2*M+1i*w(j)*C+K)^(-1)*Torque);
 end
+
 F_hat_1 = sum(F_h_1,2);
 F_hat_2 = sum(F_h_2,2);
 F_hat_3 = sum(F_h_3,2);

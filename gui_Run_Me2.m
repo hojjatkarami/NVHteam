@@ -3,17 +3,19 @@
 % The code is written by NVE Team on 1396/05/21
 
 %% Clearing
-clc
+
 
 %% run
-data = app.data
 for i=1:4
-stage_name = char(data(i,2));
+clc; close all;
+data = app.data;
+
+    stage_name = char(data(i,2));
 if isvarname(stage_name)==0
     continue;
     
 end
-global tb h
+global tb 
 h.name = char(data(i,1));
 
 
@@ -49,30 +51,17 @@ for j=1:4
         N=N+1;
         load(['SavedResults/stg_',stage_name]);    
         f = eval(stage_name);   %handle to stage file
-        read_mat2
-        run
-    
+        h = read_mat2(h,g,f,j);
+        h = run(h,j);
+        h.stage(j).results = Result_Calc(h.stage(j), Result_Parameters);
 
 end
-h.stage0.results = Result_Calc(h.stage0.x_init,Result_Parameters);
+h.stage0.results = Result_Calc(h.stage0,Result_Parameters);
 h.N = N;
 q=save_mat(h);
 eval([h.name,'_res=q;']);
 save(['SavedResults/',[h.name,'_res.mat']], [h.name,'_res']);
 cmd(['results saved in ',h.name,'_res.mat file']);
-
-
-%% STAGE 0 (initial state)
-% 
-% g.stage0.init.result = Result_Calc(g.stage0.init.x,g.stage0.T, Result_Parameters);
-% 
-% g.stage0.opt.x = g.stage0.init.x;
-% g.stage0.opt.result = g.stage0.init.result;
-
-%% Saving results ... %%
-
-% 
-% diary('log.txt');
-% cmd('log file created');
+clear 'h'l
 end
 % End of Code
