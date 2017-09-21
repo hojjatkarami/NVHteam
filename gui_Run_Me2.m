@@ -32,7 +32,7 @@ load(['SavedResults/','gui_curr.mat']);
 load(['SavedResults/',gui_curr.input_name]);
 cmd('input file loaded');
 
-g = eval(gui_curr.input_name(1:end-4)); %handle to input file
+g = eval(gui_curr.input_name); %handle to input file
 N =0;
 %% Result Options
 

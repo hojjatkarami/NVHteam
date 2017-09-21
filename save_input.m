@@ -3,29 +3,30 @@
 
 
 h.sus.ChassisID = app.ChasisIDEditField.Value;
-h.sus.Isxx = app.I_xxEditField.Value;
-h.sus.Isyy = app.I_yyEditField.Value;
-h.sus.Ms = app.SprungMassEditField.Value;
-h.sus.Mu1 = app.UnsprungMassEditField.Value;%front
-h.sus.Mu4 = app.UnsprungMassEditField.Value;%front
-h.sus.Mu3 = app.UnsprungMassEditField_2.Value;%rear
-h.sus.Mu2 = app.UnsprungMassEditField_2.Value;%rear
-h.sus.ks1 = app.StiffnessEditField.Value;
-h.sus.ks4 = app.StiffnessEditField.Value;
-h.sus.ks3 = app.StiffnessEditField_2.Value;
-h.sus.ks2 = app.StiffnessEditField_2.Value;
-h.sus.cs1 = app.DampingEditField.Value;
-h.sus.cs4 = app.DampingEditField.Value;
-h.sus.cs3 = app.DampingEditField_2.Value;
-h.sus.cs2 = app.DampingEditField_2.Value;
-h.sus.Xs1 = app.wheel_pos(1); h.sus.Ys1 = app.wheel_pos(2);
-h.sus.Xs2 = app.wheel_pos(3); h.sus.Ys2 = app.wheel_pos(4);
-h.sus.Xs3 = app.wheel_pos(5); h.sus.Ys3 = app.wheel_pos(6);
-h.sus.Xs4 = app.wheel_pos(7); h.sus.Ys4 = app.wheel_pos(8);
-h.sus.kt1 = app.StiffnessEditField_3.Value;
-h.sus.kt2 = app.StiffnessEditField_3.Value;
-h.sus.kt3 = app.StiffnessEditField_3.Value;
-h.sus.kt4 = app.StiffnessEditField_3.Value;
+h.sus.Isxx = app.I_xxkgm2EditField.Value;
+h.sus.Isyy = app.I_yykgm2EditField.Value;
+h.sus.Ms = app.SprungMasskgEditField.Value;
+h.sus.Mu1 = app.UnsprungMasskgEditField_2.Value;%front
+h.sus.Mu4 = app.UnsprungMasskgEditField_2.Value;%front
+h.sus.Mu3 = app.UnsprungMasskgEditField.Value;%rear
+h.sus.Mu2 = app.UnsprungMasskgEditField.Value;%rear
+h.sus.ks1 = app.StiffnessNmmEditField_2.Value;
+h.sus.ks4 = app.StiffnessNmmEditField_2.Value;
+h.sus.ks3 = app.StiffnessNmmEditField.Value;
+h.sus.ks2 = app.StiffnessNmmEditField.Value;
+h.sus.cs1 = app.DampingNsmmEditField_2.Value;
+h.sus.cs4 = app.DampingNsmmEditField_2.Value;
+h.sus.cs3 = app.DampingNsmmEditField.Value;
+h.sus.cs2 = app.DampingNsmmEditField.Value;
+t=num2cell(eval(app.Wheel1positionmmEditField.Value));[h.sus.Xs1, h.sus.Ys1] = t{:};
+t=num2cell(eval(app.Wheel2positionmmEditField.Value));[h.sus.Xs2, h.sus.Ys2] = t{:};
+t=num2cell(eval(app.Wheel3positionmmEditField.Value));[h.sus.Xs3, h.sus.Ys3] = t{:};
+t=num2cell(eval(app.Wheel4positionmmEditField.Value));[h.sus.Xs4, h.sus.Ys4] = t{:};
+
+h.sus.kt1 = app.TireStiffnessEditField.Value;
+h.sus.kt2 = app.TireStiffnessEditField.Value;
+h.sus.kt3 = app.TireStiffnessEditField.Value;
+h.sus.kt4 = app.TireStiffnessEditField.Value;
 h.StiffLocBody.k1 = eval(app.Mount1EditField.Value);
 h.StiffLocBody.k2 = eval(app.Mount2EditField.Value);
 h.StiffLocBody.k3 = eval(app.Mount3EditField.Value);
@@ -33,11 +34,11 @@ h.StiffLocBody.k3 = eval(app.Mount3EditField.Value);
 h.StiffLocBody.c1 = eval(app.Mount1EditField_2.Value);
 h.StiffLocBody.c2 = eval(app.Mount2EditField_2.Value);
 h.StiffLocBody.c3 = eval(app.Mount3EditField_2.Value);
-a=h.StiffLocBody.c1
+
 h.sus.E_cm = eval(app.COMofEnginexyzinmmEditField.Value);
 h.eng.name = app.EngineNameEditField.Value;
 h.eng.model = app.EngineModelEditField.Value;
-h.eng.tire = app.ModelEditField.Value;
+% h.eng.tire = app.ModelEditField.Value;
 h.eng.mass = app.EngineMasskgEditField.Value;
 
 value = app.SymmetricCheckBox.Value;
@@ -110,11 +111,10 @@ h.mount.lb_o_3 = eval(app.edit_mount3orilow.Value);
 
 
 h.stage0.t1 = app.t1;
-re =app.t1
 
 load(['SavedResults/','gui_curr']);
 load(['SavedResults/',gui_curr.input_name]);
 % delete(['SavedResults/',gui_curr.input_name]);
-gui_curr.input_name = app.InputNameEditField.Value;
-eval([gui_curr.input_name(1:end-4),'=h;']);
-save(['SavedResults/',gui_curr.input_name],gui_curr.input_name(1:end-4));
+gui_curr.input_name = [app.InputNameEditField.Value,'_inp'];
+eval([gui_curr.input_name,'=h;']);
+save(['SavedResults/',[gui_curr.input_name,'_inp']],gui_curr.input_name);

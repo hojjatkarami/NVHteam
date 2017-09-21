@@ -1,5 +1,6 @@
 function gui_plot_force(h,name)
     width=.05;
+    color = {'blue','green','yellow','black'};
     ax=figure;    hold on; %stiffness figure
     ax.Name = [name,' >> Mount Forces'];
     
@@ -11,21 +12,20 @@ function gui_plot_force(h,name)
     leg = "initial";
     subplot(2,1,1)
     hold on
-    bar(x,y_rms,width)
+    bar(x,y_rms,width,'red')
     subplot(2,1,2)
     hold on
-    bar(x,y_max,width)
+    bar(x,y_max,width,'red')
      
     for i=1:h.N
-        color = rand(1,3);
         x=[1:9] + .1*(i-1);
         y_rms=rms(h.stage(i).results.F,1);
         y_max=max(h.stage(i).results.F);
         leg = [leg;string(['Stage ',num2str(i),' >> ',h.stage(i).type])];
         subplot(2,1,1)
-        bar(x,y_rms,width,'FaceColor',color)
+        bar(x,y_rms,width,char(color(i)))
         subplot(2,1,2)
-        bar(x,y_max,width,'FaceColor',color)
+        bar(x,y_max,width,char(color(i)))
     end
 
 
