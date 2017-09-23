@@ -50,8 +50,8 @@ for j=1:4
         
         N=N+1;
         load(['SavedResults/stg_',stage_name]);    
-        f = eval(stage_name);   %handle to stage file
-        h = read_mat2(h,g,f,j);
+        h_stage = eval(stage_name);   %handle to stage file
+        h = read_mat2(h,g,h_stage,j);
         h = run(h,j);
         h.stage(j).results = Result_Calc(h.stage(j), Result_Parameters);
 
@@ -62,6 +62,6 @@ q=save_mat(h);
 eval([h.name,'_res=q;']);
 save(['SavedResults/',[h.name,'_res.mat']], [h.name,'_res']);
 cmd(['results saved in ',h.name,'_res.mat file']);
-clear 'h'l
+clear 'h'
 end
 % End of Code
