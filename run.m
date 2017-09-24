@@ -1,14 +1,20 @@
 function h_new = run(h_old,j)
 stage1 = h_old.stage(j);
-n=stage1.n;
+n=stage1.n
 T = stage1.T;
+
 T1 = stage1.T1;
+size(T1)
 F = stage1.F;
+F'
+
 x_init = stage1.x_init;
 
-F_zero = find(F==0);
+F_zero = find(F==0)
 lb = stage1.lb(F_zero);
 ub = stage1.ub(F_zero);
+save('xp')
+
 
 switch h_old.stage(j).type
     

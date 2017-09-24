@@ -8,7 +8,8 @@ global StiffLocBody
 % h.mount = g.mount;
 % h.stage0 = g.stage0;
 
-StiffLocBody = g.StiffLocBody;
+StiffLocBody = g.StiffLocBody
+
 
 % h.stage(j) = f;
 
@@ -67,10 +68,9 @@ h.eng.torque = g.eng.torque; %N.m
 % h.eng.omega = (h.eng.rpm);
 
 h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
-
+saq=StiffLocBody.k1
 rpm_stiff = StiffLocBody.k1(:,1)
 StiffLocBody.k1(:,2:end)
-
 
 Temp = interp1(rpm_stiff,StiffLocBody.k1(:,2:end),rpm,'linear','extrap');
 StiffLocBody.k1 = Temp';
@@ -162,12 +162,9 @@ lb_w_TRA = 2*pi*h.stage(j).lb_freq(5);
 %% Upper Bound for TRA frequency %%
 ub_w_TRA = 2*pi*h.stage(j).ub_freq(5);
  
-<<<<<<< HEAD
 %% Totally %%
-=======
 %% STAGE 0 %%
 
->>>>>>> refs/remotes/origin/master
 h.stage0.lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
                h.mount.lb_o_1; h.mount.lb_o_2;h.mount.lb_o_3;...
                h.mount.lb_k_1; h.mount.lb_k_2;h.mount.lb_k_3;...
@@ -181,12 +178,14 @@ h.stage0.ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
                h.mount.m_m; h.mount.k_m; h.mount.c_m;...
                ub_w_TRA];
 
+
 h.stage0.x_init = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
                    h.mount.o_1; h.mount.o_2; h.mount.o_3;...
                    h.mount.k_l_1; h.mount.k_l_2; h.mount.k_l_3;...
                    h.mount.c_l_1; h.mount.c_l_2; h.mount.c_l_3;...
                    h.mount.m_m; h.mount.k_m; h.mount.c_m;...
                    10];
+               
 h.stage0.x_opt = h.stage0.x_init;
 
 t1 = g.stage0.t1;  % vector  : 1 for bounder, 0 for fixed
@@ -198,7 +197,7 @@ T(25:27,25:27)=g.stage0.t_k3;
 T(19:21,28:30)=g.stage0.t_c1;
 T(22:24,31:33)=g.stage0.t_c2;
 T(25:27,34:36)=g.stage0.t_c3;
-
+T(28:39,28:39) = zeros(12);
 % structural constraints has been set
 t2 = diag(T);   %vector : 1 for independent and 0 for dependent
 
@@ -270,14 +269,14 @@ h.stage(j).ub_purt = [a.loc1, a.loc2, a.loc3,...
              a.stiff1, a.stiff2, a.stiff3,...
              a.damp1, a.damp2, a.damp3,...
              0,0,0,...
-             1]'/100;
+             100]'/100;
 a = f.lb_purt;
 h.stage(j).lb_purt = [a.loc1, a.loc2, a.loc3,...
              a.ori1, a.ori2, a.ori3,...
              a.stiff1, a.stiff2, a.stiff3,...
              a.damp1, a.damp2, a.damp3,...
              0,0,0,...
-             1]'/100;
+             100]'/100;
 
          
 %% STAGE 1

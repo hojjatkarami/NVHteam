@@ -30,8 +30,8 @@ set(tb,'Units','normalized','Position',[.05 .05 .9 .9],'String','starting...',..
 load(['SavedResults/','gui_curr.mat']);
 load(['SavedResults/',gui_curr.input_name]);
 cmd('input file loaded');
-
 g = eval(gui_curr.input_name); %handle to input file
+
 N =0;
 %% Result Options
 
@@ -51,6 +51,8 @@ for j=1:4
         load(['SavedResults/stg_',stage_name]);    
         h_stage = eval(stage_name);   %handle to stage file
         h = read_mat2(h,g,h_stage,j);
+%         save('h','h')
+%         term
         h = run(h,j);
         h.stage(j).results = Result_Calc(h.stage(j), Result_Parameters);
 
