@@ -27,13 +27,22 @@ h.sus.kt1 = app.TireStiffnessEditField.Value;
 h.sus.kt2 = app.TireStiffnessEditField.Value;
 h.sus.kt3 = app.TireStiffnessEditField.Value;
 h.sus.kt4 = app.TireStiffnessEditField.Value;
-h.StiffLocBody.k1 = eval(app.Mount1EditField.Value);
-h.StiffLocBody.k2 = eval(app.Mount2EditField.Value);
-h.StiffLocBody.k3 = eval(app.Mount3EditField.Value);
 
-h.StiffLocBody.c1 = eval(app.Mount1EditField_2.Value);
-h.StiffLocBody.c2 = eval(app.Mount2EditField_2.Value);
-h.StiffLocBody.c3 = eval(app.Mount3EditField_2.Value);
+% h.StiffLocBody.k1 = eval(app.Mount1EditField.Value);
+% h.StiffLocBody.k2 = eval(app.Mount2EditField.Value);
+% h.StiffLocBody.k3 = eval(app.Mount3EditField.Value);
+% 
+% h.StiffLocBody.c1 = eval(app.Mount1EditField_2.Value);
+% h.StiffLocBody.c2 = eval(app.Mount2EditField_2.Value);
+% h.StiffLocBody.c3 = eval(app.Mount3EditField_2.Value);
+[num,txt,raw] = xlsread('data.xlsx');
+
+ h.StiffLocBody.k1 = [num(:,1),num(:,2:4)];
+ h.StiffLocBody.c1 = [num(:,1),num(:,5:7)];
+ h.StiffLocBody.k2 = [num(:,1),num(:,9:11)];
+ h.StiffLocBody.c2 = [num(:,1),num(:,12:14)];
+ h.StiffLocBody.k3 = [num(:,1),num(:,16:18)];
+ h.StiffLocBody.c3 = [num(:,1),num(:,19:21)];
 
 h.sus.E_cm = eval(app.COMofEnginexyzinmmEditField.Value);
 h.eng.name = app.EngineNameEditField.Value;
