@@ -1,6 +1,5 @@
 function Res = Result_Calc (stage, Res_Param)
 
-
 Eng.max_torque = Res_Param.Eng.torque(1);
 Eng.idle_speed = Res_Param.Eng.rpm(1);
 [K,C] = stiff_cal(stage.x_opt,1);
