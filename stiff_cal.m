@@ -2,24 +2,12 @@ function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,index)
 
 global StiffLocBody
 
-
-kLocBody_1 = StiffLocBody.k1';
-kLocBody_2 = StiffLocBody.k2';
-kLocBody_3 = StiffLocBody.k3';
-cLocBody_1 = StiffLocBody.c1';
-cLocBody_2 = StiffLocBody.c2';
-cLocBody_3 = StiffLocBody.c3';
-kLocBody_1 = kLocBody_1(:,index);
-kLocBody_2 = kLocBody_2(:,index);
-kLocBody_3 = kLocBody_3(:,index);
-cLocBody_1 = cLocBody_1(:,index);
-cLocBody_2 = cLocBody_2(:,index);
-cLocBody_3 = cLocBody_3(:,index);
-
-
-
-
-
+kLocBody_1 = StiffLocBody.k1(:,index);
+kLocBody_2 = StiffLocBody.k2(:,index);
+kLocBody_3 = StiffLocBody.k3(:,index);
+cLocBody_1 = StiffLocBody.c1(:,index);
+cLocBody_2 = StiffLocBody.c2(:,index);
+cLocBody_3 = StiffLocBody.c3(:,index);
 
 r_1 = x(1:3);
 r_2 = x(4:6);

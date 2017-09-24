@@ -58,7 +58,9 @@ h.sus.E_cm = g.sus.E_cm * 1e-3; % mm to m
 %% Engine Properties
 h.eng.mass = g.eng.mass; %kg
 h.eng.inertia = g.eng.inertia; %kg.m^2
-h.eng.rpm = g.eng.rpm; %rpm
+h.eng.rpm = g.eng.rpm * pi/15; %rpm
+rpm = transpose(h.eng.rpm) * pi/15;
+
 h.eng.torque = g.eng.torque; %N.m
  
 % h.eng.Fhat = [0;0;0;0;h.eng.torque;0];
@@ -66,6 +68,23 @@ h.eng.torque = g.eng.torque; %N.m
 
 h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
 
+rpm_stiff = StiffLocBody.k1(:,1)
+StiffLocBody.k1(:,2:end)
+rpm
+
+Temp = interp1(rpm_stiff,StiffLocBody.k1(:,2:end),rpm,'linear','extrap');
+StiffLocBody.k1 = Temp';
+Temp = interp1(rpm_stiff,StiffLocBody.k2(:,2:end),rpm,'linear','extrap');
+StiffLocBody.k2 = Temp';
+Temp = interp1(rpm_stiff,StiffLocBody.k3(:,2:end),rpm,'linear','extrap');
+StiffLocBody.k3 = Temp';
+
+Temp = interp1(rpm_stiff,StiffLocBody.c1(:,2:end),rpm,'linear','extrap');
+StiffLocBody.c1 = Temp';
+Temp = interp1(rpm_stiff,StiffLocBody.c2(:,2:end),rpm,'linear','extrap');
+StiffLocBody.c2 = Temp';
+Temp = interp1(rpm_stiff,StiffLocBody.c3(:,2:end),rpm,'linear','extrap');
+StiffLocBody.c3 = Temp';
 
 %% Initial mounts properties %%
 %% Mounts Positions %%
@@ -143,11 +162,7 @@ lb_w_TRA = 2*pi*h.stage(j).lb_freq(5);
 %% Upper Bound for TRA frequency %%
 ub_w_TRA = 2*pi*h.stage(j).ub_freq(5);
  
-
- 
-
 %% Totally %%
-
 h.stage0.lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
                h.mount.lb_o_1; h.mount.lb_o_2;h.mount.lb_o_3;...
                h.mount.lb_k_1; h.mount.lb_k_2;h.mount.lb_k_3;...
@@ -289,7 +304,7 @@ h.stage(j).F = F;
 if j==1
     stage0=h.stage0;
 else
-    stage0=h.stage(j-1)
+    stage0=h.stage(j-1);
 end
 save('xp')
 h.stage(j).x_init = stage0.x_opt;
