@@ -26,7 +26,6 @@ tb = uicontrol('style','text');
 set(tb,'Units','normalized','Position',[.05 .05 .9 .9],'String','starting...',...
         'HorizontalAlignment','left','FontSize',10);
 
-
 %% Parameters %%
 load(['SavedResults/','gui_curr.mat']);
 load(['SavedResults/',gui_curr.input_name]);
