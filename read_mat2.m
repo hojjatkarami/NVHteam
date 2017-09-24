@@ -70,7 +70,7 @@ h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
 
 rpm_stiff = StiffLocBody.k1(:,1)
 StiffLocBody.k1(:,2:end)
-rpm
+
 
 Temp = interp1(rpm_stiff,StiffLocBody.k1(:,2:end),rpm,'linear','extrap');
 StiffLocBody.k1 = Temp';
@@ -162,7 +162,12 @@ lb_w_TRA = 2*pi*h.stage(j).lb_freq(5);
 %% Upper Bound for TRA frequency %%
 ub_w_TRA = 2*pi*h.stage(j).ub_freq(5);
  
+<<<<<<< HEAD
 %% Totally %%
+=======
+%% STAGE 0 %%
+
+>>>>>>> refs/remotes/origin/master
 h.stage0.lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
                h.mount.lb_o_1; h.mount.lb_o_2;h.mount.lb_o_3;...
                h.mount.lb_k_1; h.mount.lb_k_2;h.mount.lb_k_3;...
@@ -176,12 +181,12 @@ h.stage0.ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
                h.mount.m_m; h.mount.k_m; h.mount.c_m;...
                ub_w_TRA];
 
-                          h.stage0.x_init = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
-                                   h.mount.o_1; h.mount.o_2; h.mount.o_3;...
-                                   h.mount.k_l_1; h.mount.k_l_2; h.mount.k_l_3;...
-                                   h.mount.c_l_1; h.mount.c_l_2; h.mount.c_l_3;...
-                                   h.mount.m_m; h.mount.k_m; h.mount.c_m;...
-                                   10];
+h.stage0.x_init = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
+                   h.mount.o_1; h.mount.o_2; h.mount.o_3;...
+                   h.mount.k_l_1; h.mount.k_l_2; h.mount.k_l_3;...
+                   h.mount.c_l_1; h.mount.c_l_2; h.mount.c_l_3;...
+                   h.mount.m_m; h.mount.k_m; h.mount.c_m;...
+                   10];
 h.stage0.x_opt = h.stage0.x_init;
 
 t1 = g.stage0.t1;  % vector  : 1 for bounder, 0 for fixed
@@ -306,7 +311,7 @@ if j==1
 else
     stage0=h.stage(j-1);
 end
-save('xp')
+
 h.stage(j).x_init = stage0.x_opt;
 
 x_init = h.stage(j).x_init;
@@ -317,8 +322,6 @@ lb = (x_init - h.stage(j).ub_purt .* ( x_init - stage0.lb));
 ub = (x_init + h.stage(j).ub_purt .* ( stage0.ub - x_init));
 h.stage(j).lb = lb;
 h.stage(j).ub = ub;
-% lb = lb(find(F==0));
-% ub = ub(find(F==0));
 
 %%
 h_new=h;
