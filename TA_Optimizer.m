@@ -5,7 +5,7 @@ cmd('optionmizer started ...');
 cmd('PSO options are being set...')
 TA_PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',option.swarmsize,'FunctionTolerance',option.FuncTol,'MaxIterations',option.MaxIter);
 % start
-FitnessFcn3 = @(x) obj_TA(x,T,F,x_init,T1, option.TA_CompSelector, option.TA_OptTypeSelector, option.Omega, option.Fhat, option.Mass, option.SuspensionStruct, option.TAWeight, option.KEDWeight, option.PenFuncWeight);
+FitnessFcn3 = @(x) obj_TA(x,T,F,x_init,T1, option.TA_CompSelector, option.TA_OptTypeSelector, option.rpm, option.torque, option.Mass, option.SuspensionStruct, option.TAWeight, option.KEDWeight, option.PenFuncWeight);
 cmd('TA PSO started...')
 [x_opt3,Fval] = particleswarm(FitnessFcn3,n,lb,ub,TA_PSOoptions);
 %% Hybrid fmincon
