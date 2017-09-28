@@ -68,7 +68,6 @@ h.eng.torque = g.eng.torque; %N.m
 % h.eng.omega = (h.eng.rpm);
 
 h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
-saq=StiffLocBody.k1
 rpm_stiff = StiffLocBody.k1(:,1)
 StiffLocBody.k1(:,2:end)
 
