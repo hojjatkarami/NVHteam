@@ -1,9 +1,9 @@
 function f_nat = NF_Calculator(x,M)
 
 [K,~] = stiff_cal(x,1);
-KEF = KEF_cal(K,M);
+KEF = KEF_cal(K(1:6,1:6),M);
 
-[~,v] = eig(K,M);
+[~,v] = eig(K(1:6,1:6),M);
 FREQ = sqrt(v)/2/pi;
 
 best_index = zeros(6,1);

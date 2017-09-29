@@ -7,8 +7,8 @@ TF_PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize
 
 % start
 FitnessFcn2 = @(x) obj_TF(x,T,F,x_init,T1 ,option.TF_CompSelector, option.TF_OptTypeSelector, option.rpm,...
-                            option.torque, option.Mass, option.TFWeight, option.KEDWeight,...
-                            option.PenFuncWeight);
+                            option.torque, option.Mass,option.FreqLowerBound,option.FreqUpperBound,...
+                            option.TFWeight, option.KEDWeight, option.PenFuncWeight);
 cmd('TF PSO started...')
 [x_opt2,Fval] = particleswarm(FitnessFcn2,n,lb,ub,TF_PSOoptions);
 %% Hybrid fmincon
@@ -20,6 +20,8 @@ fminconOptions = optimoptions(@fmincon,'PlotFcn',{@optimplotfval},'Display','ite
 % start
 cmd('fmincon hybrid started');
 
-FitnessFcn22 = @(x) obj_TF(x,T,F,x_init,T1, option.TF_CompSelector, option.TF_OptTypeSelector, option.rpm, option.torque, option.Mass, 1, 0, 0);
+FitnessFcn22 = @(x) obj_TF(x,T,F,x_init,T1 ,option.TF_CompSelector, option.TF_OptTypeSelector, option.rpm,...
+                            option.torque, option.Mass,option.FreqLowerBound,option.FreqUpperBound,...
+                            1, 0, 0);
 x_opt = fmincon(FitnessFcn22,x_opt2,[],[],[],[],lb,ub,...
         @(x) nlcn(x,T,F,x_init,T1,option.Mass,option.FreqLowerBound, option.FreqUpperBound, option.DeltaStatic),fminconOptions);

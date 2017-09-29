@@ -1,4 +1,4 @@
-function [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,index)
+function [K_e,C_e,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,index)
 
 global StiffLocBody
 
@@ -20,10 +20,13 @@ o_3 = x(16:18);
 k_l_1 = diag(x(19:21));
 k_l_2 = diag(x(22:24));
 k_l_3 = diag(x(25:27));
+k_m_1 = x(38);
+k_l_1(3,3) = k_l_1(3,3) + k_m_1;
 
 c_l_1 = diag(x(28:30));
 c_l_2 = diag(x(31:33));
 c_l_3 = diag(x(34:36));
+c_m_1 = x(39);
 
 % Position of the mounts
 B_1 = [0 -r_1(3) r_1(2) ; r_1(3) 0 -r_1(1) ; -r_1(2) r_1(1) 0];
@@ -76,3 +79,11 @@ for i =1:3
 end
 
 C = [c_1 c_1*B_1' ; (c_1*B_1')' B_1*c_1*B_1'] + [c_2 c_2*B_2' ; (c_2*B_2')' B_2*c_2*B_2'] + [c_3 c_3*B_3' ; (c_3*B_3')' B_3*c_3*B_3'];
+
+K_tilda = k_m_1;
+C_tilda = c_m_1;
+
+K_bar = -[eye(3);B_1]*A_1*[0;0;k_m_1];
+
+K_e = [K, K_bar; K_bar', K_tilda];
+C_e = [C, zeros(6,1); zeros(1,6), C_tilda];

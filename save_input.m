@@ -98,9 +98,9 @@ h.stage0.t_c1 = app.t_c1;
 h.stage0.t_c2 = app.t_c2;
 h.stage0.t_c3 = app.t_c3;
 
-h.mount.r_1 = eval(app.edit_mount1position.Value) - h.sus.E_cm(1);
-h.mount.r_2 = eval(app.edit_mount2position.Value)- h.sus.E_cm(1);
-h.mount.r_3 = eval(app.edit_mount3position.Value)- h.sus.E_cm(1);
+h.mount.r_1 = eval(app.edit_mount1position.Value);
+h.mount.r_2 = eval(app.edit_mount2position.Value);
+h.mount.r_3 = eval(app.edit_mount3position.Value);
 h.mount.ub_r_1 = eval(app.edit_mount1locup.Value);
 h.mount.ub_r_2 = eval(app.edit_mount2locup.Value);
 h.mount.ub_r_3 = eval(app.edit_mount3locup.Value);

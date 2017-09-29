@@ -1,4 +1,4 @@
-function h_new=read_mat2(h,g,f,j)
+function h_new=read_mat(h,g,f,j)
 global StiffLocBody
 % this function converts gui units to code units
 
@@ -66,8 +66,10 @@ h.eng.torque = g.eng.torque; %N.m
  
 % h.eng.Fhat = [0;0;0;0;h.eng.torque;0];
 % h.eng.omega = (h.eng.rpm);
-
+h.eng.M_tilda = g.mount.m_m;
 h.eng.M = [h.eng.mass*eye(3)  zeros(3,3); zeros(3,3) h.eng.inertia];
+h.eng.M_e = [h.eng.M, zeros(6,1); zeros(1,6), h.eng.M_tilda];
+
 rpm_stiff = StiffLocBody.k1(:,1)
 StiffLocBody.k1(:,2:end)
 
@@ -156,11 +158,11 @@ h.stage(j).lb_freq = f.lb_freq';
 h.stage(j).ub_freq = f.ub_freq';
 
 %% Lower Bound for TRA frequency %%
-lb_w_TRA = 2*pi*h.stage(j).lb_freq(5);
-
+lb_w_k_TRA = 2*pi*h.stage(j).lb_freq(5);
+lb_w_c_TRA = 0;
 %% Upper Bound for TRA frequency %%
-ub_w_TRA = 2*pi*h.stage(j).ub_freq(5);
- 
+ub_w_k_TRA = 2*pi*h.stage(j).ub_freq(5);
+ub_w_c_TRA = inf;
 %% Totally %%
 %% STAGE 0 %%
 
@@ -169,13 +171,13 @@ h.stage0.lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
                h.mount.lb_k_1; h.mount.lb_k_2;h.mount.lb_k_3;...
                h.mount.lb_c_1; h.mount.lb_c_2; h.mount.lb_c_3;...
                h.mount.m_m; h.mount.k_m; h.mount.c_m;...
-               lb_w_TRA];
+               lb_w_k_TRA;lb_w_c_TRA];
 h.stage0.ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
                h.mount.ub_o_1; h.mount.ub_o_2; h.mount.ub_o_3;...
                h.mount.ub_k_1; h.mount.ub_k_2; h.mount.ub_k_3;...
                h.mount.ub_c_1; h.mount.ub_c_2; h.mount.ub_c_3;...
                h.mount.m_m; h.mount.k_m; h.mount.c_m;...
-               ub_w_TRA];
+               ub_w_k_TRA;ub_w_c_TRA];
 
 
 h.stage0.x_init = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
@@ -183,37 +185,36 @@ h.stage0.x_init = [h.mount.r_1; h.mount.r_2; h.mount.r_3;...
                    h.mount.k_l_1; h.mount.k_l_2; h.mount.k_l_3;...
                    h.mount.c_l_1; h.mount.c_l_2; h.mount.c_l_3;...
                    h.mount.m_m; h.mount.k_m; h.mount.c_m;...
-                   10];
-               
-h.stage0.x_opt = h.stage0.x_init;
+                   10;10];
 
+h.stage0.x_opt = h.stage0.x_init;
+ft=h.stage0.x_opt'
 t1 = g.stage0.t1;  % vector  : 1 for bounder, 0 for fixed
 
-T = eye(40); %transform matrix
+T = eye(41); %transform matrix
 T(19:21,19:21)=g.stage0.t_k1;
 T(22:24,22:24)=g.stage0.t_k2;
 T(25:27,25:27)=g.stage0.t_k3;
-T(19:21,28:30)=g.stage0.t_c1;
-T(22:24,31:33)=g.stage0.t_c2;
-T(25:27,34:36)=g.stage0.t_c3;
-T(28:39,28:39) = zeros(12);
+T(28:30,19:21)=g.stage0.t_c1;
+T(31:33,22:24)=g.stage0.t_c2;
+T(34:36,25:27)=g.stage0.t_c3;
+T(28:36,28:36) = zeros(9);
 % structural constraints has been set
 t2 = diag(T);   %vector : 1 for independent and 0 for dependent
 
 F = (t1 .* t2)==0; % vector : 0 for bounded and independent variables and 1 for others
 
-% t1(43)=1;       %now w_TRA will is an optimization variable
 
 t3 = find(F==0); % vector of optimization indices which are bounded-independent varibles
 
 n=length(t3);       % number of optimization variables
 
-T1 = zeros(40,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
+T1 = zeros(41,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
 % x_main = T (F x_init + T1 x_opt)
 
-for ii=1:n
+for i=1:n
     
-       T1(t3(ii),ii)=1; 
+       T1(t3(i),i)=1; 
 end
 h.stage0.n = n;
 h.stage0.t1 = t1;
@@ -240,7 +241,7 @@ h.stage(j).option.MaxIter=f.MaxIter;
 h.stage(j).option.PenFuncWeight=f.PenFuncWeight;
 h.stage(j).option.FreqLowerBound = h.stage(j).lb_freq;
 h.stage(j).option.FreqUpperBound = h.stage(j).ub_freq;
-h.stage(j).option.Mass = h.eng.M;
+h.stage(j).option.Mass = h.eng.M_e;
 
 h.stage(j).option.DeltaStatic = h.stage(j).DeltaStatic;
 
@@ -268,21 +269,26 @@ h.stage(j).ub_purt = [a.loc1, a.loc2, a.loc3,...
              a.stiff1, a.stiff2, a.stiff3,...
              a.damp1, a.damp2, a.damp3,...
              0,0,0,...
-             100]'/100;
+             100,100]'/100;
 a = f.lb_purt;
 h.stage(j).lb_purt = [a.loc1, a.loc2, a.loc3,...
              a.ori1, a.ori2, a.ori3,...
              a.stiff1, a.stiff2, a.stiff3,...
              a.damp1, a.damp2, a.damp3,...
              0,0,0,...
-             100]'/100;
+             100,100]'/100;
 
          
 %% STAGE 1
 if strcmp(h.stage(j).type,'TRA')
-    t1(40)=1;       %now w_TRA will is an optimization variable
+    t1(40)=1;       %now w_k_TRA will is an optimization variable
 else
     t1(40)=0;
+end
+if strcmp(g.mount.config,'1 Hydraulic-2 Elastomeric')
+    t1(41)=1;       %now w_c_TRA will is an optimization variable
+else
+    t1(41)=0;
 end
 t_ub = h.stage(j).ub_purt; %vector corresponding to purturbed values of each variable
 t_lb = h.stage(j).lb_purt; %vector corresponding to purturbed values of each variable
@@ -291,12 +297,12 @@ t3 = find(F==0); % vector of optimization indices which are bounded-independent-
                             
 n=length(t3);       % number of optimization variables
 
-T1 = zeros(40,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
+T1 = zeros(41,n);   %Transformation matrix where T*x(optimizition var)=x(design variables)
 % x_main = T (F x_init + T1 x_opt)
 
-for ii=1:n
+for i=1:n
     
-       T1(t3(ii),ii)=1; 
+       T1(t3(i),i)=1; 
 end
 h.stage(j).t_ub = t_ub;
 %t1 and t2 are same as STAGE 0

@@ -35,11 +35,7 @@ g = eval(gui_curr.input_name); %handle to input file
 N =0;
 %% Result Options
 
-Result_Parameters.TimeStep = 0.005;
-Result_Parameters.FinalTime = .1;
-Result_Parameters.InitialState = zeros(12,1);
-Result_Parameters.Eng = g.eng;
-Result_Parameters.Mass = g.eng.M;
+
 for j=1:4
     
     stage_name = char(data(i,j+1));
@@ -50,14 +46,18 @@ for j=1:4
         N=N+1;
         load(['SavedResults/stg_',stage_name]);    
         h_stage = eval(stage_name);   %handle to stage file
-        h = read_mat2(h,g,h_stage,j);
-%         save('h','h')
-%         term
-        h = run(h,j);
-        h.stage(j).results = Result_Calc(h.stage(j), Result_Parameters);
+        h = read_mat(h,g,h_stage,j);
 
+        h = run(h,j);
+        tic
+        ss = h.stage(j).x_opt;
+        h.stage(j).results = Result_Calc(h.stage(j),h.eng);
+toc
 end
-h.stage0.results = Result_Calc(h.stage0,Result_Parameters);
+tic
+
+h.stage0.results = Result_Calc(h.stage0,h.eng);
+toc
 h.N = N;
 q=save_mat(h);
 eval([h.name,'_res=q;']);

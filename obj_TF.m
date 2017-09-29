@@ -1,4 +1,4 @@
-function F = obj_TF(x11,T,F,x_init,T1, ComponentSelector, OptTypeSelector, w, f, M, a, b, d)
+function F = obj_TF(x11,T,F,x_init,T1, ComponentSelector, OptTypeSelector, w, f, M,f_nat_lb,f_nat_ub ,a, b, d)
 
 x = T * (F .* x_init + T1*x11');
 
@@ -19,17 +19,16 @@ for i=1:lng
     
     Torque = [0;0;0;0;f(i);0];
     [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,i);
+    K=K(1:6,1:6);
+    C=C(1:6,1:6);
+
+    M=M(1:6,1:6);
     
     F_hat_1 = ((1i*w(i)*c_1+k_1)*[eye(3) B_1']*(-w(i)^2*M+1i*w(i)*C+K)^(-1)*Torque);
     F_hat_2 = ((1i*w(i)*c_2+k_2)*[eye(3) B_2']*(-w(i)^2*M+1i*w(i)*C+K)^(-1)*Torque);
     F_hat_3 = ((1i*w(i)*c_3+k_3)*[eye(3) B_3']*(-w(i)^2*M+1i*w(i)*C+K)^(-1)*Torque);
 
-    KEF = KEF_cal(K,M);
-
-    best_index = zeros(6,1);
-    for j = 1:6
-        [~,best_index(j)] = max(KEF(:,j));
-    end
+    
     Temp_A = ComponentSelector.*[abs(F_hat_1(1)), abs(F_hat_1(2)), abs(F_hat_1(3)), norm(F_hat_1); ...
                             abs(F_hat_2(1)), abs(F_hat_2(2)), abs(F_hat_2(3)), norm(F_hat_1);...
                             abs(F_hat_3(1)), abs(F_hat_3(2)), abs(F_hat_3(3)), norm(F_hat_1)] ;
@@ -37,18 +36,30 @@ for i=1:lng
     Temp_A = OptTypeSelector * [max(max(Temp_A)); sum(sum(Temp_A))];
     A = A + Temp_A;
     
+    KEF = KEF_cal(K,M);
+
+    best_index = zeros(6,1);
+    for j = 1:6
+        [~,best_index(j)] = max(KEF(:,j));
+    end
     Temp_B = ((100-KEF(best_index(1),1))^2 + (100-KEF(best_index(2),2))^2 + (100-KEF(best_index(3),3))^2 + (100-KEF(best_index(4),4))^2 + (100-KEF(best_index(5),5))^2 + (100-KEF(best_index(6),6))^2);
     B = B + Temp_B;
+    
+KEF = KEF_cal(K(1:6,1:6),M(1:6,1:6));
+
+best_index = zeros(6,1);
+for j = 1:6
+    [~,best_index(j)] = max(KEF(:,j));
 end
 
-f_nat_lb = 1.05*[7;7;9;11;11;0];
-f_nat_ub = 0.95*[100;100;11;14;14;18];
-f_nat = NF_Calculator(x,M);
+f_nat = NF_Calculator(x,M(1:6,1:6));
 
 for i = 1:6
     P_low = heaviside(f_nat_lb(i)-f_nat(i))*(f_nat_lb(i)-f_nat(i))^3;
     P_High = heaviside(f_nat(i)-f_nat_ub(i))*(f_nat(i)-f_nat_ub(i))^3;
     D = D + P_low + P_High;
+end
+
 end
 
 F = a*A + b*B + d*D;
