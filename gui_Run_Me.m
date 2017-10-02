@@ -47,7 +47,7 @@ for j=1:4
         load(['SavedResults/stg_',stage_name]);    
         h_stage = eval(stage_name);   %handle to stage file
         h = read_mat(h,g,h_stage,j);
-
+        
         h = run(h,j);
         tic
         ss = h.stage(j).x_opt;

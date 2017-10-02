@@ -7,6 +7,9 @@ R_2 = sus.E_cm + r_2;
 R_3 = sus.E_cm + r_3;
 
 [M_v,C_v,K_v] = BodyParameters2(sus,M_e,x);
+size(M_v)
+size(C_v)
+size(K_v)
 
 q_hat = (-w^2*M_v+1i*w*C_v+K_v)^(-1)*[zeros(7,1);f];
 

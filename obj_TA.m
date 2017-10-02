@@ -1,4 +1,4 @@
-function F = obj_TA(x11,T,F,x_init,T1, ComponentSelector, OptTypeSelector, w, f, M, sus, a, b, d)
+function F = obj_TA(x11,T,F,x_init,T1, ComponentSelector, OptTypeSelector, w, f, M,f_nat_lb,f_nat_ub , sus, a, b, d)
 
 x = T * (F .* x_init + T1*x11');
 r_1 = x(1:3);
@@ -11,10 +11,13 @@ R_3 = sus.E_cm + r_3;
 [M_v,C_v,K_v] = BodyParameters(x,sus,M);
 
 A = 0; B = 0; D = 0;
+lng = length(w);
 
 for i=1:lng
-    
-q_hat = (-w(i)^2*M_v+1i*w(i)*C_v+K_v)^(-1)*[zeros(7,1);f(i)];
+    size(M_v)
+size(C_v)
+size(K_v)
+q_hat = (-w(i)^2*M_v+1i*w(i)*C_v+K_v)^(-1)*[zeros(13,1);f(i)];
 
 Temp_A = ComponentSelector.*[abs((-w(i)^2*([zeros(1,4) 1 zeros(1,8)]-[zeros(1,6) R_1(1) zeros(1,6)]+[zeros(1,5) R_1(2) zeros(1,7)])*q_hat)); ...
                         abs((-w(i)^2*([zeros(1,4) 1 zeros(1,8)]-[zeros(1,6) R_2(1) zeros(1,6)]+[zeros(1,5) R_2(2) zeros(1,7)])*q_hat)); ...
@@ -36,8 +39,8 @@ A = A + Temp_A;
 B = B + Temp_B;
 end
 
-f_nat_lb = 1.05*[7;7;9;11;11;0];
-f_nat_ub = 0.95*[100;100;11;14;14;18];
+% f_nat_lb = 1.05*[7;7;9;11;11;0];
+% f_nat_ub = 0.95*[100;100;11;14;14;18];
 f_nat = NF_Calculator(x,M);
 
 for i = 1:6

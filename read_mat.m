@@ -239,6 +239,8 @@ h.stage(j).option.MaxFuncEval=f.MaxFuncEval;
 h.stage(j).option.FuncTol=f.FuncTol;
 h.stage(j).option.MaxIter=f.MaxIter;
 h.stage(j).option.PenFuncWeight=f.PenFuncWeight;
+h.stage(j).option.repeat = f.repeat;
+
 h.stage(j).option.FreqLowerBound = h.stage(j).lb_freq;
 h.stage(j).option.FreqUpperBound = h.stage(j).ub_freq;
 h.stage(j).option.Mass = h.eng.M_e;
@@ -292,7 +294,7 @@ else
 end
 t_ub = h.stage(j).ub_purt; %vector corresponding to purturbed values of each variable
 t_lb = h.stage(j).lb_purt; %vector corresponding to purturbed values of each variable
-F = ((t_ub~=0).*t1 .* t2)==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
+F = (((t_ub+t_lb)~=0).*t1 .* t2)==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
 t3 = find(F==0); % vector of optimization indices which are bounded-independent-purturbed varibles
                             
 n=length(t3);       % number of optimization variables
@@ -319,11 +321,13 @@ end
 h.stage(j).x_init = stage0.x_opt;
 
 x_init = h.stage(j).x_init;
-size(x_init)
-size(stage0.lb)
-size(h.stage(j).ub_purt)
-lb = (x_init - h.stage(j).ub_purt .* ( x_init - stage0.lb));
+% size(x_init)
+% size(stage0.lb)
+% size(h.stage(j).ub_purt)
+lb = (x_init - h.stage(j).lb_purt .* ( x_init - stage0.lb));
 ub = (x_init + h.stage(j).ub_purt .* ( stage0.ub - x_init));
+% save('xp')
+% term
 h.stage(j).lb = lb;
 h.stage(j).ub = ub;
 
