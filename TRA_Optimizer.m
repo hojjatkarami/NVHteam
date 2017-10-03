@@ -24,7 +24,7 @@ cmd('fmincon hybrid started');
 FitnessFcn11 = @(x) obj_TRA(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound,...
                             1, 0, 0);
 [x_Opt,fval2] = fmincon(FitnessFcn11,x_opt1,[],[],[],[],lb,ub,...
-                @(x) nlcn(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, option.DeltaStatic),FminconOptions);
+                @(x) nlcn(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, option.DeltaStatic,option.StaticTests),FminconOptions);
 
 cmd(['TRA value after hybrid is : ',num2str(fval2)]);
 % TRA_pure = obj_TRA(x_Opt,T,F,x_init,T1, option.Mass, 1, 0, 0);

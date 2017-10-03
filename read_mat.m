@@ -8,7 +8,7 @@ global StiffLocBody
 % h.mount = g.mount;
 % h.stage0 = g.stage0;
 
-StiffLocBody = g.StiffLocBody
+StiffLocBody = g.StiffLocBody;
 
 
 % h.stage(j) = f;
@@ -166,17 +166,24 @@ ub_w_c_TRA = inf;
 %% Totally %%
 %% STAGE 0 %%
 
+% Lower Bound for TRA frequency %
+lb_w_k_TRA = 2*pi*11;
+lb_w_c_TRA = 0;
+
+% Upper Bound for TRA frequency %
+ub_w_k_TRA = Inf;
+ub_w_c_TRA = Inf;
 h.stage0.lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
                h.mount.lb_o_1; h.mount.lb_o_2;h.mount.lb_o_3;...
                h.mount.lb_k_1; h.mount.lb_k_2;h.mount.lb_k_3;...
                h.mount.lb_c_1; h.mount.lb_c_2; h.mount.lb_c_3;...
-               h.mount.m_m; h.mount.k_m; h.mount.c_m;...
+               h.mount.m_m; 200e3; 1000;...
                lb_w_k_TRA;lb_w_c_TRA];
 h.stage0.ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
                h.mount.ub_o_1; h.mount.ub_o_2; h.mount.ub_o_3;...
                h.mount.ub_k_1; h.mount.ub_k_2; h.mount.ub_k_3;...
                h.mount.ub_c_1; h.mount.ub_c_2; h.mount.ub_c_3;...
-               h.mount.m_m; h.mount.k_m; h.mount.c_m;...
+               h.mount.m_m; 600e3; 4000;...
                ub_w_k_TRA;ub_w_c_TRA];
 
 
@@ -240,6 +247,7 @@ h.stage(j).option.FuncTol=f.FuncTol;
 h.stage(j).option.MaxIter=f.MaxIter;
 h.stage(j).option.PenFuncWeight=f.PenFuncWeight;
 h.stage(j).option.repeat = f.repeat;
+h.stage(j).option.StaticTests = f.StaticTests;
 
 h.stage(j).option.FreqLowerBound = h.stage(j).lb_freq;
 h.stage(j).option.FreqUpperBound = h.stage(j).ub_freq;
@@ -326,8 +334,8 @@ x_init = h.stage(j).x_init;
 % size(h.stage(j).ub_purt)
 lb = (x_init - h.stage(j).lb_purt .* ( x_init - stage0.lb));
 ub = (x_init + h.stage(j).ub_purt .* ( stage0.ub - x_init));
-% save('xp')
-% term
+save('xp')
+
 h.stage(j).lb = lb;
 h.stage(j).ub = ub;
 

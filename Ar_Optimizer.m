@@ -19,7 +19,7 @@ cmd('fmincon hybrid started');
 
 FitnessFcn33 = @(x) obj_Ar(x,T,F,x_init,T1, option.Ar_CompSelector, option.Ar_OptTypeSelector, option.Omega, option.Fhat, option.Mass, option.SuspensionStruct, 1, 0, 0);
 x_opt = fmincon(FitnessFcn33,x_opt3,[],[],[],[],lb,ub,...
-    @(x) nlcn(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, option.DeltaStatic),fminconOptions);
+    @(x) nlcn(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, option.DeltaStatic,option.StaticTests),fminconOptions);
 
 
 

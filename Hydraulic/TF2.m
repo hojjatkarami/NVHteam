@@ -54,7 +54,7 @@ K_e = [K, K_bar; K_bar', K_tilda];
 C_e = [C, zeros(6,1); zeros(1,6), C_tilda];
 
 q_e_hat = (-w^2*M_e + 1i*w*C_e + K_e)^(-1)*f;
-
+size(q_e_hat)
 F_hat_1 = (A_1*(1i*w*c_l_1 + k_l_1-[0 0 0;0 0 0;0 0 k_m_1])*A_1'*[eye(3) B_1']*[eye(6) zeros(6,1)] + A_1*[0;0;c_m_1]*[0 0 0 0 0 0 1])*q_e_hat;
 F_hat_2 = (1i*w*c_2+k_2)*[eye(3) B_2']*[eye(6) zeros(6,1)]*q_e_hat;
 F_hat_3 = (1i*w*c_3+k_3)*[eye(3) B_3']*[eye(6) zeros(6,1)]*q_e_hat;
