@@ -15,7 +15,7 @@ lng = length(w);
 
 for i = 1:lng
 q_hat = (-w(i)^2*M_v+1i*w(i)*C_v+K_v)^(-1)*[zeros(7,1);f];
-
+size(q_hat)
 
 Temp_A = ComponentSelector.*[abs((-w(i)^2*([zeros(1,4) 1 zeros(1,8)]-[zeros(1,6) R_1(1) zeros(1,6)]+[zeros(1,5) R_1(2) zeros(1,7)])*q_hat)/...
                         (-w(i)^2*([zeros(1,9) 1 zeros(1,3)]-[zeros(1,11) r_1(1) zeros(1,1)]+[zeros(1,10) r_1(2) zeros(1,2)])*q_hat)); ...
