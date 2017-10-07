@@ -5,17 +5,26 @@ function gui_plot_freq(h,name)
     % STAGE 0
     x=[1:6]-.1;
     y=h.stage0.results.Freq;
-    y_ub = h.stage(1).ub_freq-y;
-    y_lb = y-h.stage(1).lb_freq;
-    errorbar(x,y,y_lb,y_ub,'o');
+    y_ub = h.stage(1).ub_freq
+    plot(x,y,'o')
+    
+    ss=h.stage(1).ub_freq
+    y_lb = h.stage(1).lb_freq;
+    y=(y_lb+y_ub)/2;
+    errorbar(x,y,y-y_lb,y_ub-y,'.');
+    
     leg = "initial";
     
     for i=1:h.N
         x=[1:6]+.1*(i-1);
         y=h.stage(i).results.Freq;
-        y_ub = h.stage(i).ub_freq-y;
-        y_lb = y-h.stage(i).lb_freq;
-        errorbar(x,y,y_lb,y_ub,'o');
+        plot(x,y,'o');
+        
+        y_ub = h.stage(i).ub_freq;
+        sss=h.stage(i).ub_freq
+        y_lb = h.stage(i).lb_freq;
+        y2=(y_lb+y_ub)/2;
+        errorbar(x,y2,y2-y_lb,y_ub-y2,'.');
         leg = [leg;string(['Stage ',num2str(i),' >> ',h.stage(i).type])];
     end
     

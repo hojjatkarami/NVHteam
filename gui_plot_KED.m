@@ -20,6 +20,7 @@ for i=1:h.N
 end
 
 bar(y)
+y
 line([0 7],[h.stage(1).KED  h.stage(1).KED],'color','red');
 leg=[leg;string([num2str(h.stage(1).KED),' % Criteria'])];
 legend(leg)

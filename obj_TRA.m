@@ -1,10 +1,10 @@
 function F = obj_TRA(x,T,F,x_init,T1,  M_e,f_nat_lb,f_nat_ub, a, b, d)
-xx=size(x)
-t11=size(T1)
-xin=size(x_init)
-ff=size(F)
-tt=size(T)
-dd=T1*x'
+% xx=size(x)
+% t11=size(T1)
+% xin=size(x_init)
+% ff=size(F)
+% tt=size(T)
+% dd=T1*x'
 
 x = T * (F .* x_init + T1*x');
 [K_e,C_e] = stiff_cal(x,1);
