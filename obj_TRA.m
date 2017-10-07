@@ -30,6 +30,9 @@ G = 0;
 for i = 1:6
     P_low = heaviside(f_nat_lb(i)-f_nat(i))*(f_nat_lb(i)-f_nat(i))^3;
     P_High = heaviside(f_nat(i)-f_nat_ub(i))*(f_nat(i)-f_nat_ub(i))^3;
+     
+    
     G = G + P_low + P_High;
 end
+
 F = a*(norm(A-B) + hyd*norm(C-D)) + b*E + d*G; 
