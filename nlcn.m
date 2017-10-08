@@ -6,7 +6,7 @@ x_main = T * (F .* x_init + T1*x');
 KEF = KEF_cal(K(1:6,1:6),M(1:6,1:6));
 
 best_index = zeros(6,1);
-for j = 1:6
+for j = 1:6 
     [~,best_index(j)] = max(KEF(:,j));
 end
 
@@ -24,7 +24,8 @@ mg = M(1,1)*9.81;
 % 
 % stc_Mat(:,7) = (abs((K(1:6,1:6)/1.5)^(-1))) * mg * [0;0;2.5;0;0;0];
 % stc_Mat(:,8) = (abs((K(1:6,1:6)/1.5)^(-1))) * mg * [0;0;2.5;0;0;0];
-mat = cell2mat(StaticTests(:,2:end));
+mat = cell2mat(StaticTests(:,2:end))
+term
 
 stc_Mat = (abs((K(1:6,1:6)/1.5)^(-1))) * mg * [mat';zeros(3,size(mat,1))];
 

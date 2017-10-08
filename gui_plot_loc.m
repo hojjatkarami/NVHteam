@@ -3,15 +3,19 @@ function leg = gui_plot_loc(h,name,leg)
 
 
     figure(11)
-    eng_com = [h.sus.E_cm;h.sus.E_cm;h.sus.E_cm];
-    mount_plane=[1 2 3];
+    eng_com = [h.sus.E_cm;h.sus.E_cm;h.sus.E_cm] .* [-1,1,1;-1,1,1;-1,1,1]
     
+    mount_plane=[1 2 3];
+    pos = [h.stage0.x_opt(1:3)';    h.stage0.x_opt(4:6)';   h.stage0.x_opt(7:9)'] * 1000;
+        mount_pos = eng_com + pos .* [-1,1,1;-1,1,1;-1,1,1];
+        patch('Faces',mount_plane,'Vertices',mount_pos,'FaceColor',rand(1,3),'DisplayName',[name,' : initial ']);
+
     for i=1:h.N
         pos = [h.stage(i).x_opt(1:3)';    h.stage(i).x_opt(4:6)';   h.stage(i).x_opt(7:9)'] * 1000;
-        mount_pos = eng_com + pos;
-        patch('Faces',mount_plane,'Vertices',mount_pos,'FaceColor',rand(1,3));
-        leg = [leg;string([name,' : STAGE ',num2str(i),' > ',h.stage(i).type])];
-        
+        mount_pos = eng_com + pos .* [-1,1,1;-1,1,1;-1,1,1];
+        patch('Faces',mount_plane,'Vertices',mount_pos,'FaceColor',rand(1,3),'DisplayName',[name,' : STAGE ',num2str(i),' > ',h.stage(i).type]);
+%         leg = [leg;string([name,' : STAGE ',num2str(i),' > ',h.stage(i).type])];
+%         legend(handle,string([name,' : STAGE ',num2str(i),' > ',h.stage(i).type]));
         
         
     end

@@ -4,7 +4,7 @@ function f_nat = NF_Calculator(x,M)
 KEF = KEF_cal(K(1:6,1:6),M);
 
 [~,v] = eig(M\K(1:6,1:6));
-FREQ = real(sqrt(v)/2/pi);
+FREQ = sqrt(v)/2/pi;
 
 best_index = zeros(6,1);
 freq = zeros(6,2);

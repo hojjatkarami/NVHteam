@@ -6,11 +6,12 @@ figure(11);
 % h = eval(gui_curr.input_name(1:end-4));
 
 h_body = stlread('car_body2.stl');
+
 % h_mount = stlread();
 patch(h_body,'FaceColor',       [0.8 0.8 1.0], ...
 'EdgeColor',       'none',         ...
 'FaceLighting',    'gouraud',     ...
-'AmbientStrength', 0.15,'FaceAlpha',0.3,'EdgeAlpha',0.3);
+'AmbientStrength', 0.15,'FaceAlpha',0.3,'EdgeAlpha',0.3,'DisplayName','Car Body');
 camlight('headlight');
 material('dull');
 axis('image');
@@ -36,21 +37,28 @@ fac = [1 2 3 4;
     1 2 8 7;
     6 7 1 4;
     2 3 5 8];
-X=400; Y=800; Z=400;
-cm_eng=h.sus.E_cm;
+lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
+               ];
+ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
+               ];
+X=max(abs([ub(1),ub(4),ub(7),lb(1),lb(4),lb(7)]));
+Y=max(abs([ub(2),ub(5),ub(8),lb(2),lb(5),lb(8)]));
+Z=max(abs([ub(3),ub(6),ub(9),lb(3),lb(6),lb(9)]));
+X=400;Y=600;Z=300;
+cm_eng=h.sus.E_cm .* [-1 1 1];
 
-line([0 100], [0 0], [0 0 ],'color','blue');
-line([0 0], [0 100], [0 0 ],'color','blue');
-line([0 0], [0 0], [0 100 ],'color','blue');
-text([110 0 0],[0 110 0],[0 0 110],['+X';'+Y';'+Z'],'FontSize',5);
+line([0 -100], [0 0], [0 0 ],'color','blue', 'HandleVisibility','off');
+line([0 0], [0 100], [0 0 ],'color','blue', 'HandleVisibility','off');
+line([0 0], [0 0], [0 100 ],'color','blue', 'HandleVisibility','off');
+text([-110 0 0],[0 110 0],[0 0 110],['+X';'+Y';'+Z'],'FontSize',5);
 
-line([cm_eng(1),cm_eng(1)+100], [cm_eng(2),cm_eng(2)], [cm_eng(3),cm_eng(3)],'color','blue');
-line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)+100], [cm_eng(3),cm_eng(3)],'color','blue');
-line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)], [cm_eng(3),cm_eng(3)+100],'color','blue');
-text([cm_eng(1)+110 cm_eng(1) cm_eng(1)],[cm_eng(2) cm_eng(2)+110 cm_eng(2)],[cm_eng(3) cm_eng(3) cm_eng(3)+110],['+X';'+Y';'+Z'],'FontSize',5);
+line([cm_eng(1),cm_eng(1)-100], [cm_eng(2),cm_eng(2)], [cm_eng(3),cm_eng(3)],'color','blue', 'HandleVisibility','off');
+line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)+100], [cm_eng(3),cm_eng(3)],'color','blue', 'HandleVisibility','off');
+line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)], [cm_eng(3),cm_eng(3)+100],'color','blue', 'HandleVisibility','off');
+text([cm_eng(1)-110 cm_eng(1) cm_eng(1)],[cm_eng(2) cm_eng(2)+110 cm_eng(2)],[cm_eng(3) cm_eng(3) cm_eng(3)+110],['+X';'+Y';'+Z'],'FontSize',5);
 
 color = 'red';
 cube = [ver(:,1)*X+cm_eng(1)-X/2,ver(:,2)*Y+cm_eng(2)-Y/2,ver(:,3)*Z+cm_eng(3)-Z/2];
-patch('Faces',fac,'Vertices',cube,'FaceColor',color,'FaceAlpha',0.5);
-
+handle = patch('Faces',fac,'Vertices',cube,'FaceColor',color,'FaceAlpha',0.5,'DisplayName','Engine');
+% legend(handle,'Car Body')
 % ------------------------------Code Ends Here-------------------------------- %
