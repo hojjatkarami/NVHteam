@@ -1,4 +1,4 @@
-function leg = gui_plot_loc(h,name,leg)
+function gui_plot_loc(h,name)
 
 
 
