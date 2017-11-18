@@ -11,12 +11,13 @@ size(M_v)
 size(C_v)
 size(K_v)
 
-q_hat = (-w^2*M_v+1i*w*C_v+K_v)^(-1)*[zeros(7,1);f];
+q_hat = (-w^2*M_v+1i*w*C_v+K_v)^(-1)*[zeros(7,1);f]
+term
 
 
 A = max([abs((-w^2*([zeros(1,4) 1 zeros(1,9)]-[zeros(1,6) R_1(1) zeros(1,7)]+[zeros(1,5) R_1(2) zeros(1,8)])*q_hat)) ...
-    ,abs((-w^2*([zeros(1,4) 1 zeros(1,9)]-[zeros(1,6) R_2(1) zeros(1,7)]+[zeros(1,5) R_2(2) zeros(1,8)])*q_hat))...
-    ,abs((-w^2*([zeros(1,4) 1 zeros(1,9)]-[zeros(1,6) R_3(1) zeros(1,7)]+[zeros(1,5) R_3(2) zeros(1,8)])*q_hat))]);
+        ,abs((-w^2*([zeros(1,4) 1 zeros(1,9)]-[zeros(1,6) R_2(1) zeros(1,7)]+[zeros(1,5) R_2(2) zeros(1,8)])*q_hat))...
+        ,abs((-w^2*([zeros(1,4) 1 zeros(1,9)]-[zeros(1,6) R_3(1) zeros(1,7)]+[zeros(1,5) R_3(2) zeros(1,8)])*q_hat))]);
 
 
 [K_e,~] = stiff_cal(x);

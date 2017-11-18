@@ -13,6 +13,8 @@ end
 KED = [KEF(best_index(1),1); KEF(best_index(2),2); KEF(best_index(3),3); KEF(best_index(4),4); KEF(best_index(5),5); KEF(best_index(6),6)];
 
 % stc_Mat = zeros(6,8);
+
+
 mg = M(1,1)*9.81;
 
 % stc_Mat(:,1) = (abs((K(1:6,1:6)/1.5)^(-1))) * mg * [0;0;-1;0;0;0];

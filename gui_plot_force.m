@@ -45,5 +45,21 @@ function gui_plot_force(h,name)
     xtickangle(45)
     ylabel('MAX Force (N)')
     legend(leg);
-
+    %%
+    ax2=figure;    hold on; %new figure
+    ax2.Name = [name,' >> Transient Mount Forces'];
+    
+    F = h.stage(h.N).results.F;
+    t = 0:h.stage(h.N).results.TimeStep:h.stage(h.N).results.FinalTime;
+    for i=1:9
+    subplot(3,3,i)
+        plot(t,F(:,i))
+    end
+        %     subplot(3,3,2)
+%         plot(t,F(:,2))
+%     subplot(3,3,3)
+%         plot(t,F(:,3))
+% %     subplot(3,1,1)
+% %         plot(t,F(:,1))
+    
 end
