@@ -28,7 +28,7 @@ x_opt_total = inf;
                 [x_opt, ~] = Ar_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
 
         end
-                
+          % !!!!!!!!!!!!!!!!!!!      
         if x_opt<x_opt_total
             x_opt_total = x_opt;
        end

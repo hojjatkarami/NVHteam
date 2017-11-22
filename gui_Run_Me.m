@@ -26,7 +26,7 @@ tb = uicontrol('style','text');
 set(tb,'Units','normalized','Position',[.05 .05 .9 .9],'String','starting...',...
         'HorizontalAlignment','left','FontSize',10);
 
-%% Parameters %%
+%% 
 load(['SavedResults/','gui_curr.mat']);
 load(['SavedResults/',gui_curr.input_name]);
 cmd('input file loaded');
@@ -49,15 +49,15 @@ for j=1:4
         h = read_mat(h,g,h_stage,j);
         
         h = run(h,j);
-        tic
+        
         ss = h.stage(j).x_opt;
         h.stage(j).results = Result_Calc(h.stage(j),h.eng);
-toc
+
 end
-tic
+
 
 h.stage0.results = Result_Calc(h.stage0,h.eng);
-toc
+
 h.N = N;
 q=save_mat(h);
 eval([h.name,'_res=q;']);

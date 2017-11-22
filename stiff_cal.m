@@ -2,12 +2,12 @@ function [K_e,C_e,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,index)
 
 global StiffLocBody
 
-kLocBody_1 = StiffLocBody.k1(:,index);
-kLocBody_2 = StiffLocBody.k2(:,index);
-kLocBody_3 = StiffLocBody.k3(:,index);
-cLocBody_1 = StiffLocBody.c1(:,index);
-cLocBody_2 = StiffLocBody.c2(:,index);
-cLocBody_3 = StiffLocBody.c3(:,index);
+% kLocBody_1 = StiffLocBody.k1(:,index);
+% kLocBody_2 = StiffLocBody.k2(:,index);
+% kLocBody_3 = StiffLocBody.k3(:,index);
+% cLocBody_1 = StiffLocBody.c1(:,index);
+% cLocBody_2 = StiffLocBody.c2(:,index);
+% cLocBody_3 = StiffLocBody.c3(:,index);
 
 r_1 = x(1:3);
 r_2 = x(4:6);
@@ -46,37 +46,37 @@ A_3 = [cos(o_3(3))*cos(o_3(2)) -sin(o_3(3))*cos(o_3(1))+cos(o_3(3))*sin(o_3(2))*
 
 % Stiffness
 k_1 = A_1*k_l_1*A_1';
-for i =1:3
-    k_1(i,i) = (k_1(i,i)*kLocBody_1(i))/(k_1(i,i)+kLocBody_1(i));
-end
+% for i =1:3
+%     k_1(i,i) = (k_1(i,i)*kLocBody_1(i))/(k_1(i,i)+kLocBody_1(i));
+% end
 
 k_2 = A_2*k_l_2*A_2';
-for i =1:3
-    k_2(i,i) = (k_2(i,i)*kLocBody_2(i))/(k_2(i,i)+kLocBody_2(i));
-end
+% for i =1:3
+%     k_2(i,i) = (k_2(i,i)*kLocBody_2(i))/(k_2(i,i)+kLocBody_2(i));
+% end
 
 k_3 = A_3*k_l_3*A_3';
-for i =1:3
-    k_3(i,i) = (k_3(i,i)*kLocBody_3(i))/(k_3(i,i)+kLocBody_3(i));
-end
+% % for i =1:3
+% %     k_3(i,i) = (k_3(i,i)*kLocBody_3(i))/(k_3(i,i)+kLocBody_3(i));
+% end
 
 K = [k_1 k_1*B_1' ; (k_1*B_1')' B_1*k_1*B_1'] + [k_2 k_2*B_2' ; (k_2*B_2')' B_2*k_2*B_2'] + [k_3 k_3*B_3' ; (k_3*B_3')' B_3*k_3*B_3'];
 
 % Damping
 c_1 = A_1*c_l_1*A_1';
-for i =1:3
-    c_1(i,i) = (c_1(i,i)*cLocBody_1(i))/(c_1(i,i)+cLocBody_1(i));
-end
+% for i =1:3
+%     c_1(i,i) = (c_1(i,i)*cLocBody_1(i))/(c_1(i,i)+cLocBody_1(i));
+% end
 
 c_2 = A_2*c_l_2*A_2';
-for i =1:3
-    c_2(i,i) = (c_2(i,i)*cLocBody_2(i))/(c_2(i,i)+cLocBody_2(i));
-end
+% for i =1:3
+%     c_2(i,i) = (c_2(i,i)*cLocBody_2(i))/(c_2(i,i)+cLocBody_2(i));
+% end
 
 c_3 = A_3*c_l_3*A_3';
-for i =1:3
-    c_3(i,i) = (c_3(i,i)*cLocBody_3(i))/(c_3(i,i)+cLocBody_3(i));
-end
+% for i =1:3
+%     c_3(i,i) = (c_3(i,i)*cLocBody_3(i))/(c_3(i,i)+cLocBody_3(i));
+% end
 
 C = [c_1 c_1*B_1' ; (c_1*B_1')' B_1*c_1*B_1'] + [c_2 c_2*B_2' ; (c_2*B_2')' B_2*c_2*B_2'] + [c_3 c_3*B_3' ; (c_3*B_3')' B_3*c_3*B_3'];
 
