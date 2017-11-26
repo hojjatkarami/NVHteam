@@ -256,7 +256,7 @@ h.stage(j).option.Mass = h.eng.M_e;
 h.stage(j).option.DeltaStatic = h.stage(j).DeltaStatic;
 
 h.stage(j).option.TRAWeight = 0.9;
-h.stage(j).option.TFWeight = 0.9;
+h.stage(j).option.TFWeight = 0.7;
 h.stage(j).option.TAWeight = 0.9;
 h.stage(j).option.ArWeight = 0.9;
 h.stage(j).option.KEDWeight = 0.1;

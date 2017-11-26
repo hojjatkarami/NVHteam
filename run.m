@@ -13,23 +13,24 @@ function h_new = run(h_old,j)
     F_zero = find(F==0);
     lb = stage1.lb(F_zero);
     ub = stage1.ub(F_zero);
-x_opt_total = inf;
+f_val_total = inf;
     for k=1:h_old.stage(j).option.repeat
 
         switch h_old.stage(j).type
 
             case 'TRA'
-                [x_opt, ~] = TRA_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
+                [x_opt, fval] = TRA_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
             case 'TF'
-                [x_opt, ~] = TF_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
+                [x_opt, fval] = TF_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
             case 'TA'
-                [x_opt, ~] = TA_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
+                [x_opt, fval] = TA_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
             case 'Ar'
-                [x_opt, ~] = Ar_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
+                [x_opt, fval] = Ar_Optimizer(h_old.stage(j).option,n,T,F,x_init,T1,lb,ub);
 
         end
           % !!!!!!!!!!!!!!!!!!!      
-        if x_opt<x_opt_total
+        if fval<f_val_total
+            f_val_total = fval;
             x_opt_total = x_opt;
        end
 
