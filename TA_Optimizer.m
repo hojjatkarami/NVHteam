@@ -13,21 +13,21 @@ cmd('TA PSO started...')
 [x_opt3,Fval] = particleswarm(FitnessFcn3,n,lb,ub,TA_PSOoptions);
 %% Hybrid fmincon
 
-% options
-cmd('fmincon options are being set...')
-fminconOptions = optimoptions(@fmincon,'PlotFcn',{@optimplotfval},'Display','iter','MaxFunctionEvaluations',option.MaxFuncEval);
-
-% start
-cmd('fmincon hybrid started');
-
-FitnessFcn33 =@(x) obj_TA(x,T,F,x_init,T1, option.TA_CompSelector, option.TA_OptTypeSelector,...
-                        option.rpm, option.torque, option.Mass,...
-                        option.FreqLowerBound,option.FreqUpperBound,...
-                        option.SuspensionStruct, option.TAWeight, option.KEDWeight, option.PenFuncWeight);
-
-x_opt = fmincon(FitnessFcn33,x_opt3,[],[],[],[],lb,ub,...
-    @(x) nlcn(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, option.DeltaStatic,option.StaticTests),fminconOptions);
-
-
+% % options
+% cmd('fmincon options are being set...')
+% fminconOptions = optimoptions(@fmincon,'PlotFcn',{@optimplotfval},'Display','iter','MaxFunctionEvaluations',option.MaxFuncEval);
+% 
+% % start
+% cmd('fmincon hybrid started');
+% 
+% FitnessFcn33 =@(x) obj_TA(x,T,F,x_init,T1, option.TA_CompSelector, option.TA_OptTypeSelector,...
+%                         option.rpm, option.torque, option.Mass,...
+%                         option.FreqLowerBound,option.FreqUpperBound,...
+%                         option.SuspensionStruct, option.TAWeight, option.KEDWeight, option.PenFuncWeight);
+% 
+% x_opt = fmincon(FitnessFcn33,x_opt3,[],[],[],[],lb,ub,...
+%     @(x) nlcn(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, option.DeltaStatic,option.StaticTests),fminconOptions);
+% 
+% 
 
 end

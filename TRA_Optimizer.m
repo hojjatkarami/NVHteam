@@ -30,5 +30,4 @@ x_Opt=x_opt1;
 % % TRA_pure = obj_TRA(x_Opt,T,F,x_init,T1, option.Mass, 1, 0, 0);
 % % cmd(['pure TRA value is : ',num2str(TRA_pure)]);         
 
-
 end
