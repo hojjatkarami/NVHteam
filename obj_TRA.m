@@ -11,6 +11,7 @@ function F = obj_TRA(x,T,F,x_init,T1,  M_e,f_nat_lb,f_nat_ub, a, b, d)
 % dd=T1*x'
 
 x = T * (F .* x_init + T1*x');
+
 [K_e,C_e] = stiff_cal(x,1);
 w_k_TRA = x(40);
 w_c_TRA = x(41);

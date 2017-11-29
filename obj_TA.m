@@ -51,24 +51,16 @@ q_hat = (-w(i)^2*M_v+1i*w(i)*C_v+K_v)^(-1)*[zeros(11,1); f(i);0;0];
         %     E = E + heaviside(max(KEF(:,j))-85)^2;           % Must be changed
     end
     
+    % f_nat_lb = 1.05*[7;7;9;11;11;0];
+    % f_nat_ub = 0.95*[100;100;11;14;14;18];
     f_nat = NF_Calculator(x,M_e(1:6,1:6));
-    
+        
     for j = 1:6
         P_low = heaviside(f_nat_lb(j)-f_nat(j))*(f_nat_lb(j)-f_nat(j));
         P_High = heaviside(f_nat(j)-f_nat_ub(j))*(f_nat(j)-f_nat_ub(j));
         D = D + P_low + P_High;
     end
     
-end
-
-% f_nat_lb = 1.05*[7;7;9;11;11;0];
-% f_nat_ub = 0.95*[100;100;11;14;14;18];
-f_nat = NF_Calculator(x,M_e);
-
-for j = 1:6
-    P_low = heaviside(f_nat_lb(j)-f_nat(j))*(f_nat_lb(j)-f_nat(j));
-    P_High = heaviside(f_nat(j)-f_nat_ub(j))*(f_nat(j)-f_nat_ub(j));
-    D = D + P_low + P_High;
 end
 
 F = a*A + b*E + d*D;
