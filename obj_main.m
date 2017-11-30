@@ -15,8 +15,12 @@ end
 % disp('TF')
     end
     if obj.TA.value == 1
-    Fval_total = Fval_total + obj.TA.weight * obj_TA_pure(x,obj.TF.dir, obj.TF.method, rpm, torque, M,sus);
+    Fval_total = Fval_total + obj.TA.weight * obj_TA_pure(x,obj.TA.dir, obj.TA.method, rpm, torque, M,sus);
 % disp('TA')
+    end
+    if obj.Ar.value == 1
+    Fval_total = Fval_total + obj.Ar.weight * obj_Ar_pure(x,obj.Ar.dir, obj.Ar.method, rpm, torque, M,sus);
+% disp('Ar')
     end
 if obj.NF.value == 1
     Fval_total = Fval_total + obj.NF.weight * obj_NF(x, M,obj.NF.lb_freq',obj.NF.ub_freq');

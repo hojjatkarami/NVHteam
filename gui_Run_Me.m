@@ -52,13 +52,13 @@ for j=1:4
         
         ss = h.stage(j).x_opt;
 %         h.stage(j).results = Result_Calc(h.stage(j),h.eng);
-        h.stage(j).results = Result_Calc2(h.stage(j).x_opt,h.eng, h.obj);
+        h.stage(j).results = Result_Calc2(h.stage(j).x_opt,h.eng,h.sus, h.obj);
 
 end
 
 
 % h.stage0.results = Result_Calc(h.stage0,h.eng);
-h.stage0.results = Result_Calc2(h.stage0.x_opt,h.eng, h.obj);
+h.stage0.results = Result_Calc2(h.stage0.x_opt,h.eng,h.sus, h.obj);
 
 h.N = N;
 q=save_mat(h);
