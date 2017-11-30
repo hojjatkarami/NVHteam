@@ -20,7 +20,7 @@ B_3 = [0 -R_3(3) R_3(2) ; R_3(3) 0 -R_3(1) ; -R_3(2) R_3(1) 0];
 
 [M_v,C_v,K_v] = BodyParameters(x,sus,M_e);
 
-A = 0; E = 0; D = 0;
+A = 0; E = 0; G = 0;
 lng = length(w);
 
 for i=1:lng
@@ -45,22 +45,17 @@ q_hat = (-w(i)^2*M_v+1i*w(i)*C_v+K_v)^(-1)*[zeros(11,1); f(i);0;0];
     
     [K,~] = stiff_cal(x,i);
     KEF = KEF_cal(K,M_e(1:6,1:6));
+    KED = max(KEF)';
+    dif = KEDcr*ones(6,1)-KED;
+    E = E + heaviside(dif)'*dif;
     
-    for j = 1:6
-        E = E + (100-max(KEF(:,j)))^2;
-        %     E = E + heaviside(max(KEF(:,j))-85)^2;           % Must be changed
-    end
-    
-    % f_nat_lb = 1.05*[7;7;9;11;11;0];
-    % f_nat_ub = 0.95*[100;100;11;14;14;18];
     f_nat = NF_Calculator(x,M_e(1:6,1:6));
-        
-    for j = 1:6
-        P_low = heaviside(f_nat_lb(j)-f_nat(j))*(f_nat_lb(j)-f_nat(j));
-        P_High = heaviside(f_nat(j)-f_nat_ub(j))*(f_nat(j)-f_nat_ub(j));
-        D = D + P_low + P_High;
-    end
+    dif_lb = f_nat_lb - f_nat;
+    dif_ub = f_nat - f_nat_ub;
+    P_low = heaviside(dif_lb)'*dif_lb;
+    P_High = heaviside(dif_ub)'*dif_ub;
+    G =  G + P_low + P_High;
     
 end
 
-F = a*A + b*E + d*D;
+F = a*A + b*E + d*G;
