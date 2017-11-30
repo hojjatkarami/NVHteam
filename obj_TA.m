@@ -32,9 +32,9 @@ q_hat = (-w(i)^2*M_v+1i*w(i)*C_v+K_v)^(-1)*[zeros(11,1); f(i);0;0];
 %                         abs((-w(i)^2*([zeros(1,4) 1 zeros(1,8)]-[zeros(1,6) R_2(1) zeros(1,6)]+[zeros(1,5) R_2(2) zeros(1,7)])*q_hat)); ...
 %                         abs((-w(i)^2*([zeros(1,4) 1 zeros(1,8)]-[zeros(1,6) R_3(1) zeros(1,6)]+[zeros(1,5) R_3(2) zeros(1,7)])*q_hat))];
 
-    aB_1 = [eye(3) B_1']*[0;0;q_hat(5:7);0];
-    aB_2 = [eye(3) B_2']*[0;0;q_hat(5:7);0];
-    aB_3 = [eye(3) B_3']*[0;0;q_hat(5:7);0];
+    aB_1 = w(i)^2*[eye(3) B_1']*[0;0;q_hat(5:7);0];
+    aB_2 = w(i)^2*[eye(3) B_2']*[0;0;q_hat(5:7);0];
+    aB_3 = w(i)^2*[eye(3) B_3']*[0;0;q_hat(5:7);0];
     
   Temp_A = ComponentSelector.*[abs(aB_1(1)) abs(aB_1(2)) abs(aB_1(3)) abs(aB_1);
                                                           abs(aB_2(1)) abs(aB_2(2)) abs(aB_2(3)) abs(aB_2);
