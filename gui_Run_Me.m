@@ -1,4 +1,4 @@
-%% In the name of Allah the beneficent the merciful
+ %% In the name of Allah the beneficent the merciful
 % This Code is the core of NVE Application
 % The code is written by NVE Team on 1396/05/21
 
