@@ -153,6 +153,8 @@ h.mount.lb_c_3 = g.mount.lb_c_3' .*1000;
 h.mount.ub_c_1 = g.mount.ub_c_1' .*1000;
 h.mount.ub_c_2 = g.mount.ub_c_2' .*1000;
 h.mount.ub_c_3 = g.mount.ub_c_3' .*1000;
+%%
+h.obj = f.obj;
 %% Mode frequency bounds
 h.stage(j).lb_freq = f.lb_freq';
 h.stage(j).ub_freq = f.ub_freq';

@@ -28,7 +28,7 @@ Res.KED = KEF_cal(K(1:6,1:6),Res.Mass(1:6,1:6));
 Res.Freq = NF_Calculator(stage.x_opt, Res.Mass(1:6,1:6));
 
 
-Res.val_TRA = obj_TRA(x_opt_partial',T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, 1, 0, 0);
+%Res.val_TRA = obj_TRA(x_opt_partial',T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound, 1, 0, 0);
 % Res.val_TF = obj_TF(x_opt_partial',T,F,x_init,T1 ,option.TF_CompSelector, option.TF_OptTypeSelector, option.rpm,...
 %                             option.torque, option.Mass, 1, 0,0);
 % Res.val_TA = obj_TF(x_opt_partial',T,F,x_init,T1 ,option.TA_CompSelector, option.TA_OptTypeSelector, option.rpm,...
