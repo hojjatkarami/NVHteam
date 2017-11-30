@@ -1,14 +1,4 @@
 function Fval = obj_TRA_pure(x, M_e, K_e)
-% 960906 Code Readed
-% Code must be changed
-% C-w^2*M has no meaning
-
-% xx=size(x)
-% t11=size(T1)
-% xin=size(x_init)
-% ff=size(F)
-% tt=size(T)
-% dd=T1*x'
 
 w_k_TRA = x(40);
 

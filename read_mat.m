@@ -233,6 +233,11 @@ h.stage0.T1 = T1;
 h.stage0.F = F;
 h.stage0.x_opt_partial = h.stage0.x_opt(find(F==0));
 %%  %%
+a=h.obj.ST.DeltaStatic;
+h.obj.ST.DeltaStatic = [a(1)/1000 , a(2)/1000 , a(3)/1000 , a(4) / 180/pi , a(5) / 180/pi , a(6) / 180/pi]';
+
+
+
 a=f.DeltaStatic;
 h.stage(j).DeltaStatic = [a(1)/1000 , a(2)/1000 , a(3)/1000 , a(4) / 180/pi , a(5) / 180/pi , a(6) / 180/pi]';
 h.stage(j).KED = f.KED;

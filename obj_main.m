@@ -23,5 +23,9 @@ if obj.KED.value == 1
 % disp('KED')
 end
 
+if obj.ST.value == 1
+    Fval_total = Fval_total + obj.ST.weight * obj_ST(x,M,K_e, obj.ST.DeltaStatic, obj.ST.StaticTests, 1.5);
+% disp('ST')
+end
 
 end
