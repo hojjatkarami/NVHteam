@@ -12,7 +12,7 @@ function h_new = run2(h_old,j)
     
     for k=1:h_old.stage(j).option.repeat
         
-        [x_opt, fval] = Optimizer(h_old.obj,h_old.stage(j).option,n,T,F,x_init,T1,lb,ub,h_old.eng.rpm,h_old.eng.torque,h_old.eng.M);
+        [x_opt, fval] = Optimizer(h_old.obj,h_old.stage(j).option,n,T,F,x_init,T1,lb,ub,h_old.eng.rpm,h_old.eng.torque,h_old.eng.M,h_old.sus);
               
         if fval<f_val_total
             f_val_total = fval;
