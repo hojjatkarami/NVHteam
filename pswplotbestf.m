@@ -44,7 +44,7 @@ switch state
         newY = [get(plotBest,'Ydata') optimValues.bestfval];
         set(plotBest,'Xdata',newX, 'Ydata',newY);
         set(get(gca,'Title'),'String',sprintf('Best Function Value: %g',optimValues.bestfval));
-        ylim([0 optimValues.bestfval *10]);
+        ylim([0 optimValues.bestfval *10+.1]);
     case 'done'
         % No clean up tasks required for this plot function.        
 end    

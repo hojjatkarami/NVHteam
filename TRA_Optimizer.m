@@ -8,8 +8,8 @@ PSOoptions = optimoptions(@particleswarm,'PlotFcn',{@pswplotbestf},'SwarmSize',o
 
 % start
 
-FitnessFcn1 = @(x) obj_TRA(x,T,F,x_init,T1, option.Mass, option.FreqLowerBound, option.FreqUpperBound,...
-                            option.TRAWeight, option.KEDWeight, option.PenFuncWeight);
+FitnessFcn1 = @(x) obj_TRA2(x,T,F,x_init,T1, option.Mass);%, option.FreqLowerBound, option.FreqUpperBound,...
+%                             option.TRAWeight, option.KEDWeight, option.PenFuncWeight);
 cmd('TRA PSO started...')
 [x_opt1,fval] = particleswarm(FitnessFcn1,n,lb,ub,PSOoptions);
 cmd(['TRA value is : ',num2str(fval)]);
