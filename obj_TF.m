@@ -10,19 +10,19 @@ B_1 = [0 -r_1(3) r_1(2) ; r_1(3) 0 -r_1(1) ; -r_1(2) r_1(1) 0];       %Cross Pro
 B_2 = [0 -r_2(3) r_2(2) ; r_2(3) 0 -r_2(1) ; -r_2(2) r_2(1) 0];
 B_3 = [0 -r_3(3) r_3(2) ; r_3(3) 0 -r_3(1) ; -r_3(2) r_3(1) 0];
 
-[K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,1);
-    K=K(1:6,1:6);
-    C=C(1:6,1:6);
-
-    M=M(1:6,1:6);
+M=M(1:6,1:6);
 
 lng = length(w);
 % F_h_1 = zeros(3,lng); F_h_2 = F_h_1; F_h_3 = F_h_1; 
 
-A = 0;  E = 0; D = 0;
+A = 0;  E = 0; G = 0;
 
 for i=1:lng
    
+    [K,C,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,i);
+    K=K(1:6,1:6);
+    C=C(1:6,1:6);
+    
     Torque = [0;0;0;0;f(i);0];
     
     F_hat_1 = ((1i*w(i)*c_1+k_1)*[eye(3) B_1']*(-w(i)^2*M+1i*w(i)*C+K)^(-1)*Torque);  % transpose???
@@ -36,21 +36,18 @@ for i=1:lng
     Temp_A = OptTypeSelector * [max(max(Temp_A)); sum(sum(Temp_A))];
     A = A + Temp_A;
     
-    KEF = KEF_cal(K,M);
-
-    for j = 1:6
-        E = E + (100-max(KEF(:,j)))^2;
-        %     E = E + heaviside(max(KEF(:,j))-85)^2;           % Must be changed
-    end
-
-f_nat = NF_Calculator(x,M(1:6,1:6));
-
-for j = 1:6
-    P_low = heaviside(f_nat_lb(j)-f_nat(j))*(f_nat_lb(j)-f_nat(j));
-    P_High = heaviside(f_nat(j)-f_nat_ub(j))*(f_nat(j)-f_nat_ub(j));
-    D = D + P_low + P_High;
-end
+    KEF = KEF_cal(K,M(1:6,1:6));
+    KED = max(KEF)';
+    dif = KEDcr*ones(6,1)-KED;
+    E = E + heaviside(dif)'*dif;
+    
+    f_nat = NF_Calculator(x,M_e(1:6,1:6));
+    dif_lb = f_nat_lb - f_nat;
+    dif_ub = f_nat - f_nat_ub;
+    P_low = heaviside(dif_lb)'*dif_lb;
+    P_High = heaviside(dif_ub)'*dif_ub;
+    G =  G + P_low + P_High;
 
 end
 
-F = a*A + b*E + d*D;
+F = a*A + b*E + d*G;
