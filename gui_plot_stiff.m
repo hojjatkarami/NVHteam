@@ -47,7 +47,7 @@ function gui_plot_stiff(h,name)
 %     end
     ylabel('Stiffness (N/mm)')
     xlim([0 10]);
-    ylim([10 450]);
+    ylim([10 max(h.stage0.ub(19:27)/1000 +10)]);
     xticks(1:9);
     xticklabels({'Mount1:k_x' , 'Mount1:k_y' , 'Mount1:k_z',...
                  'Mount2:k_x' , 'Mount2:k_y' , 'Mount2:k_z',...
