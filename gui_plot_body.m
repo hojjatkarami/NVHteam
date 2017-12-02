@@ -40,17 +40,17 @@ fac = [1 2 3 4;
 lb = [h.mount.lb_r_1; h.mount.lb_r_2;h.mount.lb_r_3;...
                ];
 ub = [h.mount.ub_r_1; h.mount.ub_r_2; h.mount.ub_r_3;...
-               ];
+               ]
 X=max(abs([ub(1),ub(4),ub(7),lb(1),lb(4),lb(7)]));
 Y=max(abs([ub(2),ub(5),ub(8),lb(2),lb(5),lb(8)]));
 Z=max(abs([ub(3),ub(6),ub(9),lb(3),lb(6),lb(9)]));
 X=400;Y=600;Z=300;
-cm_eng=h.sus.E_cm .* [-1 1 1];
+cm_eng=rotz(180) * h.sus.E_cm';
 
 line([0 -100], [0 0], [0 0 ],'color','blue', 'HandleVisibility','off');
-line([0 0], [0 100], [0 0 ],'color','blue', 'HandleVisibility','off');
+line([0 0], [0 -100], [0 0 ],'color','blue', 'HandleVisibility','off');
 line([0 0], [0 0], [0 100 ],'color','blue', 'HandleVisibility','off');
-text([-110 0 0],[0 110 0],[0 0 110],['+X';'+Y';'+Z'],'FontSize',5);
+text([-110 0 0],[0 -110 0],[0 0 110],['+X';'+Y';'+Z'],'FontSize',5);
 
 line([cm_eng(1),cm_eng(1)-100], [cm_eng(2),cm_eng(2)], [cm_eng(3),cm_eng(3)],'color','blue', 'HandleVisibility','off');
 line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)+100], [cm_eng(3),cm_eng(3)],'color','blue', 'HandleVisibility','off');

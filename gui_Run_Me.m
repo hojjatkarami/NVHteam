@@ -48,17 +48,17 @@ for j=1:4
         h_stage = eval(stage_name);   %handle to stage file
         h = read_mat(h,g,h_stage,j);
         
-        h = run2(h,j);
+        h = run3(h,j);
         
         ss = h.stage(j).x_opt;
 %         h.stage(j).results = Result_Calc(h.stage(j),h.eng);
-        h.stage(j).results = Result_Calc2(h.stage(j).x_opt,h.eng, h.obj);
+        h.stage(j).results = Result_Calc2(h.stage(j).x_opt,h.eng,h.sus, h.obj);
 
 end
 
 
 % h.stage0.results = Result_Calc(h.stage0,h.eng);
-h.stage0.results = Result_Calc2(h.stage0.x_opt,h.eng, h.obj);
+h.stage0.results = Result_Calc2(h.stage0.x_opt,h.eng,h.sus, h.obj);
 
 h.N = N;
 q=save_mat(h);

@@ -13,7 +13,7 @@ function gui_plot_stiff(h,name)
     y_ub = h.stage(i).ub(19:27)'/1000-y;
     y_lb = y-h.stage(i).lb(19:27)'/1000;
     errorbar(x,y,y_lb,y_ub,'o');
-    leg = [leg;string(['Stage ',num2str(i),'>>', h.stage(i).type])];    
+    leg = [leg;string(['Stage ',num2str(i),'>>', h.stage(i).stage_name])];    
         
     end
     

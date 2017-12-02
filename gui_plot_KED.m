@@ -16,11 +16,11 @@ leg="initial";
 for i=1:h.N
    
    y=[y,max(h.stage(i).results.KED)'];
-   leg=[leg;string(['Stage ',num2str(i),' >> ',h.stage(i).type])];
+   leg=[leg;string(['Stage ',num2str(i),' >> ',h.stage(i).stage_name])];
 end
 
 bar(y)
 y
-line([0 7],[h.stage(1).KED  h.stage(1).KED],'color','red');
-leg=[leg;string([num2str(h.stage(1).KED),' % Criteria'])];
+line([0 7],[h.stage(1).obj.KED.percent  h.stage(1).obj.KED.percent],'color','red');
+leg=[leg;string([num2str(h.stage(1).obj.KED.percent),' % Criteria'])];
 legend(leg)

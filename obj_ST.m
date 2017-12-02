@@ -26,7 +26,7 @@ stc = max(stc_Mat,[],2);
 
 
 B = stc - delta_s;
-Fval = heaviside(B)'*B
+Fval = heaviside(B)'*B;
 
 
 
