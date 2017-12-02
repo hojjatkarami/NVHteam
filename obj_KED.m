@@ -1,10 +1,9 @@
-function Fval = obj_KED(K_e, M_e)
+function Fval = obj_KED(K_e, M_e,KED_cr)
 
     KEF = KEF_cal(K_e(1:6,1:6),M_e(1:6,1:6));
-
-    Fval = 0;
-    for j = 1:6
-%         Fval = Fval + (100-max(KEF(:,j)))^2;
-        Fval = Fval + heaviside(max(KEF(:,j))-85)^2;           % Must be changed
-    end
+    KED = max(KEF)';
+    dif = KED_cr*ones(6,1) - KED;
+    Fval = heaviside(dif)' * dif;
+    
+  
 end

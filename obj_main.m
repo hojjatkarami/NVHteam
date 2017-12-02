@@ -27,7 +27,7 @@ if obj.NF.value == 1
 % disp('NF')
 end
 if obj.KED.value == 1
-    Fval_total = Fval_total + obj.KED.weight * obj_KED(K_e, M);
+    Fval_total = Fval_total + obj.KED.weight * obj_KED(K_e, M, obj.KED.percent);
 % disp('KED')
 end
 

@@ -3,17 +3,28 @@ function gui_plot_loc(h,name)
 
 
     figure(11)
-    eng_com = [h.sus.E_cm;h.sus.E_cm;h.sus.E_cm] .* [-1,1,1;-1,1,1;-1,1,1]
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
+    eng_com = [h.sus.E_cm;h.sus.E_cm;h.sus.E_cm] .* [-1,1,1;-1,1,1;-1,1,1]
+    cm_eng=rotz(180) * h.sus.E_cm';
     mount_plane=[1 2 3];
     pos = [h.stage0.x_opt(1:3)';    h.stage0.x_opt(4:6)';   h.stage0.x_opt(7:9)'] * 1000;
-        mount_pos = eng_com + pos .* [-1,1,1;-1,1,1;-1,1,1];
+        
+        pos_mount1 = rotz(0) * (h.sus.E_cm' + h.stage0.x_opt(1:3)*1e3 );
+        pos_mount2 = rotz(0) * (h.sus.E_cm' + h.stage0.x_opt(4:6)*1e3 );
+        pos_mount3 = rotz(0) * (h.sus.E_cm' + h.stage0.x_opt(7:9)*1e3 );
+        mount_pos = [pos_mount1'; pos_mount2';pos_mount3'];
         patch('Faces',mount_plane,'Vertices',mount_pos,'FaceColor',rand(1,3),'DisplayName',[name,' : initial ']);
 
     for i=1:h.N
-        pos = [h.stage(i).x_opt(1:3)';    h.stage(i).x_opt(4:6)';   h.stage(i).x_opt(7:9)'] * 1000;
-        mount_pos = eng_com + pos .* [-1,1,1;-1,1,1;-1,1,1];
-        patch('Faces',mount_plane,'Vertices',mount_pos,'FaceColor',rand(1,3),'DisplayName',[name,' : STAGE ',num2str(i),' > ',h.stage(i).type]);
+%         pos = [h.stage(i).x_opt(1:3)';    h.stage(i).x_opt(4:6)';   h.stage(i).x_opt(7:9)'] * 1000;
+        pos_mount1 = rotz(0) * (h.sus.E_cm' + h.stage(i).x_opt(1:3)*1e3 );
+        pos_mount2 = rotz(0) * (h.sus.E_cm' + h.stage(i).x_opt(4:6)*1e3 );
+        pos_mount3 = rotz(0) * (h.sus.E_cm' + h.stage(i).x_opt(7:9)*1e3 );
+        mount_pos = [pos_mount1'; pos_mount2';pos_mount3'];
+        patch('Faces',mount_plane,'Vertices',mount_pos,'FaceColor',rand(1,3),'DisplayName',[name,' : STAGE ',num2str(i),' > ',h.stage(i).stage_name]);
 %         leg = [leg;string([name,' : STAGE ',num2str(i),' > ',h.stage(i).type])];
 %         legend(handle,string([name,' : STAGE ',num2str(i),' > ',h.stage(i).type]));
         

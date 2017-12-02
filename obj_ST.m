@@ -25,7 +25,8 @@ stc_Mat = (abs((K(1:6,1:6)/st2dy)^(-1))) * mg * [mat';zeros(3,size(mat,1))];
 stc = max(stc_Mat,[],2);
 
 
-B = stc - delta_s;
+B = stc - delta_s';
+
 Fval = heaviside(B)'*B;
 
 

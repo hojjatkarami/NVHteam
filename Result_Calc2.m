@@ -26,6 +26,6 @@ Res.val_TF = obj_TF_pure(x,obj.TF.dir, obj.TF.method, eng.rpm, eng.torque, Res.M
 Res.val_TA = obj_TA_pure(x,obj.TA.dir, obj.TA.method, eng.rpm, eng.torque, Res.Mass(1:6,1:6),sus);
 Res.val_Ar = obj_Ar_pure(x,obj.Ar.dir, obj.Ar.method, eng.rpm, eng.torque, Res.Mass(1:6,1:6),sus);
 Res.val_NF = obj_NF(x,  Res.Mass(1:6,1:6),obj.NF.lb_freq',obj.NF.ub_freq');
-Res.val_KED = obj_KED(K(1:6,1:6),  Res.Mass(1:6,1:6));
+Res.val_KED = obj_KED(K(1:6,1:6),  Res.Mass(1:6,1:6),obj.KED.percent);
 Res.val_ST = obj_ST(x,Res.Mass(1:6,1:6),K(1:6,1:6), obj.ST.DeltaStatic, obj.ST.StaticTests, 1.5);
 
