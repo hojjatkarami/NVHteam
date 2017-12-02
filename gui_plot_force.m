@@ -21,7 +21,7 @@ function gui_plot_force(h,name)
         x=[1:9] + .1*(i-1);
         y_rms=rms(h.stage(i).results.F,1);
         y_max=max(h.stage(i).results.F);
-        leg = [leg;string(['Stage ',num2str(i),' >> ',h.stage(i).type])];
+        leg = [leg;string(['Stage ',num2str(i),' >> ',h.stage(i).stage_name])];
         subplot(2,1,1)
         bar(x,y_rms,width,char(color(i)))
         subplot(2,1,2)

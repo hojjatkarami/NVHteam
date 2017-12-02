@@ -48,7 +48,7 @@ for j=1:4
         h_stage = eval(stage_name);   %handle to stage file
         h = read_mat(h,g,h_stage,j);
         
-        h = run2(h,j);
+        h = run3(h,j);
         
         ss = h.stage(j).x_opt;
 %         h.stage(j).results = Result_Calc(h.stage(j),h.eng);
