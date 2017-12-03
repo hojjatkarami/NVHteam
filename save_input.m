@@ -44,7 +44,10 @@ h.sus.kt4 = app.TireStiffnessEditField.Value;
  h.StiffLocBody.k3 = [num(:,1),num(:,16:18)];
  h.StiffLocBody.c3 = [num(:,1),num(:,19:21)];
 
-h.sus.E_cm = eval(app.COMofEnginexyzinmmEditField.Value);
+h.sus.E_cm = eval(app.COMofEngineEditField.Value);
+h.sus.trans = eval(app.TranslationEditField.Value);
+h.sus.rotz = app.RotationaboutZEditField.Value;
+
 h.eng.name = app.EngineNameEditField.Value;
 h.eng.model = app.EngineModelEditField.Value;
 % h.eng.tire = app.ModelEditField.Value;

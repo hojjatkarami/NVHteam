@@ -45,7 +45,14 @@ X=max(abs([ub(1),ub(4),ub(7),lb(1),lb(4),lb(7)]));
 Y=max(abs([ub(2),ub(5),ub(8),lb(2),lb(5),lb(8)]));
 Z=max(abs([ub(3),ub(6),ub(9),lb(3),lb(6),lb(9)]));
 X=400;Y=600;Z=300;
-cm_eng=rotz(180) * h.sus.E_cm';
+cm_eng = rotz(180) * (h.sus.trans' + rotz(str2num(h.sus.rotz)) * h.sus.E_cm');
+cs_custom = rotz(180) * (h.sus.trans');
+
+line([cs_custom(1),cs_custom(1)-100], [cs_custom(2),cs_custom(2)], [cs_custom(3),cs_custom(3)],'color','blue', 'HandleVisibility','off');
+line([cs_custom(1),cs_custom(1)], [cs_custom(2),cs_custom(2)-100], [cs_custom(3),cs_custom(3)],'color','blue', 'HandleVisibility','off');
+line([cs_custom(1),cs_custom(1)], [cs_custom(2),cs_custom(2)], [cs_custom(3),cs_custom(3)+100],'color','blue', 'HandleVisibility','off');
+text([cs_custom(1)-110 cs_custom(1) cs_custom(1)],[cs_custom(2) cs_custom(2)+110 cs_custom(2)],[cs_custom(3) cs_custom(3) cs_custom(3)+110],['+X';'+Y';'+Z'],'FontSize',5);
+
 
 line([0 -100], [0 0], [0 0 ],'color','blue', 'HandleVisibility','off');
 line([0 0], [0 -100], [0 0 ],'color','blue', 'HandleVisibility','off');
@@ -53,7 +60,7 @@ line([0 0], [0 0], [0 100 ],'color','blue', 'HandleVisibility','off');
 text([-110 0 0],[0 -110 0],[0 0 110],['+X';'+Y';'+Z'],'FontSize',5);
 
 line([cm_eng(1),cm_eng(1)-100], [cm_eng(2),cm_eng(2)], [cm_eng(3),cm_eng(3)],'color','blue', 'HandleVisibility','off');
-line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)+100], [cm_eng(3),cm_eng(3)],'color','blue', 'HandleVisibility','off');
+line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)-100], [cm_eng(3),cm_eng(3)],'color','blue', 'HandleVisibility','off');
 line([cm_eng(1),cm_eng(1)], [cm_eng(2),cm_eng(2)], [cm_eng(3),cm_eng(3)+100],'color','blue', 'HandleVisibility','off');
 text([cm_eng(1)-110 cm_eng(1) cm_eng(1)],[cm_eng(2) cm_eng(2)+110 cm_eng(2)],[cm_eng(3) cm_eng(3) cm_eng(3)+110],['+X';'+Y';'+Z'],'FontSize',5);
 
