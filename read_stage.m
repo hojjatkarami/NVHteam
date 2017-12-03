@@ -48,11 +48,11 @@ h.F = F;
 
    
     h.x_init = x_opt_previous;
-lb = (h.x_init - h.lb_purt .* ( h.x_init - lb_p));
-ub = (h.x_init + h.ub_purt .* ( ub_p - h.x_init));
-    F_zero = find(F==0);
-    h.lb = lb(F_zero);
-    h.ub = ub(F_zero);
+h.lb = (h.x_init - h.lb_purt .* ( h.x_init - lb_p));
+h.ub = (h.x_init + h.ub_purt .* ( ub_p - h.x_init));
+%     F_zero = find(F==0);
+%     h.lb = lb(F_zero);
+%     h.ub = ub(F_zero);
     
 %% PSO options
 h.pso.swarmsize = stage.swarmsize;

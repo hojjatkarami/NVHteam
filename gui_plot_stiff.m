@@ -7,11 +7,17 @@ function gui_plot_stiff(h,name)
     y_lb = y-h.stage0.lb(19:27)'/1000;
     errorbar(x,y,y_lb,y_ub,'o');
     leg = [string([name,' : initial'])];
+    
     for i=1:h.N
-    x=[1:9] + 0.1*i;
+%     ub = (h.stage(i).F .* h.stage0.ub) + h.stage(i).T1 .* h.stage(i).ub;
+%     lb = (h.stage(i).F .* h.stage0.lb) + h.stage(i).T1 .* h.stage(i).lb;
+%         
+        x=[1:9] + 0.1*i;
     y=h.stage(i).x_opt(19:27)'/1000;
     y_ub = h.stage(i).ub(19:27)'/1000-y;
     y_lb = y-h.stage(i).lb(19:27)'/1000;
+%     y_ub = ub'/1000-y;
+%     y_lb = y-lb'/1000;
     errorbar(x,y,y_lb,y_ub,'o');
     leg = [leg;string(['Stage ',num2str(i),'>>', h.stage(i).stage_name])];    
         
