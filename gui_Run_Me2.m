@@ -57,16 +57,20 @@ for j=1:4
         
         h.stage(j).x_opt = run2(h.stage(j),h.stage0,j);
         N=N+1;
-        
+%         a=j
+%         fsa = h.stage(j).x_opt(19)
         h.stage(j).results = Result_Calc2(h.stage(j).x_opt,h.stage0.eng,h.stage0.sus, h.stage(j).obj);
-        
+%         fsa = h.stage(1).x_opt(19)
         x_opt_previous = h.stage(j).x_opt;
         lb_p = h.stage(j).lb;
         ub_p = h.stage(j).ub;
+%         fsa = h.stage(1).x_opt(19)
 end
 
 h.stage0.results = Result_Calc2(h.stage0.x_opt,h.stage0.eng,h.stage0.sus, h.stage(1).obj);
 h.N = N;
+% fsa = h.stage(1).x_opt(19)
+        
 h_file.run(i) = save_mat2(h,h_input); 
 
 

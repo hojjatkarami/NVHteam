@@ -120,5 +120,6 @@ t2 = diag(T);   %vector : 1 for independent and 0 for dependent
 stage0.t1 = t1;
 stage0.T = T;
 stage0.t2 = t2;
-
+stage0.x_init = T * stage0.x_init;  
+stage0.x_opt = stage0.x_init;  
 end
