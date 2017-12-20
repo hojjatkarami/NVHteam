@@ -24,6 +24,9 @@ t_ub = h.ub_purt; %vector corresponding to purturbed values of each variable
 t_lb = h.lb_purt; %vector corresponding to purturbed values of each variable
 
 %%
+size(t1)
+size(t2)
+size(t_ub)
 F = (((t_ub+t_lb)~=0).*(t1) .* (t2))==0; % vector : 0 for bounded-independent-purturbed variables and 1 for others
 t3 = find(F==0); % vector of optimization indices which are bounded-independent-purturbed varibles
                             
