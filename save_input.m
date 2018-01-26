@@ -124,9 +124,9 @@ h.mount.lb_o_3 = eval(app.edit_mount3orilow.Value);
 
 h.stage0.t1 = app.t1;
 
-load(['SavedResults/','gui_curr']);
-load(['SavedResults/',gui_curr.input_name]);
-% delete(['SavedResults/',gui_curr.input_name]);
-gui_curr.input_name = [app.InputNameEditField.Value,'_inp'];
-eval([gui_curr.input_name,'=h;']);
-save(['SavedResults/',gui_curr.input_name,'.mat'],gui_curr.input_name);
+ load('SavedResults/gui_curr.mat');
+ load([gui_curr.input_PathName , gui_curr.input_FileName]);
+            
+gui_curr.input_FileName = [app.InputNameEditField.Value,'_inp.mat'];
+eval([gui_curr.input_FileName(1:end-4),'=h;']);
+save([gui_curr.input_PathName , gui_curr.input_FileName],gui_curr.input_FileName(1:end-4));

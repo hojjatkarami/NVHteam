@@ -1,5 +1,5 @@
 function gui_plot_Variation(h,name)
-
+disp('plot')
 ax=figure;    hold on; %stiffness figure
 ax.Name = [name,' >> Variation'];
 

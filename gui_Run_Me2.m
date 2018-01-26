@@ -1,4 +1,4 @@
-function gui_Run_Me2(input_name, opt_matrix,file_name,desc) 
+function gui_Run_Me2(input_FileName,input_PathName, opt_matrix,file_name,desc,folder_name) 
 %% In the name of Allah the beneficent the merciful
 % This Code is the core of NVE Application
 % The code is written by NVE Team on 1396/05/21
@@ -14,10 +14,10 @@ h_file.run_count = run_count;
 
 %% initialization
   
-load(['SavedResults/',input_name,'.mat']);
+load([input_PathName,input_FileName]);
 cmd('input file loaded');
 
-eval(['h_input = ',input_name]); %handle to input file
+eval(['h_input = ',input_FileName(1:end-4)]); %handle to input file
 h.stage0 = read_input(h_input);
 h_file.description = desc;
 
@@ -81,6 +81,7 @@ clear 'h' 'q'
 end
 c=[file_name,'_res'];
 eval([c ,'=h_file']);
-save(['SavedResults/',[h_file.file_name,'_res.mat']], c );
-cmd(['results saved in ',h_file.file_name,'_res.mat file']);
+[folder_name,[h_file.file_name,'_res.mat']]
+save([folder_name,'\',[h_file.file_name,'_res.mat']], c );
+cmd(['results saved in : ',[folder_name,[h_file.file_name,'_res.mat']]]);
 % End of Code

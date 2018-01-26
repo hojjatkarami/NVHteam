@@ -29,3 +29,4 @@ Res.val_NF = obj_NF(x,  Res.Mass(1:6,1:6),obj.NF.lb_freq',obj.NF.ub_freq');
 Res.val_KED = obj_KED(K(1:6,1:6),  Res.Mass(1:6,1:6),obj.KED.percent);
 Res.val_ST = obj_ST(x,Res.Mass(1:6,1:6),K(1:6,1:6), obj.ST.DeltaStatic, obj.ST.StaticTests, 1.5);
 
+% [Res.pur_TRA, Res.pur_TF, Res.pur_TA, Res.pur_Ar, Res.pur_NF, Res.pur_KED]=purturb(k.run);
