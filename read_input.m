@@ -1,5 +1,9 @@
 function stage0 = read_input(h)
     %h is handle to input file
+
+global StiffLocBody
+StiffLocBody = h.StiffLocBody;
+
 unit_conv = [1e-3*ones(9,1); pi/180 * ones(9,1); 1e3*ones(18,1); 1;1000;1000;1;1];    
 
 stage0.x_init = unit_conv .* ...

@@ -1,4 +1,4 @@
-function [K_e,C_e,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,indexfreq)
+rfunction [K_e,C_e,k_1,k_2,k_3,c_1,c_2,c_3] = stiff_cal(x,indexfreq)
 % 960907 Code Readed
 
 global StiffLocBody
