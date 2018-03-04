@@ -89,7 +89,7 @@ stage0.eng.M_e = [stage0.eng.M, zeros(6,1); zeros(1,6), stage0.eng.M_tilda];
 StiffLocBody = h.StiffLocBody;
 
 
-rpm_stiff = StiffLocBody.k1(:,1)
+rpm_stiff = StiffLocBody.k1(:,1);
 StiffLocBody.k1(:,2:end)
 
 Temp = interp1(rpm_stiff,StiffLocBody.k1(:,2:end),rpm,'linear','extrap');

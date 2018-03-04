@@ -17,7 +17,7 @@ h_file.run_count = run_count;
 load([input_PathName,input_FileName]);
 cmd('input file loaded');
 
-eval(['h_input = ',input_FileName(1:end-4)]); %handle to input file
+eval(['h_input = ',input_FileName(1:end-4),';']); %handle to input file
 h.stage0 = read_input(h_input);
 h_file.description = desc;
 
@@ -80,8 +80,8 @@ h_file.run(i) = save_mat2(h,h_input);
 clear 'h' 'q'
 end
 c=[file_name,'_res'];
-eval([c ,'=h_file']);
-[folder_name,[h_file.file_name,'_res.mat']]
+eval([c ,'=h_file;']);
+% [folder_name,[h_file.file_name,'_res.mat']];
 save([folder_name,'\',[h_file.file_name,'_res.mat']], c );
 cmd(['results saved in : ',[folder_name,[h_file.file_name,'_res.mat']]]);
 % End of Code
